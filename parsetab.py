@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'programBRACKETDER BRACKETIZQ COMA COMILLAS CORCHETEDER CORCHETEIZQ CTE_FLOAT CTE_INT CTE_STRING DIV DO DOSPUNTOS ELSE END EXCLAMACION FLOAT ID IF IGUAL INT MAIN MAYORQUE MENORQUE MINUS MULT PARENDER PARENIZQ PLUS PRINT PROGRAM PUNTO PUNTOCOMA VAR VOID WHILEprogram : PROGRAM ID PUNTOCOMA vars_opt MAIN ENDvars_opt : vars \n    | emptyvars : VAR vars_1vars_1 : id DOSPUNTOS type PUNTOCOMA \n    | emptyid : ID id_1id_1 : COMA id\n    | emptytype : INT\n    | FLOATempty : '
+_lr_signature = 'programBRACKETDER BRACKETIZQ COMA COMILLAS CORCHETEDER CORCHETEIZQ CTE_FLOAT CTE_INT CTE_STRING DIV DO DOSPUNTOS ELSE END EXCLAMACION FLOAT ID IF IGUAL INT MAIN MAYORQUE MENORQUE MINUS MULT PARENDER PARENIZQ PLUS PRINT PROGRAM PUNTO PUNTOCOMA VAR VOID WHILEprogram : PROGRAM ID PUNTOCOMA vars_opt funcs_opt MAIN ENDvars_opt : vars \n    | emptyvars : VAR vars_1vars_1 : id DOSPUNTOS type PUNTOCOMA \n    | emptyid : ID id_1id_1 : COMA id\n    | emptytype : INT\n    | FLOATfuncs_opt : funcs\n    | emptyfuncs : VOID ID PARENIZQ PARENDER PUNTOCOMAempty :'
     
-_lr_action_items = {'PROGRAM':([0,],[2,]),'$end':([1,14,],[0,-1,]),'ID':([2,8,17,],[3,13,13,]),'PUNTOCOMA':([3,19,20,21,],[4,23,-10,-11,]),'VAR':([4,],[8,]),'MAIN':([4,5,6,7,8,10,12,23,],[-12,9,-2,-3,-12,-4,-6,-5,]),'END':([9,],[14,]),'DOSPUNTOS':([11,13,16,18,22,],[15,-12,-7,-9,-8,]),'COMA':([13,],[17,]),'INT':([15,],[20,]),'FLOAT':([15,],[21,]),}
+_lr_action_items = {'PROGRAM':([0,],[2,]),'$end':([1,23,],[0,-1,]),'ID':([2,8,12,21,],[3,16,18,16,]),'PUNTOCOMA':([3,25,26,27,29,],[4,30,-10,-11,31,]),'VAR':([4,],[8,]),'VOID':([4,5,6,7,8,13,15,30,],[-15,12,-2,-3,-15,-4,-6,-5,]),'MAIN':([4,5,6,7,8,9,10,11,13,15,30,31,],[-15,-15,-2,-3,-15,17,-12,-13,-4,-6,-5,-14,]),'DOSPUNTOS':([14,16,20,22,28,],[19,-15,-7,-9,-8,]),'COMA':([16,],[21,]),'END':([17,],[23,]),'PARENIZQ':([18,],[24,]),'INT':([19,],[26,]),'FLOAT':([19,],[27,]),'PARENDER':([24,],[29,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'vars_opt':([4,],[5,]),'vars':([4,],[6,]),'empty':([4,8,13,],[7,12,18,]),'vars_1':([8,],[10,]),'id':([8,17,],[11,22,]),'id_1':([13,],[16,]),'type':([15,],[19,]),}
+_lr_goto_items = {'program':([0,],[1,]),'vars_opt':([4,],[5,]),'vars':([4,],[6,]),'empty':([4,5,8,16,],[7,11,15,22,]),'funcs_opt':([5,],[9,]),'funcs':([5,],[10,]),'vars_1':([8,],[13,]),'id':([8,21,],[14,28,]),'id_1':([16,],[20,]),'type':([19,],[25,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,7 +27,7 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> program","S'",1,None,None,None),
-  ('program -> PROGRAM ID PUNTOCOMA vars_opt MAIN END','program',6,'p_program','parser_.py',6),
+  ('program -> PROGRAM ID PUNTOCOMA vars_opt funcs_opt MAIN END','program',7,'p_program','parser_.py',6),
   ('vars_opt -> vars','vars_opt',1,'p_vars_opt','parser_.py',10),
   ('vars_opt -> empty','vars_opt',1,'p_vars_opt','parser_.py',11),
   ('vars -> VAR vars_1','vars',2,'p_vars','parser_.py',18),
@@ -38,5 +38,8 @@ _lr_productions = [
   ('id_1 -> empty','id_1',1,'p_id_1','parser_.py',36),
   ('type -> INT','type',1,'p_type','parser_.py',43),
   ('type -> FLOAT','type',1,'p_type','parser_.py',44),
-  ('empty -> <empty>','empty',0,'p_empty','parser_.py',48),
+  ('funcs_opt -> funcs','funcs_opt',1,'p_funcs_opt','parser_.py',48),
+  ('funcs_opt -> empty','funcs_opt',1,'p_funcs_opt','parser_.py',49),
+  ('funcs -> VOID ID PARENIZQ PARENDER PUNTOCOMA','funcs',5,'p_funcs','parser_.py',56),
+  ('empty -> <empty>','empty',0,'p_empty','parser_.py',60),
 ]

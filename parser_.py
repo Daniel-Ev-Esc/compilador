@@ -3,8 +3,8 @@ import ply.yacc as yacc
 from scanner import tokens
 
 def p_program(p):
-    'program : PROGRAM ID PUNTOCOMA vars_opt MAIN END'
-    p[0] = " ".join([p[1],p[2],p[3],p[4],p[5],p[6]])
+    'program : PROGRAM ID PUNTOCOMA vars_opt funcs_opt MAIN END'
+    p[0] = " ".join([p[1],p[2],p[3],p[4],p[5],p[6],p[7]])
 
 def p_vars_opt(p):
     '''vars_opt : vars 
@@ -44,8 +44,20 @@ def p_type(p):
     | FLOAT'''
     p[0] = p[1]
 
+def p_funcs_opt(p):
+    '''funcs_opt : funcs
+    | empty'''
+    if(p[1]):
+        p[0] = p[1]
+    else:
+        p[0] = ""
+
+def p_funcs(p):
+    'funcs : VOID ID PARENIZQ PARENDER PUNTOCOMA'
+    p[0] = " ".join([p[1],p[2],p[3],p[4],p[5]])
+
 def p_empty(p):
-    'empty : '
+    'empty :'
     pass
 
 # Error rule for syntax errors
@@ -55,6 +67,6 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc(start='program')
 
-s = ('program helloworld; var counter, indice, patito :int; main end')
+s = ('program helloworld; var counter, indice, patito:int; void imprimir(); main end')
 result = parser.parse(s)
 print(result)
