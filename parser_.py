@@ -91,13 +91,30 @@ def p_statement(p):
     p[0] = p[1]
 
 def p_assign(p):
-    'assign : id IGUAL expresion'
+    'assign : exp IGUAL expresion'
     p[0] = "".join([p[1],p[2],p[3]])
 
 def p_expresion(p):
-    'expresion : id'
+    'expresion : exp expresion_1'
+    p[0] = "".join([p[1],p[2]])
+
+def p_expresion_1(p):
+    '''expresion_1 : MENORQUE exp
+    | MAYORQUE exp
+    | EXCLAMACION IGUAL exp
+    | empty'''
+    if(p[1]):
+        if(len(p) > 3):
+            p[0] = "".join([p[1],p[2],p[3]])
+        else:
+            p[0] = "".join([p[1],p[2]])
+    else:
+        p[0] = ""
+
+def p_exp(p):
+    'exp : id'
     p[0] = p[1]
-    
+
 def p_empty(p):
     'empty :'
     pass
@@ -109,6 +126,6 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc(start='program')
 
-s = ('program helloworld; var counter, indice, patito:int; void imprimir(numero:int, numerofloat:float)[var resultado:int;{placeholder=placeholder}]; void leer()[{}]; main {} end')
+s = ('program helloworld; var counter, indice, patito:int; void imprimir(numero:int, numerofloat:float)[var resultado:int;{placeholder=placeholder}]; void leer()[{ igual = menor>mayor}]; main {} end')
 result = parser.parse(s)
 print(result)

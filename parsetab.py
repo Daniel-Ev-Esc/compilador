@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'programBRACKETDER BRACKETIZQ COMA COMILLAS CORCHETEDER CORCHETEIZQ CTE_FLOAT CTE_INT CTE_STRING DIV DO DOSPUNTOS ELSE END EXCLAMACION FLOAT ID IF IGUAL INT MAIN MAYORQUE MENORQUE MINUS MULT PARENDER PARENIZQ PLUS PRINT PROGRAM PUNTO PUNTOCOMA VAR VOID WHILEprogram : PROGRAM ID PUNTOCOMA vars_opt funcs_opt MAIN body ENDvars_opt : vars \n    | emptyvars : VAR vars_1vars_1 : id DOSPUNTOS type PUNTOCOMA \n    | emptyid : ID id_1id_1 : COMA id\n    | emptytype : INT\n    | FLOATfuncs_opt : funcs funcs_opt\n    | emptyfuncs : VOID ID PARENIZQ params PARENDER BRACKETIZQ vars_opt body BRACKETDER PUNTOCOMAparams : params_1\n    | emptyparams_1 : ID DOSPUNTOS type params_cycleparams_cycle : COMA params_1\n    | emptybody : CORCHETEIZQ statement_opt CORCHETEDERstatement_opt : statement statement_opt\n    | emptystatement : assignassign : id IGUAL expresionexpresion : idempty :'
+_lr_signature = 'programBRACKETDER BRACKETIZQ COMA COMILLAS CORCHETEDER CORCHETEIZQ CTE_FLOAT CTE_INT CTE_STRING DIV DO DOSPUNTOS ELSE END EXCLAMACION FLOAT ID IF IGUAL INT MAIN MAYORQUE MENORQUE MINUS MULT PARENDER PARENIZQ PLUS PRINT PROGRAM PUNTO PUNTOCOMA VAR VOID WHILEprogram : PROGRAM ID PUNTOCOMA vars_opt funcs_opt MAIN body ENDvars_opt : vars \n    | emptyvars : VAR vars_1vars_1 : id DOSPUNTOS type PUNTOCOMA \n    | emptyid : ID id_1id_1 : COMA id\n    | emptytype : INT\n    | FLOATfuncs_opt : funcs funcs_opt\n    | emptyfuncs : VOID ID PARENIZQ params PARENDER BRACKETIZQ vars_opt body BRACKETDER PUNTOCOMAparams : params_1\n    | emptyparams_1 : ID DOSPUNTOS type params_cycleparams_cycle : COMA params_1\n    | emptybody : CORCHETEIZQ statement_opt CORCHETEDERstatement_opt : statement statement_opt\n    | emptystatement : assignassign : exp IGUAL expresionexpresion : exp expresion_1expresion_1 : MENORQUE exp\n    | MAYORQUE exp\n    | EXCLAMACION IGUAL exp\n    | emptyexp : idempty :'
     
-_lr_action_items = {'PROGRAM':([0,],[2,]),'$end':([1,31,],[0,-1,]),'ID':([2,8,12,16,21,22,23,25,26,30,33,35,44,47,48,52,],[3,16,19,-26,-7,16,-9,16,37,-8,16,-23,16,-25,-24,37,]),'PUNTOCOMA':([3,27,28,29,57,],[4,41,-10,-11,58,]),'VAR':([4,50,],[8,8,]),'VOID':([4,5,6,7,8,10,13,15,41,58,],[-26,12,-2,-3,-26,12,-4,-6,-5,-14,]),'MAIN':([4,5,6,7,8,9,10,11,13,15,18,41,58,],[-26,-26,-2,-3,-26,17,-26,-13,-4,-6,-12,-5,-14,]),'CORCHETEIZQ':([6,7,8,13,15,17,41,50,54,],[-2,-3,-26,-4,-6,25,-5,-26,25,]),'DOSPUNTOS':([14,16,21,23,30,37,],[20,-26,-7,-9,-8,45,]),'COMA':([16,28,29,49,],[22,-10,-11,52,]),'IGUAL':([16,21,23,30,36,],[-26,-7,-9,-8,44,]),'CORCHETEDER':([16,21,23,25,30,32,33,34,35,43,47,48,],[-26,-7,-9,-26,-8,42,-26,-22,-23,-21,-25,-24,]),'PARENIZQ':([19,],[26,]),'INT':([20,45,],[28,28,]),'FLOAT':([20,45,],[29,29,]),'END':([24,42,],[31,-20,]),'PARENDER':([26,28,29,38,39,40,49,51,53,55,],[-26,-10,-11,46,-15,-16,-26,-17,-19,-18,]),'BRACKETDER':([42,56,],[-20,57,]),'BRACKETIZQ':([46,],[50,]),}
+_lr_action_items = {'PROGRAM':([0,],[2,]),'$end':([1,31,],[0,-1,]),'ID':([2,8,12,16,21,22,23,25,26,30,33,35,37,45,48,49,52,53,54,56,58,61,62,63,66,],[3,16,19,-31,-7,16,-9,16,38,-8,16,-23,-30,16,-31,-24,-25,16,16,-29,38,-26,-27,16,-28,]),'PUNTOCOMA':([3,27,28,29,67,],[4,42,-10,-11,68,]),'VAR':([4,51,],[8,8,]),'VOID':([4,5,6,7,8,10,13,15,42,68,],[-31,12,-2,-3,-31,12,-4,-6,-5,-14,]),'MAIN':([4,5,6,7,8,9,10,11,13,15,18,42,68,],[-31,-31,-2,-3,-31,17,-31,-13,-4,-6,-12,-5,-14,]),'CORCHETEIZQ':([6,7,8,13,15,17,42,51,60,],[-2,-3,-31,-4,-6,25,-5,-31,25,]),'DOSPUNTOS':([14,16,21,23,30,38,],[20,-31,-7,-9,-8,46,]),'COMA':([16,28,29,50,],[22,-10,-11,58,]),'IGUAL':([16,21,23,30,36,37,55,],[-31,-7,-9,-8,45,-30,63,]),'MENORQUE':([16,21,23,30,37,48,],[-31,-7,-9,-8,-30,53,]),'MAYORQUE':([16,21,23,30,37,48,],[-31,-7,-9,-8,-30,54,]),'EXCLAMACION':([16,21,23,30,37,48,],[-31,-7,-9,-8,-30,55,]),'CORCHETEDER':([16,21,23,25,30,32,33,34,35,37,44,48,49,52,56,61,62,66,],[-31,-7,-9,-31,-8,43,-31,-22,-23,-30,-21,-31,-24,-25,-29,-26,-27,-28,]),'PARENIZQ':([19,],[26,]),'INT':([20,46,],[28,28,]),'FLOAT':([20,46,],[29,29,]),'END':([24,43,],[31,-20,]),'PARENDER':([26,28,29,39,40,41,50,57,59,64,],[-31,-10,-11,47,-15,-16,-31,-17,-19,-18,]),'BRACKETDER':([43,65,],[-20,67,]),'BRACKETIZQ':([47,],[51,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'vars_opt':([4,50,],[5,54,]),'vars':([4,50,],[6,6,]),'empty':([4,5,8,10,16,25,26,33,49,50,],[7,11,15,11,23,34,40,34,53,7,]),'funcs_opt':([5,10,],[9,18,]),'funcs':([5,10,],[10,10,]),'vars_1':([8,],[13,]),'id':([8,22,25,33,44,],[14,30,36,36,47,]),'id_1':([16,],[21,]),'body':([17,54,],[24,56,]),'type':([20,45,],[27,49,]),'statement_opt':([25,33,],[32,43,]),'statement':([25,33,],[33,33,]),'assign':([25,33,],[35,35,]),'params':([26,],[38,]),'params_1':([26,52,],[39,55,]),'expresion':([44,],[48,]),'params_cycle':([49,],[51,]),}
+_lr_goto_items = {'program':([0,],[1,]),'vars_opt':([4,51,],[5,60,]),'vars':([4,51,],[6,6,]),'empty':([4,5,8,10,16,25,26,33,48,50,51,],[7,11,15,11,23,34,41,34,56,59,7,]),'funcs_opt':([5,10,],[9,18,]),'funcs':([5,10,],[10,10,]),'vars_1':([8,],[13,]),'id':([8,22,25,33,45,53,54,63,],[14,30,37,37,37,37,37,37,]),'id_1':([16,],[21,]),'body':([17,60,],[24,65,]),'type':([20,46,],[27,50,]),'statement_opt':([25,33,],[32,44,]),'statement':([25,33,],[33,33,]),'assign':([25,33,],[35,35,]),'exp':([25,33,45,53,54,63,],[36,36,48,61,62,66,]),'params':([26,],[39,]),'params_1':([26,58,],[40,64,]),'expresion':([45,],[49,]),'expresion_1':([48,],[52,]),'params_cycle':([50,],[57,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -50,7 +50,12 @@ _lr_productions = [
   ('statement_opt -> statement statement_opt','statement_opt',2,'p_statement_opt','parser_.py',83),
   ('statement_opt -> empty','statement_opt',1,'p_statement_opt','parser_.py',84),
   ('statement -> assign','statement',1,'p_statement','parser_.py',90),
-  ('assign -> id IGUAL expresion','assign',3,'p_assign','parser_.py',94),
-  ('expresion -> id','expresion',1,'p_expresion','parser_.py',98),
-  ('empty -> <empty>','empty',0,'p_empty','parser_.py',102),
+  ('assign -> exp IGUAL expresion','assign',3,'p_assign','parser_.py',94),
+  ('expresion -> exp expresion_1','expresion',2,'p_expresion','parser_.py',98),
+  ('expresion_1 -> MENORQUE exp','expresion_1',2,'p_expresion_1','parser_.py',102),
+  ('expresion_1 -> MAYORQUE exp','expresion_1',2,'p_expresion_1','parser_.py',103),
+  ('expresion_1 -> EXCLAMACION IGUAL exp','expresion_1',3,'p_expresion_1','parser_.py',104),
+  ('expresion_1 -> empty','expresion_1',1,'p_expresion_1','parser_.py',105),
+  ('exp -> id','exp',1,'p_exp','parser_.py',115),
+  ('empty -> <empty>','empty',0,'p_empty','parser_.py',119),
 ]
