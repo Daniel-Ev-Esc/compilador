@@ -52,8 +52,8 @@ def p_funcs_opt(p):
         p[0] = ""
 
 def p_funcs(p):
-    'funcs : VOID ID PARENIZQ params PARENDER PUNTOCOMA'
-    p[0] = " ".join([p[1],p[2],p[3],p[4],p[5], p[6]])
+    'funcs : VOID ID PARENIZQ params PARENDER BRACKETIZQ vars_opt BRACKETDER PUNTOCOMA'
+    p[0] = " ".join([p[1],p[2],p[3],p[4],p[5], p[6], p[7],p[8],p[9]])
 
 def p_params(p):
     '''params : params_1
@@ -86,6 +86,6 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc(start='program')
 
-s = ('program helloworld; var counter, indice, patito:int; void imprimir(numero:int, numerofloat:float); void leer(); main end')
+s = ('program helloworld; var counter, indice, patito:int; void imprimir(numero:int, numerofloat:float)[var resultado:int;]; void leer()[]; main end')
 result = parser.parse(s)
 print(result)
