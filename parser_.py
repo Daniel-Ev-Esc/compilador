@@ -90,7 +90,8 @@ def p_statement(p):
     '''statement : assign
     | condition 
     | cycle
-    | f_call'''
+    | f_call
+    | print'''
     p[0] = p[1]
 
 def p_assign(p):
@@ -116,6 +117,23 @@ def p_cycle(p):
 def p_f_call(p):
     'f_call : ID PARENIZQ expresion_opt PARENDER'
     p[0] = "".join([p[1],p[2],p[3],p[4]])
+
+def p_print(p):
+    'print : PRINT PARENIZQ printable PARENDER'
+    p[0] = "".join([p[1],p[2],p[3],p[4]])
+
+def p_printable(p):
+    '''printable : CTE_STRING printable_1
+    | expresion printable_1'''
+    p[0] = "".join([p[1],p[2]])
+
+def p_printable_1(p):
+    '''printable_1 : COMA printable
+    | empty'''
+    if(p[1]):
+        p[0] = "".join([p[1],p[2]])
+    else:
+        p[0] = ""
 
 def p_expresion_opt(p):
     '''expresion_opt : expresion expresion_cycle
@@ -211,6 +229,6 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc(start='program')
 
-s = ('program helloworld; var counter, indice, patito:int; void imprimir(numero:int, numerofloat:float)[var resultado:int;{placeholder=placeholder if(mayor>menor){mayor=9} do{i=i+1}while(i<10) imprimir(9.0) }]; void leer()[{ igual = 2/2.8+2 }]; main {if(mayor>menor){mayor=9}else{menor=0}} end')
+s = ('program helloworld; var counter, indice, patito:int; void imprimir(numero:int, numerofloat:float)[var resultado:int;{placeholder=placeholder if(mayor>menor){mayor=9} do{i=i+1}while(i<10) imprimir(9.0) print("Esto es un string","Esto tambien",estono,7) }]; void leer()[{ igual = 2/2.8+2 }]; main {if(mayor>menor){mayor=9}else{menor=0}} end')
 result = parser.parse(s)
 print(result)
