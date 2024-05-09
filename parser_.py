@@ -88,7 +88,9 @@ def p_statement_opt(p):
         p[0] = ""
 def p_statement(p):
     '''statement : assign
-    | condition'''
+    | condition 
+    | cycle
+    | f_call'''
     p[0] = p[1]
 
 def p_assign(p):
@@ -101,6 +103,30 @@ def p_condition(p):
 
 def p_else(p):
     '''else : ELSE body
+    | empty'''
+    if(p[1]):
+        p[0] = "".join([p[1],p[2]])
+    else:
+        p[0] = ""
+
+def p_cycle(p):
+    'cycle : DO body WHILE PARENIZQ expresion PARENDER'
+    p[0] = " ".join([p[1],p[2],p[3],p[4],p[5],p[6]])
+
+def p_f_call(p):
+    'f_call : ID PARENIZQ expresion_opt PARENDER'
+    p[0] = "".join([p[1],p[2],p[3],p[4]])
+
+def p_expresion_opt(p):
+    '''expresion_opt : expresion expresion_cycle
+    | empty'''
+    if(p[1]):
+        p[0] = "".join([p[1],p[2]])
+    else:
+        p[0] = ""
+
+def p_expresion_cycle(p):
+    '''expresion_cycle : COMA expresion_opt
     | empty'''
     if(p[1]):
         p[0] = "".join([p[1],p[2]])
@@ -185,6 +211,6 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc(start='program')
 
-s = ('program helloworld; var counter, indice, patito:int; void imprimir(numero:int, numerofloat:float)[var resultado:int;{placeholder=placeholder if(mayor>menor){mayor=9}}]; void leer()[{ igual = 2/2.8+2}]; main {if(mayor>menor){mayor=9}else{menor=0}} end')
+s = ('program helloworld; var counter, indice, patito:int; void imprimir(numero:int, numerofloat:float)[var resultado:int;{placeholder=placeholder if(mayor>menor){mayor=9} do{i=i+1}while(i<10) imprimir(9.0) }]; void leer()[{ igual = 2/2.8+2 }]; main {if(mayor>menor){mayor=9}else{menor=0}} end')
 result = parser.parse(s)
 print(result)
