@@ -112,8 +112,54 @@ def p_expresion_1(p):
         p[0] = ""
 
 def p_exp(p):
-    'exp : id'
+    'exp : termino exp_1'
+    p[0] = "".join([p[1],p[2]])
+
+def p_exp_1(p):
+    '''exp_1 : MINUS exp
+    | PLUS exp
+    | empty'''
+    if(p[1]):
+        p[0] = "".join([p[1],p[2]])
+    else:
+        p[0] = ""
+
+def p_termino(p):
+    'termino : factor termino_1'
+    p[0] = "".join([p[1],p[2]])
+
+def p_termino_1(p):
+    '''termino_1 : MULT termino
+    | DIV termino
+    | empty'''
+    if(p[1]):
+        p[0] = "".join([p[1],p[2]])
+    else:
+        p[0] = ""
+
+def p_factor(p):
+    '''factor : PARENIZQ expresion PARENDER
+    | MINUS factor_1
+    | PLUS factor_1
+    | factor_1'''
+    if(len(p) > 3):
+        p[0] = "".join([p[1],p[2],p[3]])
+    elif(len(p) > 2):
+        p[0] = "".join([p[1],p[2]])
+    else:
+        p[0] = p[1]
+        
+def p_factor_1(p):
+    '''factor_1 : ID
+    | cte'''
     p[0] = p[1]
+
+def p_cte(p):
+    '''cte : CTE_INT
+    | CTE_FLOAT'''
+    p[0] = p[1]
+
+
 
 def p_empty(p):
     'empty :'
@@ -126,6 +172,6 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc(start='program')
 
-s = ('program helloworld; var counter, indice, patito:int; void imprimir(numero:int, numerofloat:float)[var resultado:int;{placeholder=placeholder}]; void leer()[{ igual = menor>mayor}]; main {} end')
+s = ('program helloworld; var counter, indice, patito:int; void imprimir(numero:int, numerofloat:float)[var resultado:int;{placeholder=placeholder}]; void leer()[{ igual = 2/2.8+2}]; main {} end')
 result = parser.parse(s)
 print(result)
