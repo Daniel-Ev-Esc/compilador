@@ -29,7 +29,7 @@ def p_vars_1(p):
 
 def p_id(p):
     'id : ID id_1'
-    p[0] = p[1]
+    p[0] = " ".join([p[1],p[2]])
 
 def p_id_1(p):
     '''id_1 : COMA id
@@ -55,6 +55,6 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc(start='program')
 
-s = ('program helloworld; var counter, indice :int; main end')
+s = ('program helloworld; var counter, indice, patito :int; main end')
 result = parser.parse(s)
 print(result)
