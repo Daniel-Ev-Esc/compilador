@@ -52,9 +52,29 @@ def p_funcs_opt(p):
         p[0] = ""
 
 def p_funcs(p):
-    'funcs : VOID ID PARENIZQ PARENDER PUNTOCOMA'
-    p[0] = " ".join([p[1],p[2],p[3],p[4],p[5]])
+    'funcs : VOID ID PARENIZQ params PARENDER PUNTOCOMA'
+    p[0] = " ".join([p[1],p[2],p[3],p[4],p[5], p[6]])
 
+def p_params(p):
+    '''params : params_1
+    | empty'''
+    if(p[1]):
+        p[0] = p[1]
+    else:
+        p[0] = ""
+
+def p_params_1(p):
+    '''params_1 : ID DOSPUNTOS type params_cycle'''
+    p[0] = " ".join([p[1],p[2],p[3],p[4]])
+
+def p_params_cycle(p):
+    '''params_cycle : COMA params_1
+    | empty'''
+    if(p[1]):
+        p[0] = " ".join([p[1],p[2]])
+    else:
+        p[0] = ""
+    
 def p_empty(p):
     'empty :'
     pass
@@ -66,6 +86,6 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc(start='program')
 
-s = ('program helloworld; var counter, indice, patito:int; void imprimir(); void leer(); main end')
+s = ('program helloworld; var counter, indice, patito:int; void imprimir(numero:int, numerofloat:float); void leer(); main end')
 result = parser.parse(s)
 print(result)
