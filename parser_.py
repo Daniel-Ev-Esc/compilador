@@ -87,12 +87,25 @@ def p_statement_opt(p):
     else:
         p[0] = ""
 def p_statement(p):
-    'statement : assign'
+    '''statement : assign
+    | condition'''
     p[0] = p[1]
 
 def p_assign(p):
     'assign : exp IGUAL expresion'
     p[0] = "".join([p[1],p[2],p[3]])
+
+def p_condition(p):
+    'condition : IF PARENIZQ expresion PARENDER body else'
+    p[0] = "".join([p[1],p[2],p[3],p[4],p[5],p[6]])
+
+def p_else(p):
+    '''else : ELSE body
+    | empty'''
+    if(p[1]):
+        p[0] = "".join([p[1],p[2]])
+    else:
+        p[0] = ""
 
 def p_expresion(p):
     'expresion : exp expresion_1'
@@ -172,6 +185,6 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc(start='program')
 
-s = ('program helloworld; var counter, indice, patito:int; void imprimir(numero:int, numerofloat:float)[var resultado:int;{placeholder=placeholder}]; void leer()[{ igual = 2/2.8+2}]; main {} end')
+s = ('program helloworld; var counter, indice, patito:int; void imprimir(numero:int, numerofloat:float)[var resultado:int;{placeholder=placeholder if(mayor>menor){mayor=9}}]; void leer()[{ igual = 2/2.8+2}]; main {if(mayor>menor){mayor=9}else{menor=0}} end')
 result = parser.parse(s)
 print(result)
