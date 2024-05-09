@@ -21,7 +21,6 @@ def p_vars(p):
 def p_vars_1(p):
     '''vars_1 : id DOSPUNTOS type PUNTOCOMA 
     | empty'''
-    print(p[1])
     if(p[1]):
         p[0] = " ".join([p[1],p[2],p[3],p[4]])
     else:
@@ -45,10 +44,10 @@ def p_type(p):
     p[0] = p[1]
 
 def p_funcs_opt(p):
-    '''funcs_opt : funcs
+    '''funcs_opt : funcs funcs_opt
     | empty'''
     if(p[1]):
-        p[0] = p[1]
+        p[0] = " ".join([p[1],p[2]])
     else:
         p[0] = ""
 
@@ -67,6 +66,6 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc(start='program')
 
-s = ('program helloworld; var counter, indice, patito:int; void imprimir(); main end')
+s = ('program helloworld; var counter, indice, patito:int; void imprimir(); void leer(); main end')
 result = parser.parse(s)
 print(result)
