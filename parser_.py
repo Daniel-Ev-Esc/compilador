@@ -3,7 +3,7 @@ import ply.yacc as yacc
 from scanner import tokens
 
 def p_program(p):
-    'program : PROGRAM ID PUNTOCOMA vars_opt funcs_opt MAIN END'
+    'program : PROGRAM ID PUNTOCOMA vars_opt funcs_opt MAIN body END'
     p[0] = " ".join([p[1],p[2],p[3],p[4],p[5],p[6],p[7]])
 
 def p_vars_opt(p):
@@ -52,8 +52,8 @@ def p_funcs_opt(p):
         p[0] = ""
 
 def p_funcs(p):
-    'funcs : VOID ID PARENIZQ params PARENDER BRACKETIZQ vars_opt BRACKETDER PUNTOCOMA'
-    p[0] = " ".join([p[1],p[2],p[3],p[4],p[5], p[6], p[7],p[8],p[9]])
+    'funcs : VOID ID PARENIZQ params PARENDER BRACKETIZQ vars_opt body BRACKETDER PUNTOCOMA'
+    p[0] = " ".join([p[1],p[2],p[3],p[4],p[5], p[6], p[7],p[8],p[9], p[10]])
 
 def p_params(p):
     '''params : params_1
@@ -74,6 +74,21 @@ def p_params_cycle(p):
         p[0] = " ".join([p[1],p[2]])
     else:
         p[0] = ""
+
+def p_body(p):
+    'body : CORCHETEIZQ statement_opt CORCHETEDER'
+    p[0] = "".join([p[1],p[2], p[3]])
+
+def p_statement_opt(p):
+    '''statement_opt : statement statement_opt
+    | empty'''
+    if(p[1]):
+        p[0] = " ".join([p[1],p[2]])
+    else:
+        p[0] = ""
+def p_statement(p):
+    'statement : ID'
+    p[0] = p[1]
     
 def p_empty(p):
     'empty :'
@@ -86,6 +101,6 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc(start='program')
 
-s = ('program helloworld; var counter, indice, patito:int; void imprimir(numero:int, numerofloat:float)[var resultado:int;]; void leer()[]; main end')
+s = ('program helloworld; var counter, indice, patito:int; void imprimir(numero:int, numerofloat:float)[var resultado:int;{placeholder placeholder}]; void leer()[{placeholder}]; main {} end')
 result = parser.parse(s)
 print(result)

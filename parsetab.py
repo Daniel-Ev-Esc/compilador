@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'programBRACKETDER BRACKETIZQ COMA COMILLAS CORCHETEDER CORCHETEIZQ CTE_FLOAT CTE_INT CTE_STRING DIV DO DOSPUNTOS ELSE END EXCLAMACION FLOAT ID IF IGUAL INT MAIN MAYORQUE MENORQUE MINUS MULT PARENDER PARENIZQ PLUS PRINT PROGRAM PUNTO PUNTOCOMA VAR VOID WHILEprogram : PROGRAM ID PUNTOCOMA vars_opt funcs_opt MAIN ENDvars_opt : vars \n    | emptyvars : VAR vars_1vars_1 : id DOSPUNTOS type PUNTOCOMA \n    | emptyid : ID id_1id_1 : COMA id\n    | emptytype : INT\n    | FLOATfuncs_opt : funcs funcs_opt\n    | emptyfuncs : VOID ID PARENIZQ params PARENDER BRACKETIZQ vars_opt BRACKETDER PUNTOCOMAparams : params_1\n    | emptyparams_1 : ID DOSPUNTOS type params_cycleparams_cycle : COMA params_1\n    | emptyempty :'
+_lr_signature = 'programBRACKETDER BRACKETIZQ COMA COMILLAS CORCHETEDER CORCHETEIZQ CTE_FLOAT CTE_INT CTE_STRING DIV DO DOSPUNTOS ELSE END EXCLAMACION FLOAT ID IF IGUAL INT MAIN MAYORQUE MENORQUE MINUS MULT PARENDER PARENIZQ PLUS PRINT PROGRAM PUNTO PUNTOCOMA VAR VOID WHILEprogram : PROGRAM ID PUNTOCOMA vars_opt funcs_opt MAIN body ENDvars_opt : vars \n    | emptyvars : VAR vars_1vars_1 : id DOSPUNTOS type PUNTOCOMA \n    | emptyid : ID id_1id_1 : COMA id\n    | emptytype : INT\n    | FLOATfuncs_opt : funcs funcs_opt\n    | emptyfuncs : VOID ID PARENIZQ params PARENDER BRACKETIZQ vars_opt body BRACKETDER PUNTOCOMAparams : params_1\n    | emptyparams_1 : ID DOSPUNTOS type params_cycleparams_cycle : COMA params_1\n    | emptybody : CORCHETEIZQ statement_opt CORCHETEDERstatement_opt : statement statement_opt\n    | emptystatement : IDempty :'
     
-_lr_action_items = {'PROGRAM':([0,],[2,]),'$end':([1,24,],[0,-1,]),'ID':([2,8,12,22,25,40,],[3,16,19,16,30,30,]),'PUNTOCOMA':([3,26,27,28,44,],[4,34,-10,-11,45,]),'VAR':([4,38,],[8,8,]),'VOID':([4,5,6,7,8,10,13,15,34,45,],[-20,12,-2,-3,-20,12,-4,-6,-5,-14,]),'MAIN':([4,5,6,7,8,9,10,11,13,15,18,34,45,],[-20,-20,-2,-3,-20,17,-20,-13,-4,-6,-12,-5,-14,]),'BRACKETDER':([6,7,8,13,15,34,38,42,],[-2,-3,-20,-4,-6,-5,-20,44,]),'DOSPUNTOS':([14,16,21,23,29,30,],[20,-20,-7,-9,-8,35,]),'COMA':([16,27,28,37,],[22,-10,-11,40,]),'END':([17,],[24,]),'PARENIZQ':([19,],[25,]),'INT':([20,35,],[27,27,]),'FLOAT':([20,35,],[28,28,]),'PARENDER':([25,27,28,31,32,33,37,39,41,43,],[-20,-10,-11,36,-15,-16,-20,-17,-19,-18,]),'BRACKETIZQ':([36,],[38,]),}
+_lr_action_items = {'PROGRAM':([0,],[2,]),'$end':([1,31,],[0,-1,]),'ID':([2,8,12,22,25,26,33,35,48,],[3,16,19,16,35,36,35,-23,36,]),'PUNTOCOMA':([3,27,28,29,53,],[4,40,-10,-11,54,]),'VAR':([4,46,],[8,8,]),'VOID':([4,5,6,7,8,10,13,15,40,54,],[-24,12,-2,-3,-24,12,-4,-6,-5,-14,]),'MAIN':([4,5,6,7,8,9,10,11,13,15,18,40,54,],[-24,-24,-2,-3,-24,17,-24,-13,-4,-6,-12,-5,-14,]),'CORCHETEIZQ':([6,7,8,13,15,17,40,46,50,],[-2,-3,-24,-4,-6,25,-5,-24,25,]),'DOSPUNTOS':([14,16,21,23,30,36,],[20,-24,-7,-9,-8,43,]),'COMA':([16,28,29,45,],[22,-10,-11,48,]),'PARENIZQ':([19,],[26,]),'INT':([20,43,],[28,28,]),'FLOAT':([20,43,],[29,29,]),'END':([24,41,],[31,-20,]),'CORCHETEDER':([25,32,33,34,35,42,],[-24,41,-24,-22,-23,-21,]),'PARENDER':([26,28,29,37,38,39,45,47,49,51,],[-24,-10,-11,44,-15,-16,-24,-17,-19,-18,]),'BRACKETDER':([41,52,],[-20,53,]),'BRACKETIZQ':([44,],[46,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'vars_opt':([4,38,],[5,42,]),'vars':([4,38,],[6,6,]),'empty':([4,5,8,10,16,25,37,38,],[7,11,15,11,23,33,41,7,]),'funcs_opt':([5,10,],[9,18,]),'funcs':([5,10,],[10,10,]),'vars_1':([8,],[13,]),'id':([8,22,],[14,29,]),'id_1':([16,],[21,]),'type':([20,35,],[26,37,]),'params':([25,],[31,]),'params_1':([25,40,],[32,43,]),'params_cycle':([37,],[39,]),}
+_lr_goto_items = {'program':([0,],[1,]),'vars_opt':([4,46,],[5,50,]),'vars':([4,46,],[6,6,]),'empty':([4,5,8,10,16,25,26,33,45,46,],[7,11,15,11,23,34,39,34,49,7,]),'funcs_opt':([5,10,],[9,18,]),'funcs':([5,10,],[10,10,]),'vars_1':([8,],[13,]),'id':([8,22,],[14,30,]),'id_1':([16,],[21,]),'body':([17,50,],[24,52,]),'type':([20,43,],[27,45,]),'statement_opt':([25,33,],[32,42,]),'statement':([25,33,],[33,33,]),'params':([26,],[37,]),'params_1':([26,48,],[38,51,]),'params_cycle':([45,],[47,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,7 +27,7 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> program","S'",1,None,None,None),
-  ('program -> PROGRAM ID PUNTOCOMA vars_opt funcs_opt MAIN END','program',7,'p_program','parser_.py',6),
+  ('program -> PROGRAM ID PUNTOCOMA vars_opt funcs_opt MAIN body END','program',8,'p_program','parser_.py',6),
   ('vars_opt -> vars','vars_opt',1,'p_vars_opt','parser_.py',10),
   ('vars_opt -> empty','vars_opt',1,'p_vars_opt','parser_.py',11),
   ('vars -> VAR vars_1','vars',2,'p_vars','parser_.py',18),
@@ -40,11 +40,15 @@ _lr_productions = [
   ('type -> FLOAT','type',1,'p_type','parser_.py',43),
   ('funcs_opt -> funcs funcs_opt','funcs_opt',2,'p_funcs_opt','parser_.py',47),
   ('funcs_opt -> empty','funcs_opt',1,'p_funcs_opt','parser_.py',48),
-  ('funcs -> VOID ID PARENIZQ params PARENDER BRACKETIZQ vars_opt BRACKETDER PUNTOCOMA','funcs',9,'p_funcs','parser_.py',55),
+  ('funcs -> VOID ID PARENIZQ params PARENDER BRACKETIZQ vars_opt body BRACKETDER PUNTOCOMA','funcs',10,'p_funcs','parser_.py',55),
   ('params -> params_1','params',1,'p_params','parser_.py',59),
   ('params -> empty','params',1,'p_params','parser_.py',60),
   ('params_1 -> ID DOSPUNTOS type params_cycle','params_1',4,'p_params_1','parser_.py',67),
   ('params_cycle -> COMA params_1','params_cycle',2,'p_params_cycle','parser_.py',71),
   ('params_cycle -> empty','params_cycle',1,'p_params_cycle','parser_.py',72),
-  ('empty -> <empty>','empty',0,'p_empty','parser_.py',79),
+  ('body -> CORCHETEIZQ statement_opt CORCHETEDER','body',3,'p_body','parser_.py',79),
+  ('statement_opt -> statement statement_opt','statement_opt',2,'p_statement_opt','parser_.py',83),
+  ('statement_opt -> empty','statement_opt',1,'p_statement_opt','parser_.py',84),
+  ('statement -> ID','statement',1,'p_statement','parser_.py',90),
+  ('empty -> <empty>','empty',0,'p_empty','parser_.py',94),
 ]
