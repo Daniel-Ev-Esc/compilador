@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'programBRACKETDER BRACKETIZQ COMA COMILLAS CORCHETEDER CORCHETEIZQ CTE_FLOAT CTE_INT CTE_STRING DIV DO DOSPUNTOS ELSE END EXCLAMACION FLOAT ID IF IGUAL INT MAIN MAYORQUE MENORQUE MINUS MULT PARENDER PARENIZQ PLUS PRINT PROGRAM PUNTO PUNTOCOMA VAR VOID WHILEprogram : PROGRAM ID PUNTOCOMA vars_opt funcs_opt MAIN body ENDvars_opt : vars \n    | emptyvars : VAR vars_1vars_1 : id DOSPUNTOS type PUNTOCOMA \n    | emptyid : ID id_1id_1 : COMA id\n    | emptytype : INT\n    | FLOATfuncs_opt : funcs funcs_opt\n    | emptyfuncs : VOID ID PARENIZQ params PARENDER BRACKETIZQ vars_opt body BRACKETDER PUNTOCOMAparams : params_1\n    | emptyparams_1 : ID DOSPUNTOS type params_cycleparams_cycle : COMA params_1\n    | emptybody : CORCHETEIZQ statement_opt CORCHETEDERstatement_opt : statement statement_opt\n    | emptystatement : IDempty :'
+_lr_signature = 'programBRACKETDER BRACKETIZQ COMA COMILLAS CORCHETEDER CORCHETEIZQ CTE_FLOAT CTE_INT CTE_STRING DIV DO DOSPUNTOS ELSE END EXCLAMACION FLOAT ID IF IGUAL INT MAIN MAYORQUE MENORQUE MINUS MULT PARENDER PARENIZQ PLUS PRINT PROGRAM PUNTO PUNTOCOMA VAR VOID WHILEprogram : PROGRAM ID PUNTOCOMA vars_opt funcs_opt MAIN body ENDvars_opt : vars \n    | emptyvars : VAR vars_1vars_1 : id DOSPUNTOS type PUNTOCOMA \n    | emptyid : ID id_1id_1 : COMA id\n    | emptytype : INT\n    | FLOATfuncs_opt : funcs funcs_opt\n    | emptyfuncs : VOID ID PARENIZQ params PARENDER BRACKETIZQ vars_opt body BRACKETDER PUNTOCOMAparams : params_1\n    | emptyparams_1 : ID DOSPUNTOS type params_cycleparams_cycle : COMA params_1\n    | emptybody : CORCHETEIZQ statement_opt CORCHETEDERstatement_opt : statement statement_opt\n    | emptystatement : assignassign : id IGUAL expresionexpresion : idempty :'
     
-_lr_action_items = {'PROGRAM':([0,],[2,]),'$end':([1,31,],[0,-1,]),'ID':([2,8,12,22,25,26,33,35,48,],[3,16,19,16,35,36,35,-23,36,]),'PUNTOCOMA':([3,27,28,29,53,],[4,40,-10,-11,54,]),'VAR':([4,46,],[8,8,]),'VOID':([4,5,6,7,8,10,13,15,40,54,],[-24,12,-2,-3,-24,12,-4,-6,-5,-14,]),'MAIN':([4,5,6,7,8,9,10,11,13,15,18,40,54,],[-24,-24,-2,-3,-24,17,-24,-13,-4,-6,-12,-5,-14,]),'CORCHETEIZQ':([6,7,8,13,15,17,40,46,50,],[-2,-3,-24,-4,-6,25,-5,-24,25,]),'DOSPUNTOS':([14,16,21,23,30,36,],[20,-24,-7,-9,-8,43,]),'COMA':([16,28,29,45,],[22,-10,-11,48,]),'PARENIZQ':([19,],[26,]),'INT':([20,43,],[28,28,]),'FLOAT':([20,43,],[29,29,]),'END':([24,41,],[31,-20,]),'CORCHETEDER':([25,32,33,34,35,42,],[-24,41,-24,-22,-23,-21,]),'PARENDER':([26,28,29,37,38,39,45,47,49,51,],[-24,-10,-11,44,-15,-16,-24,-17,-19,-18,]),'BRACKETDER':([41,52,],[-20,53,]),'BRACKETIZQ':([44,],[46,]),}
+_lr_action_items = {'PROGRAM':([0,],[2,]),'$end':([1,31,],[0,-1,]),'ID':([2,8,12,16,21,22,23,25,26,30,33,35,44,47,48,52,],[3,16,19,-26,-7,16,-9,16,37,-8,16,-23,16,-25,-24,37,]),'PUNTOCOMA':([3,27,28,29,57,],[4,41,-10,-11,58,]),'VAR':([4,50,],[8,8,]),'VOID':([4,5,6,7,8,10,13,15,41,58,],[-26,12,-2,-3,-26,12,-4,-6,-5,-14,]),'MAIN':([4,5,6,7,8,9,10,11,13,15,18,41,58,],[-26,-26,-2,-3,-26,17,-26,-13,-4,-6,-12,-5,-14,]),'CORCHETEIZQ':([6,7,8,13,15,17,41,50,54,],[-2,-3,-26,-4,-6,25,-5,-26,25,]),'DOSPUNTOS':([14,16,21,23,30,37,],[20,-26,-7,-9,-8,45,]),'COMA':([16,28,29,49,],[22,-10,-11,52,]),'IGUAL':([16,21,23,30,36,],[-26,-7,-9,-8,44,]),'CORCHETEDER':([16,21,23,25,30,32,33,34,35,43,47,48,],[-26,-7,-9,-26,-8,42,-26,-22,-23,-21,-25,-24,]),'PARENIZQ':([19,],[26,]),'INT':([20,45,],[28,28,]),'FLOAT':([20,45,],[29,29,]),'END':([24,42,],[31,-20,]),'PARENDER':([26,28,29,38,39,40,49,51,53,55,],[-26,-10,-11,46,-15,-16,-26,-17,-19,-18,]),'BRACKETDER':([42,56,],[-20,57,]),'BRACKETIZQ':([46,],[50,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'vars_opt':([4,46,],[5,50,]),'vars':([4,46,],[6,6,]),'empty':([4,5,8,10,16,25,26,33,45,46,],[7,11,15,11,23,34,39,34,49,7,]),'funcs_opt':([5,10,],[9,18,]),'funcs':([5,10,],[10,10,]),'vars_1':([8,],[13,]),'id':([8,22,],[14,30,]),'id_1':([16,],[21,]),'body':([17,50,],[24,52,]),'type':([20,43,],[27,45,]),'statement_opt':([25,33,],[32,42,]),'statement':([25,33,],[33,33,]),'params':([26,],[37,]),'params_1':([26,48,],[38,51,]),'params_cycle':([45,],[47,]),}
+_lr_goto_items = {'program':([0,],[1,]),'vars_opt':([4,50,],[5,54,]),'vars':([4,50,],[6,6,]),'empty':([4,5,8,10,16,25,26,33,49,50,],[7,11,15,11,23,34,40,34,53,7,]),'funcs_opt':([5,10,],[9,18,]),'funcs':([5,10,],[10,10,]),'vars_1':([8,],[13,]),'id':([8,22,25,33,44,],[14,30,36,36,47,]),'id_1':([16,],[21,]),'body':([17,54,],[24,56,]),'type':([20,45,],[27,49,]),'statement_opt':([25,33,],[32,43,]),'statement':([25,33,],[33,33,]),'assign':([25,33,],[35,35,]),'params':([26,],[38,]),'params_1':([26,52,],[39,55,]),'expresion':([44,],[48,]),'params_cycle':([49,],[51,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -49,6 +49,8 @@ _lr_productions = [
   ('body -> CORCHETEIZQ statement_opt CORCHETEDER','body',3,'p_body','parser_.py',79),
   ('statement_opt -> statement statement_opt','statement_opt',2,'p_statement_opt','parser_.py',83),
   ('statement_opt -> empty','statement_opt',1,'p_statement_opt','parser_.py',84),
-  ('statement -> ID','statement',1,'p_statement','parser_.py',90),
-  ('empty -> <empty>','empty',0,'p_empty','parser_.py',94),
+  ('statement -> assign','statement',1,'p_statement','parser_.py',90),
+  ('assign -> id IGUAL expresion','assign',3,'p_assign','parser_.py',94),
+  ('expresion -> id','expresion',1,'p_expresion','parser_.py',98),
+  ('empty -> <empty>','empty',0,'p_empty','parser_.py',102),
 ]
