@@ -1,0 +1,6 @@
+program prueba;
+
+main{
+print("Esto es un string");
+}
+end

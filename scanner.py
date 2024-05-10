@@ -61,8 +61,8 @@ t_BRACKETIZQ = r'\['
 t_BRACKETDER = r'\]'
 t_COMILLAS = r'“'
 t_ignore  = ' \t'
-t_CTE_INT = r'-?[0-9]+'
-t_CTE_FLOAT = r'-?[0-9]+\.[0-9]+'
+t_CTE_INT = r'[0-9]+'
+t_CTE_FLOAT = r'[0-9]+\.[0-9]+'
 t_CTE_STRING = r'\"[a-zA-Z_0-9 ]*\"'
 
 def t_ID(t):

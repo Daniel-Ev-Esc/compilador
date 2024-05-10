@@ -19,10 +19,10 @@ def p_vars(p):
     p[0] = "".join([p[1]," ",p[2]])
 
 def p_vars_1(p):
-    '''vars_1 : id DOSPUNTOS type PUNTOCOMA 
+    '''vars_1 : id DOSPUNTOS type PUNTOCOMA vars_1
     | empty'''
     if(p[1]):
-        p[0] = "".join([p[1],p[2],p[3],p[4],"\n"])
+        p[0] = "".join([p[1],p[2],p[3],p[4],"\n",p[5]])
     else:
         p[0] = ""
 
@@ -77,7 +77,7 @@ def p_params_cycle(p):
 
 def p_body(p):
     'body : CORCHETEIZQ statement_opt CORCHETEDER'
-    p[0] = "".join([p[1],p[2], p[3]])
+    p[0] = "".join([p[1],p[2],"\n",p[3]])
 
 def p_statement_opt(p):
     '''statement_opt : statement statement_opt
@@ -95,12 +95,12 @@ def p_statement(p):
     p[0] = p[1]
 
 def p_assign(p):
-    'assign : exp IGUAL expresion'
-    p[0] = "".join([p[1],p[2],p[3]])
+    'assign : exp IGUAL expresion PUNTOCOMA'
+    p[0] = "".join([p[1],p[2],p[3],p[4]])
 
 def p_condition(p):
-    'condition : IF PARENIZQ expresion PARENDER body else'
-    p[0] = "".join([p[1],p[2],p[3],p[4],p[5],"\n",p[6]])
+    'condition : IF PARENIZQ expresion PARENDER body else PUNTOCOMA'
+    p[0] = "".join([p[1],p[2],p[3],p[4],p[5],"\n",p[6],p[7]])
 
 def p_else(p):
     '''else : ELSE body
@@ -111,16 +111,16 @@ def p_else(p):
         p[0] = ""
 
 def p_cycle(p):
-    'cycle : DO body WHILE PARENIZQ expresion PARENDER'
-    p[0] = "".join([p[1],p[2],p[3],p[4],p[5],p[6]])
+    'cycle : DO body WHILE PARENIZQ expresion PARENDER PUNTOCOMA'
+    p[0] = "".join([p[1],p[2],"\n",p[3],p[4],p[5],p[6],p[7]])
 
 def p_f_call(p):
-    'f_call : ID PARENIZQ expresion_opt PARENDER'
-    p[0] = "".join([p[1],p[2],p[3],p[4]])
+    'f_call : ID PARENIZQ expresion_opt PARENDER PUNTOCOMA'
+    p[0] = "".join([p[1],p[2],p[3],p[4],p[5]])
 
 def p_print(p):
-    'print : PRINT PARENIZQ printable PARENDER'
-    p[0] = "".join([p[1],p[2],p[3],p[4]])
+    'print : PRINT PARENIZQ printable PARENDER PUNTOCOMA'
+    p[0] = "".join([p[1],p[2],p[3],p[4],p[5]])
 
 def p_printable(p):
     '''printable : CTE_STRING printable_1
@@ -229,7 +229,7 @@ parser = yacc.yacc(start='program')
 
 while True:
     try :
-        input_ = int(input("Seleccione un archivo de prueba o ingrese su propio texto, ingrese 0 o cualquier elemento que no esté en la lista para salir para salir:\n 1. test_1 \n 2. test_2 \n 3. test_3 \n 6. Ingresar texto\n"))
+        input_ = int(input("Seleccione un archivo de prueba o ingrese su propio texto, ingrese 0 o cualquier elemento que no esté en la lista para salir para salir:\n 1. test_1 (Completo) \n 2. test_2 (Error léxico) \n 3. test_3 (Error sintáctico) \n 4. test_4 (Simple) \n 5. test_5 (Multiples parametros, statements, expresiones)  \n 6. Ingresar texto (Sin saltos de linea)\n 0. Salir \n"))
 
         if(input_ == 1):
             archivo = open('test_1.txt','r')
@@ -240,14 +240,20 @@ while True:
         elif(input_ == 3):
             archivo = open('test_3.txt','r')
             s = archivo.read()
+        elif(input_ == 4):
+            archivo = open('test_4.txt','r')
+            s = archivo.read()
+        elif(input_ == 5):
+            archivo = open('test_5.txt','r')
+            s = archivo.read()
         elif(input_ == 6):
             s = input("Ingrese el programa a compilar:\n")
         else:
             break
-        print("Input:\n",s)
+        print("----- Input -----\n",s)
         result = parser.parse(s)
         if(result):
-            print("Succesful parsing")
+            print("----- Succesful parsing -----")
             print(result)
 
     except ValueError:

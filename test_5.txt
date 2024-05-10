@@ -1,0 +1,26 @@
+program prueba;
+
+void imprimir(variable:int, flotante:float, tercera:int)[{
+    print(variable);
+}];
+
+main{
+    variable1=47;
+    variable2=48;
+
+    print("Esto es un string", "Esto tambien", estono, 5);
+
+    if(variable1<variable2){
+    imprimir(variable1, 2+2);
+    }
+    else{
+    imprimir(variable2);
+    };
+
+    do{
+        variable2=variable2-1;
+        variable1=variable1+1;
+    }
+    while(variable1<variable2);
+}
+end
