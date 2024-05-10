@@ -76,7 +76,7 @@ def t_newline(t):
 
 # Manejo de errores
 def t_error(t):
-    raise Exception("Carácter desconocido '%s'" % t.value[0])
+    raise Exception("Carácter desconocido '%s' en la línea: %d" % (t.value[0], t.lexer.lineno))
     
 
 lexer = lex.lex()

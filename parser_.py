@@ -1,6 +1,6 @@
 import ply.yacc as yacc
 
-from scanner import tokens
+from scanner import tokens, lexer
 
 def p_program(p):
     'program : PROGRAM ID PUNTOCOMA vars_opt funcs_opt MAIN body END'
@@ -230,7 +230,9 @@ while True:
 
     try :
         input_ = int(input("Seleccione un archivo de prueba o ingrese su propio texto en el archivo personalizado, ingrese 0 o cualquier elemento que no esté en la lista para salir:\n 1. test_1 (Completo) \n 2. test_2 (Error léxico) \n 3. test_3 (Error sintáctico) \n 4. test_4 (Simple) \n 5. test_5 (Multiples parametros, statements, expresiones)  \n 6. Custom (Coloque su texto de prueba en el archivo custom.txt) \n 0. Salir \n"))
-
+        
+        lexer.lineno = 1
+        
         if(input_ == 1):
             with open('test_1.txt','r') as archivo:
                 s = archivo.read()
