@@ -222,7 +222,7 @@ def p_empty(p):
 
 # Manejo de errores
 def p_error(p):
-    print("Error de sintaxis, se encontro elemento inesperado del tipo", p.type, 'con valor:', p.value, "en la linea", p.lineno)
+    raise Exception("Error de sintaxis, se encontro elemento inesperado del tipo %s con valor: '%s' en la linea %d" % (p.type, p.value, p.lineno))
 
 parser = yacc.yacc(start='program')
 
@@ -232,7 +232,7 @@ while True:
         input_ = int(input("Seleccione un archivo de prueba o ingrese su propio texto en el archivo personalizado, ingrese 0 o cualquier elemento que no esté en la lista para salir:\n 1. test_1 (Completo) \n 2. test_2 (Error léxico) \n 3. test_3 (Error sintáctico) \n 4. test_4 (Simple) \n 5. test_5 (Multiples parametros, statements, expresiones)  \n 6. Custom (Coloque su texto de prueba en el archivo custom.txt) \n 0. Salir \n"))
         
         lexer.lineno = 1
-        
+
         if(input_ == 1):
             with open('test_1.txt','r') as archivo:
                 s = archivo.read()
@@ -264,5 +264,5 @@ while True:
         print("Entrada no válida, ingrese un número")
     except Exception as e:
         print(e)
-        print("Error de léxico, se va a detener el parseo")
+        
     

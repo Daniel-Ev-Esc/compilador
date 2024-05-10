@@ -1,3 +1,5 @@
+error;
+
 program custom;
 
 void funcion(numero_:int)[
