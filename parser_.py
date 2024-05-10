@@ -216,36 +216,43 @@ def p_cte(p):
     | CTE_FLOAT'''
     p[0] = p[1]
 
-
-
 def p_empty(p):
     'empty :'
     pass
 
 # Error rule for syntax errors
 def p_error(p):
-    print("Syntax error in input, unexpected character",p)
+    print("Syntax error in input, unexpected", p.type, ':', p.value, "in line", p.lineno)
 
 # Build the parser
 parser = yacc.yacc(start='program')
 
 while True:
     try :
-        input_ = int(input("Seleccione un archivo de prueba o ingrese su propio texto, ingrese 0 o cualquier elemento que no esté en la lista para salir para salir:\n 1. test_1 \n 6. Ingresar texto\n"))
+        input_ = int(input("Seleccione un archivo de prueba o ingrese su propio texto, ingrese 0 o cualquier elemento que no esté en la lista para salir para salir:\n 1. test_1 \n 2. test_2 \n 3. test_3 \n 6. Ingresar texto\n"))
 
         if(input_ == 1):
             archivo = open('test_1.txt','r')
+            s = archivo.read()
+        elif(input_ == 2):
+            archivo = open('test_2.txt','r')
+            s = archivo.read()
+        elif(input_ == 3):
+            archivo = open('test_3.txt','r')
             s = archivo.read()
         elif(input_ == 6):
             s = input("Ingrese el programa a compilar:\n")
         else:
             break
+        print("Input:\n",s)
         result = parser.parse(s)
         if(result):
             print("Succesful parsing")
             print(result)
 
     except ValueError:
-            print("Invalid input. Please enter a number.")
-
+        print("Invalid input. Please enter a number.")
+    except Exception as e:
+        print(e)
+        print("Lexer error, skipping parsing job")
     

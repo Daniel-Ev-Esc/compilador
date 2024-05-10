@@ -1,0 +1,22 @@
+program prueba;
+var variable1, variable2 : int;
+
+void imprimir(variable:int)[{
+    print(variable)
+}];
+
+main
+{   
+    variable1 = 47
+    variable2 = 48
+
+    print("Esto es un string")
+
+    if(variable1 & variable2)
+    {
+        imprimir(variable1)
+    } else {
+        imprimir(variable2)
+    }
+}
+end
