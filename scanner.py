@@ -67,32 +67,16 @@ t_CTE_STRING = r'\"[a-zA-Z_0-9 ]*\"'
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
-    t.type = reserved.get(t.value,'ID')    # Check for reserved words
+    t.type = reserved.get(t.value,'ID')    # Buscar palabras reservadas
     return t
 
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
-# Error handling rule
+# Manejo de errores
 def t_error(t):
-    raise Exception("Illegal character '%s'" % t.value[0])
+    raise Exception("Caractér desconocido '%s'" % t.value[0])
     
 
 lexer = lex.lex()
-
-# Test it out
-data = '''
-int i = 3 + 4 * 10;
-float = -9.8
-print("Esto es un string")
-'''
-
-# Give the lexer some input
-lexer.input(data)
-
-""" while True:
-    tok = lexer.token()
-    if not tok: 
-        break      # No more input
-    print(tok) """

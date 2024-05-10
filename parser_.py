@@ -220,32 +220,32 @@ def p_empty(p):
     'empty :'
     pass
 
-# Error rule for syntax errors
+# Manejo de errores
 def p_error(p):
-    print("Syntax error in input, unexpected", p.type, ':', p.value, "in line", p.lineno)
+    print("Error de sintaxis, se encontro elemento inesperado del tipo", p.type, 'con valor:', p.value, "en la linea", p.lineno)
 
-# Build the parser
 parser = yacc.yacc(start='program')
 
 while True:
+
     try :
         input_ = int(input("Seleccione un archivo de prueba o ingrese su propio texto, ingrese 0 o cualquier elemento que no esté en la lista para salir para salir:\n 1. test_1 (Completo) \n 2. test_2 (Error léxico) \n 3. test_3 (Error sintáctico) \n 4. test_4 (Simple) \n 5. test_5 (Multiples parametros, statements, expresiones)  \n 6. Ingresar texto (Sin saltos de linea)\n 0. Salir \n"))
 
         if(input_ == 1):
-            archivo = open('test_1.txt','r')
-            s = archivo.read()
+            with open('test_1.txt','r') as archivo:
+                s = archivo.read()
         elif(input_ == 2):
-            archivo = open('test_2.txt','r')
-            s = archivo.read()
+            with open('test_2.txt','r') as archivo:
+                s = archivo.read()
         elif(input_ == 3):
-            archivo = open('test_3.txt','r')
-            s = archivo.read()
+            with open('test_3.txt','r') as archivo:
+                s = archivo.read()
         elif(input_ == 4):
-            archivo = open('test_4.txt','r')
-            s = archivo.read()
+            with open('test_4.txt','r') as archivo:
+                s = archivo.read()
         elif(input_ == 5):
-            archivo = open('test_5.txt','r')
-            s = archivo.read()
+            with open('test_5.txt','r') as archivo:
+                s = archivo.read()
         elif(input_ == 6):
             s = input("Ingrese el programa a compilar:\n")
         else:
@@ -253,12 +253,12 @@ while True:
         print("----- Input -----\n",s)
         result = parser.parse(s)
         if(result):
-            print("----- Succesful parsing -----")
+            print("----- Parseo completado sin errores -----")
             print(result)
 
     except ValueError:
-        print("Invalid input. Please enter a number.")
+        print("Entrada no válida, ingrese un número")
     except Exception as e:
         print(e)
-        print("Lexer error, skipping parsing job")
+        print("Error de léxico, se va a detener el parseo")
     
