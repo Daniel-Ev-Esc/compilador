@@ -4,7 +4,7 @@ from scanner import tokens
 
 def p_program(p):
     'program : PROGRAM ID PUNTOCOMA vars_opt funcs_opt MAIN body END'
-    p[0] = " ".join([p[1],p[2],p[3],p[4],p[5],p[6],p[7],p[8]])
+    p[0] = "".join([p[1]," ",p[2],p[3],"\n",p[4],p[5],p[6],p[7],"\n",p[8]])
 
 def p_vars_opt(p):
     '''vars_opt : vars 
@@ -16,13 +16,13 @@ def p_vars_opt(p):
 
 def p_vars(p):
     'vars : VAR vars_1'
-    p[0] = " ".join([p[1],p[2]])
+    p[0] = "".join([p[1]," ",p[2]])
 
 def p_vars_1(p):
     '''vars_1 : id DOSPUNTOS type PUNTOCOMA 
     | empty'''
     if(p[1]):
-        p[0] = " ".join([p[1],p[2],p[3],p[4]])
+        p[0] = "".join([p[1],p[2],p[3],p[4],"\n"])
     else:
         p[0] = ""
 
@@ -47,13 +47,13 @@ def p_funcs_opt(p):
     '''funcs_opt : funcs funcs_opt
     | empty'''
     if(p[1]):
-        p[0] = " ".join([p[1],p[2]])
+        p[0] = "".join([p[1],p[2]])
     else:
         p[0] = ""
 
 def p_funcs(p):
     'funcs : VOID ID PARENIZQ params PARENDER BRACKETIZQ vars_opt body BRACKETDER PUNTOCOMA'
-    p[0] = " ".join([p[1],p[2],p[3],p[4],p[5], p[6], p[7],p[8],p[9], p[10]])
+    p[0] = "".join([p[1]," ",p[2],p[3],p[4],p[5], p[6], p[7],p[8],p[9], p[10],"\n"])
 
 def p_params(p):
     '''params : params_1
@@ -83,7 +83,7 @@ def p_statement_opt(p):
     '''statement_opt : statement statement_opt
     | empty'''
     if(p[1]):
-        p[0] = " ".join([p[1],p[2]])
+        p[0] = "".join(["\n",p[1],p[2]])
     else:
         p[0] = ""
 def p_statement(p):
@@ -100,7 +100,7 @@ def p_assign(p):
 
 def p_condition(p):
     'condition : IF PARENIZQ expresion PARENDER body else'
-    p[0] = "".join([p[1],p[2],p[3],p[4],p[5],p[6]])
+    p[0] = "".join([p[1],p[2],p[3],p[4],p[5],"\n",p[6]])
 
 def p_else(p):
     '''else : ELSE body
@@ -112,7 +112,7 @@ def p_else(p):
 
 def p_cycle(p):
     'cycle : DO body WHILE PARENIZQ expresion PARENDER'
-    p[0] = " ".join([p[1],p[2],p[3],p[4],p[5],p[6]])
+    p[0] = "".join([p[1],p[2],p[3],p[4],p[5],p[6]])
 
 def p_f_call(p):
     'f_call : ID PARENIZQ expresion_opt PARENDER'
@@ -224,11 +224,28 @@ def p_empty(p):
 
 # Error rule for syntax errors
 def p_error(p):
-    print("Syntax error in input!")
+    print("Syntax error in input, unexpected character",p)
 
 # Build the parser
 parser = yacc.yacc(start='program')
 
-s = ('program helloworld; var counter, indice, patito:int; void imprimir(numero:int, numerofloat:float)[var resultado:int;{placeholder=placeholder if(mayor>menor){mayor=9} do{i=i+1}while(i<10) imprimir(9.0) print("Esto es un string","Esto tambien",estono,7) }]; void leer()[{ igual = 2/2.8+2 }]; main {if(mayor>menor){mayor=9}else{menor=0}} end')
-result = parser.parse(s)
-print(result)
+while True:
+    try :
+        input_ = int(input("Seleccione un archivo de prueba o ingrese su propio texto, ingrese 0 o cualquier elemento que no esté en la lista para salir para salir:\n 1. test_1 \n 6. Ingresar texto\n"))
+
+        if(input_ == 1):
+            archivo = open('test_1.txt','r')
+            s = archivo.read()
+        elif(input_ == 6):
+            s = input("Ingrese el programa a compilar:\n")
+        else:
+            break
+        result = parser.parse(s)
+        if(result):
+            print("Succesful parsing")
+            print(result)
+
+    except ValueError:
+            print("Invalid input. Please enter a number.")
+
+    
