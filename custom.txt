@@ -1,0 +1,14 @@
+program custom;
+
+void funcion(numero_:int)[
+    var variable:int;
+    {
+    variable = variable + 6.6;
+}
+];
+
+main
+{
+    assign = 5+9;
+}
+end

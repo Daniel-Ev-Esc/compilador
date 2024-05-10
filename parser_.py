@@ -229,7 +229,7 @@ parser = yacc.yacc(start='program')
 while True:
 
     try :
-        input_ = int(input("Seleccione un archivo de prueba o ingrese su propio texto, ingrese 0 o cualquier elemento que no esté en la lista para salir para salir:\n 1. test_1 (Completo) \n 2. test_2 (Error léxico) \n 3. test_3 (Error sintáctico) \n 4. test_4 (Simple) \n 5. test_5 (Multiples parametros, statements, expresiones)  \n 6. Ingresar texto (Sin saltos de linea)\n 0. Salir \n"))
+        input_ = int(input("Seleccione un archivo de prueba o ingrese su propio texto en el archivo personalizado, ingrese 0 o cualquier elemento que no esté en la lista para salir:\n 1. test_1 (Completo) \n 2. test_2 (Error léxico) \n 3. test_3 (Error sintáctico) \n 4. test_4 (Simple) \n 5. test_5 (Multiples parametros, statements, expresiones)  \n 6. Custom (Coloque su texto de prueba en el archivo custom.txt) \n 0. Salir \n"))
 
         if(input_ == 1):
             with open('test_1.txt','r') as archivo:
@@ -247,7 +247,8 @@ while True:
             with open('test_5.txt','r') as archivo:
                 s = archivo.read()
         elif(input_ == 6):
-            s = input("Ingrese el programa a compilar:\n")
+            with open('custom.txt','r') as archivo:
+                s = archivo.read()
         else:
             break
         print("----- Input -----\n",s)
@@ -255,6 +256,7 @@ while True:
         if(result):
             print("----- Parseo completado sin errores -----")
             print(result)
+            print("----- Parseo completado sin errores -----")
 
     except ValueError:
         print("Entrada no válida, ingrese un número")
