@@ -1,3 +1,6 @@
+# Daniel Evaristo Escalera Bonilla 09/03/2024
+# scanner.py
+
 import ply
 import ply.lex as lex
 

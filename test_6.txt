@@ -1,12 +1,11 @@
 program custom;
 
-void funcion(numero_:int)[
-    var variable,variable:int;
+void funcion(numero_:int, numero_:int)[
+    var variable:int;
     {
     variable = variable + 6.6;
 }
 ];
-
 
 main
 {
