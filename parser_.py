@@ -15,13 +15,13 @@ operationIndex = {'+':0,'-':1,'*':2,'/':3}
 
 tcs = [[[0,0,0,0],[1,1,1,1]],[[1,1,1,1],[1,1,1,1]]]
 
-def p_action_1(p):
-    'action_1 : '
+def p_crear_dir_func(p):
+    'crear_dir_func : '
     global dirFunc
     dirFunc = {}
 
-def p_action_2(p):
-    'action_2 : '
+def p_definir_programa(p):
+    'definir_programa : '
     dirFunc[p[-1]] = {'name':p[-1],'type':"program"}
 
     global curr_func
@@ -31,35 +31,35 @@ def p_action_2(p):
 
     dirFunc[curr_func] = {'name':curr_func,"type":curr_type}
 
-def p_action_3(p):
-    'action_3 : '
+def p_tabla_variables_global(p):
+    'tabla_variables_global : '
 
     if 'vars' not in dirFunc[curr_func]:
         dirFunc[curr_func]['vars'] = {}
 
-def p_action_4(p):
-    'action_4 :'
+def p_declaracion_variable(p):
+    'declaracion_variable :'
 
     if not p[-1] in dirFunc[curr_func]['vars']:
         dirFunc[curr_func]['vars'][p[-1]] = {}
     else:
         raise Exception("Declaración Múltiple de variable: '%s'" % p[-1])
 
-def p_action_5(p):
-    'action_5 : '
+def p_change_curr_type(p):
+    'change_curr_type : '
 
     global curr_type
     curr_type = p[-1]
 
-def p_action_aux_5(p):
-    'action_aux_5 :'
+def p_assign_type_to_vars(p):
+    'assign_type_to_vars :'
 
     for id in dirFunc[curr_func]['vars']:
         if not 'type' in dirFunc[curr_func]['vars'][id]:
             dirFunc[curr_func]['vars'][id] = {'name':id,'type':curr_type}
 
-def p_action_6(p):
-    'action_6 : '
+def p_delete_directory(p):
+    'delete_directory : '
 
     global dirFunc
 
@@ -67,13 +67,8 @@ def p_action_6(p):
 
     del dirFunc
 
-def p_action_8(p):
-    'action_8 : '
-    global curr_type
-    curr_type = p[-1]
-
-def p_action_9(p):
-    'action_9 : '
+def p_new_function(p):
+    'new_function : '
     
     global curr_func
     curr_func = p[-1]
@@ -83,62 +78,57 @@ def p_action_9(p):
     else:
         raise Exception("Declaración Múltiple de función: '%s'" % p[-1])
 
-def p_action_10(p):
-    'action_10 : '
+def p_create_func_var_table(p):
+    'create_func_var_table : '
     dirFunc[curr_func]['vars'] = {}
 
-def p_action_11(p):
-    'action_11 : '
+def p_parameter_declaration(p):
+    'parameter_declaration : '
 
     if not p[-3] in dirFunc[curr_func]['vars']:
         dirFunc[curr_func]['vars'][p[-3]] = {'name':p[-3],'type':curr_type}
     else:
         raise Exception("Declaración Múltiple de variable: '%s'" % p[-3])
 
-def p_action_12(p):
-    'action_12 : '
-    # print(dirFunc[curr_func])
-    # del dirFunc[curr_func]
-
 
 def p_program(p):
-    'program : PROGRAM action_1 ID action_2 PUNTOCOMA vars_opt funcs_opt MAIN body END action_6'
+    'program : PROGRAM crear_dir_func ID definir_programa PUNTOCOMA vars_opt funcs_opt MAIN body END delete_directory'
 
 def p_vars_opt(p):
     '''vars_opt : vars 
     | empty'''
 
 def p_vars(p):
-    'vars : VAR action_3 vars_1'
+    'vars : VAR tabla_variables_global vars_1'
 
 def p_vars_1(p):
-    '''vars_1 : id DOSPUNTOS type PUNTOCOMA action_aux_5 vars_1
+    '''vars_1 : id DOSPUNTOS type PUNTOCOMA assign_type_to_vars vars_1
     | empty'''
 
 def p_id(p):
-    'id : ID action_4 id_1'
+    'id : ID declaracion_variable id_1'
 
 def p_id_1(p):
     '''id_1 : COMA id
     | empty'''
 
 def p_type(p):
-    '''type : INT action_5
-    | FLOAT action_5'''
+    '''type : INT change_curr_type
+    | FLOAT change_curr_type'''
 
 def p_funcs_opt(p):
     '''funcs_opt : funcs funcs_opt
     | empty'''
 
 def p_funcs(p):
-    'funcs : VOID action_8 ID action_9 PARENIZQ action_10 params PARENDER BRACKETIZQ vars_opt body BRACKETDER PUNTOCOMA action_12'
+    'funcs : VOID change_curr_type ID new_function PARENIZQ create_func_var_table params PARENDER BRACKETIZQ vars_opt body BRACKETDER PUNTOCOMA'
 
 def p_params(p):
     '''params : params_1
     | empty'''
 
 def p_params_1(p):
-    '''params_1 : ID DOSPUNTOS type action_11 params_cycle'''
+    '''params_1 : ID DOSPUNTOS type parameter_declaration params_cycle'''
 
 def p_params_cycle(p):
     '''params_cycle : COMA params_1
