@@ -1,7 +1,8 @@
 program custom;
+    var variable:int;
 
 void funcion(numero_:int)[
-    var variable,variable:int;
+    var variable:int;
     {
     variable = variable + 6.6;
 }
