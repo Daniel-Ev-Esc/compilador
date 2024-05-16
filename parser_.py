@@ -11,9 +11,9 @@ from scanner import tokens, lexer
 # Tabla de consideraciones semánticas
 
 typeDict = {'int':0,'float':1}
-operationIndex = {'+':0,'-':1,'*':2,'/':3}
+operationIndex = {'+':0,'-':1,'*':2,'/':3, '=':4}
 
-tcs = [[[0,0,0,0],[1,1,1,1]],[[1,1,1,1],[1,1,1,1]]]
+tcs = [[[0,0,0,0,0],[1,1,1,1,-1]],[[1,1,1,1,-1],[1,1,1,1,1]]]
 
 def p_crear_dir_func(p):
     'crear_dir_func : '
