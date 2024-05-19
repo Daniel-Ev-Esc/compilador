@@ -10,7 +10,9 @@ void imprimir(variable:int)[
     print(variable, local, local2, "true");
 }];
 
-void leer()[{
+void leer()[
+    var variable3:int;
+    {
     variable3=-2.3 + (4.4 - 8.2) * 9.4/2;
     print("funcion sin implementar");
 }];

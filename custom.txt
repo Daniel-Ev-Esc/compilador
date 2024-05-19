@@ -2,12 +2,27 @@ program custom;
     var variable:int;
 
 void funcion(numero_:int)[
-    var variable, variable2,A,B,C,D,E,F,G,H,J,K,L:int;
+    var variable, variable2,A,C,B,D,E,L,G,H,J,K:int;
+    F:float;
     {
-    variable2 = A > B;
 
-    variable = ( ( A + B ) * C + D * E * F + K / H * J ) + G * L + H + J > ( A - C * D ) / F;
+    variable = ( ( A + 9.8) * C + D * E * F + K / H * J ) + G * L + H + J > ( A - C * D ) / F;
 
+    print(variable, A+B, 10);
+
+    if(A+B>D){
+        if(A<B){
+            A=0;
+            B=B+D;
+        }
+        else{
+            C=A+B;
+        };
+    }
+    else{
+        A=B+C; 
+    };
+    D=B+A*C;
 }
 ];
 

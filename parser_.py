@@ -15,13 +15,14 @@ from scanner import tokens, lexer
 poper = []
 pilaO = []
 pilaType = []
+pilaSalto = []
 quadQueue = []
+quadCounter = 1
 resultCounter = 0
 
 def check_semantics(operator):
-    print(operator, pilaType)
     typeDict = {'int':0,'float':1}
-    operationIndex = {'+':0,'-':1,'*':2,'/':3, '=':4, '>':5, '>':6,"!=":7}
+    operationIndex = {'+':0,'-':1,'*':2,'/':3, '=':4, '>':5, '<':6,"!=":7}
 
     tcs = [[["int","int","int","int","int","int","int","int"],["float","float","float","float","ERROR","int","int","int"]],[["float","float","float","float","ERROR","int","int","int"],["float","float","float","float","float","int","int","int"]]]
 
@@ -31,19 +32,20 @@ def check_semantics(operator):
     resultType = tcs[typeDict[type_1]][typeDict[type_2]][operationIndex[operator]]# tcs[typeDict[type_1]][typeDict[typeDict[type_1]][operationIndex[operator]]]
 
     if(resultType == "ERROR"):
-        raise Exception("Tried to use operator %s with type %s and type %s" % (operator,type_1,type_2))
+        raise Exception("Tipos no compatibles %s y %s en la línea: " % (type_1,type_2, ))
     elif(operator != "="):
         pilaType.append(resultType)
-    print(pilaType)
 
 def generate_quad_operator(operator, izq, der,resultado):
-    global resultCounter
+    global resultCounter, quadCounter
     if resultado == "":
         resultCounter = resultCounter+1
         resultado = "t" + str(resultCounter)
         pilaO.append(resultado)
     quad = [operator,izq,der,resultado]
-    print(quad)
+    print(quadCounter,quad)
+    quadQueue.append(quad)
+    quadCounter = quadCounter + 1
     return quad
 
 def p_crear_dir_func(p):
@@ -104,7 +106,7 @@ def p_declaracion_variable(p):
     if not p[-1] in dirFunc[curr_func]['vars']:
         dirFunc[curr_func]['vars'][p[-1]] = {}
     else:
-        raise Exception("Declaración Múltiple de variable: '%s'" % p[-1])
+        raise Exception("Declaración Múltiple de variable: '%s' en la línea: " % (p[-1], ))
     
 def p_id(p):
     'id : ID declaracion_variable id_1'
@@ -136,7 +138,7 @@ def p_new_function(p):
     if not curr_func in dirFunc:
         dirFunc[p[-1]] = {'name':p[-1],'type':curr_type}
     else:
-        raise Exception("Declaración Múltiple de función: '%s'" % p[-1])
+        raise Exception("Declaración Múltiple de función: '%s' en la línea: " % (p[-1], ))
 
 def p_create_func_var_table(p):
     'create_func_var_table : '
@@ -155,7 +157,7 @@ def p_parameter_declaration(p):
     if not p[-3] in dirFunc[curr_func]['vars']:
         dirFunc[curr_func]['vars'][p[-3]] = {'name':p[-3],'type':curr_type}
     else:
-        raise Exception("Declaración Múltiple de variable: '%s'" % p[-3])
+        raise Exception("Declaración Múltiple de variable: '%s' en la línea ;" % (p[-3],))
 
 def p_params_1(p):
     '''params_1 : ID DOSPUNTOS type parameter_declaration params_cycle'''
@@ -185,7 +187,12 @@ def p_push_to_pilaO(p):
     else:
         pilaO.append(p[-1])
 
-    pilaType.append(dirFunc[curr_func]['vars'][p[-1]]['type'])
+    if p[-1] in dirFunc[curr_func]['vars']:
+        pilaType.append(dirFunc[curr_func]['vars'][p[-1]]['type'])
+    elif p[-1].find(".") != -1:
+        pilaType.append("float")
+    else:
+        pilaType.append("int")
 
 def p_push_operator(p):
     "push_operator :"
@@ -206,8 +213,15 @@ def p_check_for_assign(p):
 def p_assign(p):
     'assign : ID push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA'
 
+def p_check_if(p):
+    "check_if :"
+    result = pilaO.pop()
+    pilaType.pop()
+    generate_quad_operator("GotoF",result,"","")
+    
+
 def p_condition(p):
-    'condition : IF PARENIZQ expresion PARENDER body else PUNTOCOMA'
+    'condition : IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA'
 
 def p_else(p):
     '''else : ELSE body
@@ -222,9 +236,29 @@ def p_f_call(p):
 def p_print(p):
     'print : PRINT PARENIZQ printable PARENDER PUNTOCOMA'
 
+def p_push_print(p):
+    "push_print :"
+    poper.append("print")
+
+def p_push_string(p):
+    "push_string : "
+    pilaO.append(p[-1])
+    pilaType.append("string")
+
+def p_check_for_print(p):
+    "check_for_print :"
+    if(len(poper) > 0):
+        if(poper[-1] == 'print'):
+            operator = poper.pop()
+            der = pilaO.pop()
+            pilaType.pop()
+            generate_quad_operator(operator,"","",der)
+        elif(poper[-1] == '('):
+            poper.pop()
+
 def p_printable(p):
-    '''printable : CTE_STRING printable_1
-    | expresion printable_1'''
+    '''printable : push_print CTE_STRING push_string check_for_print printable_1
+    | push_print expresion check_for_print printable_1'''
 
 def p_printable_1(p):
     '''printable_1 : COMA printable
@@ -251,7 +285,7 @@ def p_check_for_expresion(p):
             poper.pop()
 
 def p_expresion(p):
-    'expresion : exp check_for_expresion expresion_1'
+    'expresion : exp expresion_1'
 
 def p_expresion_1(p):
     '''expresion_1 : MENORQUE push_operator exp check_for_expresion
@@ -308,7 +342,7 @@ def p_factor(p):
 def p_check_variable(p):
     'check_variable :'
     if not p[-1] in dirFunc[curr_func]['vars']:
-        raise Exception("Variable no declarada: '%s'" % p[-1])
+        raise Exception("Variable no declarada: '%s' en la línea:" % (p[-1], ))
         
 def p_factor_1(p):
     '''factor_1 : ID check_variable
@@ -326,7 +360,7 @@ def p_empty(p):
 
 # Manejo de errores
 def p_error(p):
-    raise Exception("Error de sintaxis, se encontro elemento inesperado del tipo %s con valor: '%s' en la linea %d" % (p.type, p.value, p.lineno))
+    raise Exception("Error de sintaxis, se encontro elemento inesperado del tipo %s con valor: '%s' en la linea " % (p.type, p.value, ))
 
 parser = yacc.yacc(start='program')
 
@@ -336,6 +370,8 @@ while True:
     pilaO = []
     pilaType = []
     resultCounter = 0
+    quadCounter = 1
+
 
     try :
         input_ = int(input('''Seleccione un archivo de prueba o ingrese su propio texto en el archivo personalizado, ingrese 0 o cualquier elemento que no esté en la lista para salir:
@@ -385,6 +421,7 @@ while True:
         print(poper)
         print(pilaO)
         print(pilaType)
+        print(quadQueue)
 
     except ValueError:
         print("Entrada no válida, ingrese un número")
