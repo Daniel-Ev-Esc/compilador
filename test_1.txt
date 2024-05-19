@@ -1,7 +1,6 @@
 program prueba;
 
 var variable1,variable2:int;
-variable3:float;
 
 void imprimir(variable:int)[
     var local:int;
@@ -11,7 +10,7 @@ void imprimir(variable:int)[
 }];
 
 void leer()[
-    var variable3:int;
+    var variable3:float;
     {
     variable3=-2.3 + (4.4 - 8.2) * 9.4/2;
     print("funcion sin implementar");

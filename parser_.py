@@ -23,7 +23,7 @@ resultCounter = 0
 def fill_goto(i, obj):
     quadQueue[i-1][3] = obj
 
-def check_semantics(operator):
+def check_semantics(operator, linea):
     typeDict = {'int':0,'float':1}
     operationIndex = {'+':0,'-':1,'*':2,'/':3, '=':4, '>':5, '<':6,"!=":7}
 
@@ -35,7 +35,7 @@ def check_semantics(operator):
     resultType = tcs[typeDict[type_1]][typeDict[type_2]][operationIndex[operator]]# tcs[typeDict[type_1]][typeDict[typeDict[type_1]][operationIndex[operator]]]
 
     if(resultType == "ERROR"):
-        raise Exception("Tipos no compatibles %s y %s en la línea: " % (type_1,type_2, ))
+        raise Exception("Tipos no compatibles %s y %s en la línea: %d" % (type_1,type_2, linea))
     elif(operator != "="):
         pilaType.append(resultType)
 
@@ -76,8 +76,14 @@ def p_delete_directory(p):
 
     del dirFunc
 
+def p_return_to_global(p):
+    'return_to_global : '
+
+    global curr_func
+    curr_func = 'global'
+
 def p_program(p):
-    'program : PROGRAM crear_dir_func ID definir_programa PUNTOCOMA vars_opt funcs_opt MAIN body END delete_directory'
+    'program : PROGRAM crear_dir_func ID definir_programa PUNTOCOMA vars_opt funcs_opt MAIN return_to_global body END delete_directory'
 
 def p_vars_opt(p):
     '''vars_opt : vars 
@@ -109,7 +115,7 @@ def p_declaracion_variable(p):
     if not p[-1] in dirFunc[curr_func]['vars']:
         dirFunc[curr_func]['vars'][p[-1]] = {}
     else:
-        raise Exception("Declaración Múltiple de variable: '%s' en la línea: " % (p[-1], ))
+        raise Exception("Declaración Múltiple de variable: '%s' en la línea: %d" % (p[-1], lexer.lineno))
     
 def p_id(p):
     'id : ID declaracion_variable id_1'
@@ -141,7 +147,7 @@ def p_new_function(p):
     if not curr_func in dirFunc:
         dirFunc[p[-1]] = {'name':p[-1],'type':curr_type}
     else:
-        raise Exception("Declaración Múltiple de función: '%s' en la línea: " % (p[-1], ))
+        raise Exception("Declaración Múltiple de función: '%s' en la línea: %d" % (p[-1], lexer.lineno))
 
 def p_create_func_var_table(p):
     'create_func_var_table : '
@@ -160,7 +166,7 @@ def p_parameter_declaration(p):
     if not p[-3] in dirFunc[curr_func]['vars']:
         dirFunc[curr_func]['vars'][p[-3]] = {'name':p[-3],'type':curr_type}
     else:
-        raise Exception("Declaración Múltiple de variable: '%s' en la línea ;" % (p[-3],))
+        raise Exception("Declaración Múltiple de variable: '%s' en la línea: %d" % (p[-3],lexer.lineno))
 
 def p_params_1(p):
     '''params_1 : ID DOSPUNTOS type parameter_declaration params_cycle'''
@@ -208,13 +214,20 @@ def p_check_for_assign(p):
             operator = poper.pop()
             der = pilaO.pop()
             izq = pilaO.pop()
-            check_semantics(operator)
+            check_semantics(operator, lexer.lineno)
             generate_quad_operator(operator,der,"",izq)
         elif(poper[-1] == '('):
             poper.pop()
 
+def p_check_variable(p):
+    'check_variable :'
+    if not p[-1] in dirFunc[curr_func]['vars']:
+        raise Exception("Variable no declarada: '%s' en la línea: %d" % (p[-1], lexer.lineno))
+    
+    p[0] = p[-1]
+
 def p_assign(p):
-    'assign : ID push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA'
+    'assign : ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA'
 
 def p_check_if(p):
     "check_if :"
@@ -305,7 +318,7 @@ def p_check_for_expresion(p):
             operator = poper.pop()
             der = pilaO.pop()
             izq = pilaO.pop()
-            check_semantics(operator)
+            check_semantics(operator, lexer.lineno)
             generate_quad_operator(operator,izq,der,"")
         elif(poper[-1] == '('):
             poper.pop()
@@ -326,7 +339,7 @@ def p_check_for_plus_minus(p):
             operator = poper.pop()
             der = pilaO.pop()
             izq = pilaO.pop()
-            check_semantics(operator)
+            check_semantics(operator, lexer.lineno)
             generate_quad_operator(operator,izq,der,"")
         elif(poper[-1] == '('):
             poper.pop()
@@ -346,7 +359,7 @@ def p_check_for_mult_div(p):
             operator = poper.pop()
             der = pilaO.pop()
             izq = pilaO.pop()
-            check_semantics(operator)
+            check_semantics(operator, lexer.lineno)
             generate_quad_operator(operator,izq,der,"")
         elif(poper[-1] == '('):
             poper.pop()
@@ -364,11 +377,6 @@ def p_factor(p):
     | MINUS factor_1 push_to_pilaO
     | PLUS factor_1 push_to_pilaO
     | factor_1 push_to_pilaO'''
-
-def p_check_variable(p):
-    'check_variable :'
-    if not p[-1] in dirFunc[curr_func]['vars']:
-        raise Exception("Variable no declarada: '%s' en la línea:" % (p[-1], ))
         
 def p_factor_1(p):
     '''factor_1 : ID check_variable
@@ -386,7 +394,7 @@ def p_empty(p):
 
 # Manejo de errores
 def p_error(p):
-    raise Exception("Error de sintaxis, se encontro elemento inesperado del tipo %s con valor: '%s' en la linea " % (p.type, p.value, ))
+    raise Exception("Error de sintaxis, se encontro elemento inesperado del tipo %s con valor: '%s' en la linea: %d " % (p.type, p.value, lexer.lineno))
 
 parser = yacc.yacc(start='program')
 
