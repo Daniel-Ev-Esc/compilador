@@ -2,9 +2,12 @@ program custom;
     var variable:int;
 
 void funcion(numero_:int)[
-    var variable,A,B,C,D,E,F,G,H,J,K,L:int;
+    var variable, variable2,A,B,C,D,E,F,G,H,J,K,L:int;
     {
+    variable2 = A > B;
+
     variable = ( ( A + B ) * C + D * E * F + K / H * J ) + G * L + H + J > ( A - C * D ) / F;
+
 }
 ];
 

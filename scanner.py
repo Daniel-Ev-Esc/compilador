@@ -31,7 +31,7 @@ tokens = [
     'PARENIZQ',
     'MENORQUE',
     'MAYORQUE',
-    'EXCLAMACION',
+    'DIFERENTE',
     'PLUS',
     'MINUS',
     'MULT',
@@ -55,7 +55,7 @@ t_PARENDER = r'\)'
 t_PARENIZQ = r'\('
 t_MENORQUE = r'<'
 t_MAYORQUE = r'>'
-t_EXCLAMACION = '!'
+t_DIFERENTE = '!='
 t_PLUS = r'\+'
 t_MINUS = r'- '
 t_MULT = r'\*'

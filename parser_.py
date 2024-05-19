@@ -18,6 +18,18 @@ tcs = [[[0,0,0,0,0],[1,1,1,1,-1]],[[1,1,1,1,-1],[1,1,1,1,1]]]
 poper = []
 pilaO = []
 pilaType = []
+quadQueue = []
+resultCounter = 0
+
+def generate_quad_operator(operator, izq, der,resultado):
+    global resultCounter
+    if resultado == "":
+        resultCounter = resultCounter+1
+        resultado = "t" + str(resultCounter)
+        pilaO.append(resultado)
+    quad = [operator,izq,der,resultado]
+    print(quad)
+    return quad
 
 def p_crear_dir_func(p):
     'crear_dir_func : '
@@ -114,7 +126,7 @@ def p_new_function(p):
 def p_create_func_var_table(p):
     'create_func_var_table : '
     dirFunc[curr_func]['vars'] = {}
-    
+
 def p_funcs(p):
     'funcs : VOID change_curr_type ID new_function PARENIZQ create_func_var_table params PARENDER BRACKETIZQ vars_opt body BRACKETDER PUNTOCOMA'
 
@@ -151,8 +163,32 @@ def p_statement(p):
     | f_call
     | print'''
 
+def p_push_to_pilaO(p):
+    "push_to_pilaO :"
+    if(p[-2] == '+' or p[-2] == '-'):
+        pilaO.append("".join([p[-2],p[-1]]))
+    else:
+        pilaO.append(p[-1])
+
+    pilaType.append(dirFunc[curr_func]['vars'][p[-1]]['type'])
+
+def p_push_operator(p):
+    "push_operator :"
+    poper.append(p[-1])
+
+def p_check_for_assign(p):
+    "check_for_assign :"
+    if(len(poper) > 0):
+        if(poper[-1] == '='):
+            operator = poper.pop()
+            der = pilaO.pop()
+            izq = pilaO.pop()
+            generate_quad_operator(operator,izq,"",der)
+        elif(poper[-1] == '('):
+            poper.pop()
+
 def p_assign(p):
-    'assign : exp IGUAL expresion PUNTOCOMA'
+    'assign : ID push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA'
 
 def p_condition(p):
     'condition : IF PARENIZQ expresion PARENDER body else PUNTOCOMA'
@@ -186,45 +222,63 @@ def p_expresion_cycle(p):
     '''expresion_cycle : COMA expresion_opt
     | empty'''
 
+def p_check_for_expresion(p):
+    "check_for_expresion :"
+    if(len(poper) > 0):
+        if(poper[-1] == '>' or poper[-1]=='<' or poper[-1] == "!="):
+            operator = poper.pop()
+            der = pilaO.pop()
+            izq = pilaO.pop()
+            generate_quad_operator(operator,izq,der,"")
+        elif(poper[-1] == '('):
+            poper.pop()
+
 def p_expresion(p):
-    'expresion : exp expresion_1'
+    'expresion : exp check_for_expresion expresion_1'
 
 def p_expresion_1(p):
-    '''expresion_1 : MENORQUE exp
-    | MAYORQUE exp
-    | EXCLAMACION IGUAL exp
+    '''expresion_1 : MENORQUE push_operator exp check_for_expresion
+    | MAYORQUE push_operator exp check_for_expresion
+    | DIFERENTE push_operator exp check_for_expresion
     | empty'''
 
-def p_exp(p):
-    'exp : termino exp_1'
+def p_check_for_plus_minus(p):
+    "check_for_plus_minus :"
+    if(len(poper) > 0):
+        if(poper[-1] == '+' or poper[-1]=='-'):
+            operator = poper.pop()
+            der = pilaO.pop()
+            izq = pilaO.pop()
+            generate_quad_operator(operator,izq,der,"")
+        elif(poper[-1] == '('):
+            poper.pop()
 
-def p_push_operator(p):
-    "push_operator :"
-    print("Operator:",p[-1])
-    poper.append(p[-1])
+def p_exp(p):
+    'exp : termino check_for_plus_minus exp_1'
 
 def p_exp_1(p):
     '''exp_1 : MINUS push_operator exp
     | PLUS push_operator exp
     | empty'''
 
+def p_check_for_mult_div(p):
+    'check_for_mult_div :'
+    if(len(poper) > 0):
+        if(poper[-1] == '*' or poper[-1]=='/'):
+            operator = poper.pop()
+            der = pilaO.pop()
+            izq = pilaO.pop()
+            generate_quad_operator(operator,izq,der,"")
+        elif(poper[-1] == '('):
+            poper.pop()
+
 def p_termino(p):
-    'termino : factor termino_1'
+    'termino : factor check_for_mult_div termino_1'
 
 def p_termino_1(p):
     '''termino_1 : MULT push_operator termino
     | DIV push_operator termino
     | empty'''
-
-def p_push_to_pilaO(p):
-    "push_to_pilaO :"
-    print("Exp detected",p[-1])
-    if(p[-2] == '+' or p[-2] == '-'):
-        pilaO.append("".join([p[-2],p[-1]]))
-    else:
-        pilaO.append(p[-1])
-
-    pilaType.append(dirFunc[curr_func]['vars'][p[-1]]['type'])
 
 def p_factor(p):
     '''factor : PARENIZQ push_operator expresion PARENDER
@@ -262,6 +316,7 @@ while True:
     poper = []
     pilaO = []
     pilaType = []
+    resultCounter = 0
 
     try :
         input_ = int(input('''Seleccione un archivo de prueba o ingrese su propio texto en el archivo personalizado, ingrese 0 o cualquier elemento que no esté en la lista para salir:
