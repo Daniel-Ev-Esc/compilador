@@ -10,16 +10,31 @@ from scanner import tokens, lexer
 # Operaciones = + (suma), - (resta), * (multiplicación), / (división)
 # Tabla de consideraciones semánticas
 
-typeDict = {'int':0,'float':1}
-operationIndex = {'+':0,'-':1,'*':2,'/':3, '=':4}
 
-tcs = [[[0,0,0,0,0],[1,1,1,1,-1]],[[1,1,1,1,-1],[1,1,1,1,1]]]
 
 poper = []
 pilaO = []
 pilaType = []
 quadQueue = []
 resultCounter = 0
+
+def check_semantics(operator):
+    print(operator, pilaType)
+    typeDict = {'int':0,'float':1}
+    operationIndex = {'+':0,'-':1,'*':2,'/':3, '=':4, '>':5, '>':6,"!=":7}
+
+    tcs = [[["int","int","int","int","int","int","int","int"],["float","float","float","float","ERROR","int","int","int"]],[["float","float","float","float","ERROR","int","int","int"],["float","float","float","float","float","int","int","int"]]]
+
+    type_1 = pilaType.pop()
+    type_2 = pilaType.pop()
+
+    resultType = tcs[typeDict[type_1]][typeDict[type_2]][operationIndex[operator]]# tcs[typeDict[type_1]][typeDict[typeDict[type_1]][operationIndex[operator]]]
+
+    if(resultType == "ERROR"):
+        raise Exception("Tried to use operator %s with type %s and type %s" % (operator,type_1,type_2))
+    elif(operator != "="):
+        pilaType.append(resultType)
+    print(pilaType)
 
 def generate_quad_operator(operator, izq, der,resultado):
     global resultCounter
@@ -183,6 +198,7 @@ def p_check_for_assign(p):
             operator = poper.pop()
             der = pilaO.pop()
             izq = pilaO.pop()
+            check_semantics(operator)
             generate_quad_operator(operator,izq,"",der)
         elif(poper[-1] == '('):
             poper.pop()
@@ -229,6 +245,7 @@ def p_check_for_expresion(p):
             operator = poper.pop()
             der = pilaO.pop()
             izq = pilaO.pop()
+            check_semantics(operator)
             generate_quad_operator(operator,izq,der,"")
         elif(poper[-1] == '('):
             poper.pop()
@@ -249,6 +266,7 @@ def p_check_for_plus_minus(p):
             operator = poper.pop()
             der = pilaO.pop()
             izq = pilaO.pop()
+            check_semantics(operator)
             generate_quad_operator(operator,izq,der,"")
         elif(poper[-1] == '('):
             poper.pop()
@@ -268,6 +286,7 @@ def p_check_for_mult_div(p):
             operator = poper.pop()
             der = pilaO.pop()
             izq = pilaO.pop()
+            check_semantics(operator)
             generate_quad_operator(operator,izq,der,"")
         elif(poper[-1] == '('):
             poper.pop()
