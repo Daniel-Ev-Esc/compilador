@@ -15,6 +15,10 @@ operationIndex = {'+':0,'-':1,'*':2,'/':3, '=':4}
 
 tcs = [[[0,0,0,0,0],[1,1,1,1,-1]],[[1,1,1,1,-1],[1,1,1,1,1]]]
 
+poper = []
+pilaO = []
+pilaType = []
+
 def p_crear_dir_func(p):
     'crear_dir_func : '
     global dirFunc
@@ -31,33 +35,6 @@ def p_definir_programa(p):
 
     dirFunc[curr_func] = {'name':curr_func,"type":curr_type}
 
-def p_tabla_variables_global(p):
-    'tabla_variables_global : '
-
-    if 'vars' not in dirFunc[curr_func]:
-        dirFunc[curr_func]['vars'] = {}
-
-def p_declaracion_variable(p):
-    'declaracion_variable :'
-
-    if not p[-1] in dirFunc[curr_func]['vars']:
-        dirFunc[curr_func]['vars'][p[-1]] = {}
-    else:
-        raise Exception("Declaración Múltiple de variable: '%s'" % p[-1])
-
-def p_change_curr_type(p):
-    'change_curr_type : '
-
-    global curr_type
-    curr_type = p[-1]
-
-def p_assign_type_to_vars(p):
-    'assign_type_to_vars :'
-
-    for id in dirFunc[curr_func]['vars']:
-        if not 'type' in dirFunc[curr_func]['vars'][id]:
-            dirFunc[curr_func]['vars'][id] = {'name':id,'type':curr_type}
-
 def p_delete_directory(p):
     'delete_directory : '
 
@@ -66,6 +43,62 @@ def p_delete_directory(p):
     print (dirFunc)
 
     del dirFunc
+
+def p_program(p):
+    'program : PROGRAM crear_dir_func ID definir_programa PUNTOCOMA vars_opt funcs_opt MAIN body END delete_directory'
+
+def p_vars_opt(p):
+    '''vars_opt : vars 
+    | empty'''
+
+def p_tabla_variables_global(p):
+    'tabla_variables_global : '
+
+    if 'vars' not in dirFunc[curr_func]:
+        dirFunc[curr_func]['vars'] = {}
+
+def p_vars(p):
+    'vars : VAR tabla_variables_global vars_1'
+
+def p_assign_type_to_vars(p):
+    'assign_type_to_vars :'
+
+    for id in dirFunc[curr_func]['vars']:
+        if not 'type' in dirFunc[curr_func]['vars'][id]:
+            dirFunc[curr_func]['vars'][id] = {'name':id,'type':curr_type}
+            
+def p_vars_1(p):
+    '''vars_1 : id DOSPUNTOS type PUNTOCOMA assign_type_to_vars vars_1
+    | empty'''
+
+def p_declaracion_variable(p):
+    'declaracion_variable :'
+
+    if not p[-1] in dirFunc[curr_func]['vars']:
+        dirFunc[curr_func]['vars'][p[-1]] = {}
+    else:
+        raise Exception("Declaración Múltiple de variable: '%s'" % p[-1])
+    
+def p_id(p):
+    'id : ID declaracion_variable id_1'
+
+def p_id_1(p):
+    '''id_1 : COMA id
+    | empty'''
+
+def p_change_curr_type(p):
+    'change_curr_type : '
+
+    global curr_type
+    curr_type = p[-1]
+    
+def p_type(p):
+    '''type : INT change_curr_type
+    | FLOAT change_curr_type'''
+
+def p_funcs_opt(p):
+    '''funcs_opt : funcs funcs_opt
+    | empty'''
 
 def p_new_function(p):
     'new_function : '
@@ -81,6 +114,13 @@ def p_new_function(p):
 def p_create_func_var_table(p):
     'create_func_var_table : '
     dirFunc[curr_func]['vars'] = {}
+    
+def p_funcs(p):
+    'funcs : VOID change_curr_type ID new_function PARENIZQ create_func_var_table params PARENDER BRACKETIZQ vars_opt body BRACKETDER PUNTOCOMA'
+
+def p_params(p):
+    '''params : params_1
+    | empty'''
 
 def p_parameter_declaration(p):
     'parameter_declaration : '
@@ -89,43 +129,6 @@ def p_parameter_declaration(p):
         dirFunc[curr_func]['vars'][p[-3]] = {'name':p[-3],'type':curr_type}
     else:
         raise Exception("Declaración Múltiple de variable: '%s'" % p[-3])
-
-
-def p_program(p):
-    'program : PROGRAM crear_dir_func ID definir_programa PUNTOCOMA vars_opt funcs_opt MAIN body END delete_directory'
-
-def p_vars_opt(p):
-    '''vars_opt : vars 
-    | empty'''
-
-def p_vars(p):
-    'vars : VAR tabla_variables_global vars_1'
-
-def p_vars_1(p):
-    '''vars_1 : id DOSPUNTOS type PUNTOCOMA assign_type_to_vars vars_1
-    | empty'''
-
-def p_id(p):
-    'id : ID declaracion_variable id_1'
-
-def p_id_1(p):
-    '''id_1 : COMA id
-    | empty'''
-
-def p_type(p):
-    '''type : INT change_curr_type
-    | FLOAT change_curr_type'''
-
-def p_funcs_opt(p):
-    '''funcs_opt : funcs funcs_opt
-    | empty'''
-
-def p_funcs(p):
-    'funcs : VOID change_curr_type ID new_function PARENIZQ create_func_var_table params PARENDER BRACKETIZQ vars_opt body BRACKETDER PUNTOCOMA'
-
-def p_params(p):
-    '''params : params_1
-    | empty'''
 
 def p_params_1(p):
     '''params_1 : ID DOSPUNTOS type parameter_declaration params_cycle'''
@@ -195,32 +198,54 @@ def p_expresion_1(p):
 def p_exp(p):
     'exp : termino exp_1'
 
+def p_push_operator(p):
+    "push_operator :"
+    print("Operator:",p[-1])
+    poper.append(p[-1])
+
 def p_exp_1(p):
-    '''exp_1 : MINUS exp
-    | PLUS exp
+    '''exp_1 : MINUS push_operator exp
+    | PLUS push_operator exp
     | empty'''
 
 def p_termino(p):
     'termino : factor termino_1'
 
 def p_termino_1(p):
-    '''termino_1 : MULT termino
-    | DIV termino
+    '''termino_1 : MULT push_operator termino
+    | DIV push_operator termino
     | empty'''
 
+def p_push_to_pilaO(p):
+    "push_to_pilaO :"
+    print("Exp detected",p[-1])
+    if(p[-2] == '+' or p[-2] == '-'):
+        pilaO.append("".join([p[-2],p[-1]]))
+    else:
+        pilaO.append(p[-1])
+
+    pilaType.append(dirFunc[curr_func]['vars'][p[-1]]['type'])
+
 def p_factor(p):
-    '''factor : PARENIZQ expresion PARENDER
-    | MINUS factor_1
-    | PLUS factor_1
-    | factor_1'''
+    '''factor : PARENIZQ push_operator expresion PARENDER
+    | MINUS factor_1 push_to_pilaO
+    | PLUS factor_1 push_to_pilaO
+    | factor_1 push_to_pilaO'''
+
+def p_check_variable(p):
+    'check_variable :'
+    if not p[-1] in dirFunc[curr_func]['vars']:
+        raise Exception("Variable no declarada: '%s'" % p[-1])
         
 def p_factor_1(p):
-    '''factor_1 : ID
+    '''factor_1 : ID check_variable
     | cte'''
+    p[0] = p[1]
 
 def p_cte(p):
     '''cte : CTE_INT
     | CTE_FLOAT'''
+    p[0] = p[1]
 
 def p_empty(p):
     'empty :'
@@ -233,6 +258,10 @@ def p_error(p):
 parser = yacc.yacc(start='program')
 
 while True:
+
+    poper = []
+    pilaO = []
+    pilaType = []
 
     try :
         input_ = int(input('''Seleccione un archivo de prueba o ingrese su propio texto en el archivo personalizado, ingrese 0 o cualquier elemento que no esté en la lista para salir:
@@ -279,6 +308,9 @@ while True:
         else:
             break
         result = parser.parse(s)
+        print(poper)
+        print(pilaO)
+        print(pilaType)
 
     except ValueError:
         print("Entrada no válida, ingrese un número")

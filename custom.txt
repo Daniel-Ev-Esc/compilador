@@ -2,15 +2,15 @@ program custom;
     var variable:int;
 
 void funcion(numero_:int)[
-    var variable:int;
+    var variable,A,B,C,D,E,F,G,H,J,K,L:int;
     {
-    variable = variable + 6.6;
+    variable = ( ( A + B ) * C + D * E * F + K / H * J ) + G * L + H + J > ( A - C * D ) / F;
 }
 ];
 
 
 main
 {
-    assign = 5+9;
+    
 }
 end
