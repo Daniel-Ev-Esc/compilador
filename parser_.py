@@ -20,6 +20,9 @@ quadQueue = []
 quadCounter = 1
 resultCounter = 0
 
+def fill_goto(i, obj):
+    quadQueue[i-1][3] = obj
+
 def check_semantics(operator):
     typeDict = {'int':0,'float':1}
     operationIndex = {'+':0,'-':1,'*':2,'/':3, '=':4, '>':5, '<':6,"!=":7}
@@ -206,7 +209,7 @@ def p_check_for_assign(p):
             der = pilaO.pop()
             izq = pilaO.pop()
             check_semantics(operator)
-            generate_quad_operator(operator,izq,"",der)
+            generate_quad_operator(operator,der,"",izq)
         elif(poper[-1] == '('):
             poper.pop()
 
@@ -217,18 +220,41 @@ def p_check_if(p):
     "check_if :"
     result = pilaO.pop()
     pilaType.pop()
-    generate_quad_operator("GotoF",result,"","")
-    
+    generate_quad_operator("GotoF",result,"","_")
+    pilaSalto.append(quadCounter-1)
 
+def p_fill_if(p):
+    "fill_if :"
+    salto = pilaSalto.pop()
+    fill_goto(salto,quadCounter)
+    
 def p_condition(p):
-    'condition : IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA'
+    'condition : IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if'
+
+def p_fill_else(p):
+    "fill_else :"
+    generate_quad_operator("Goto","","","_")
+    falso = pilaSalto.pop()
+    pilaSalto.append(quadCounter-1)
+    fill_goto(falso,quadCounter)
 
 def p_else(p):
-    '''else : ELSE body
+    '''else : ELSE fill_else body
     | empty'''
 
+def p_check_while(p):
+    "check_while :"
+    pilaSalto.append(quadCounter)
+
+def p_fill_while(p):
+    "fill_while :"
+    result = pilaO.pop()
+    pilaType.pop()
+    verdadero = pilaSalto.pop()
+    generate_quad_operator("GotoT",result,"",verdadero)
+
 def p_cycle(p):
-    'cycle : DO body WHILE PARENIZQ expresion PARENDER PUNTOCOMA'
+    'cycle : DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while'
 
 def p_f_call(p):
     'f_call : ID PARENIZQ expresion_opt PARENDER PUNTOCOMA'
@@ -422,6 +448,7 @@ while True:
         print(pilaO)
         print(pilaType)
         print(quadQueue)
+        print(pilaSalto)
 
     except ValueError:
         print("Entrada no válida, ingrese un número")
