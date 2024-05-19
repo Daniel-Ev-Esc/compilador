@@ -5,13 +5,6 @@ import ply.yacc as yacc
 
 from scanner import tokens, lexer
 
-# 0 = int
-# 1 = float
-# Operaciones = + (suma), - (resta), * (multiplicación), / (división)
-# Tabla de consideraciones semánticas
-
-
-
 poper = []
 pilaO = []
 pilaType = []
@@ -19,6 +12,8 @@ pilaSalto = []
 quadQueue = []
 quadCounter = 1
 resultCounter = 0
+
+# ---------- Funciones Auxiliares ----------
 
 def fill_goto(i, obj):
     quadQueue[i-1][3] = obj
@@ -45,10 +40,15 @@ def generate_quad_operator(operator, izq, der,resultado):
         resultCounter = resultCounter+1
         resultado = "t" + str(resultCounter)
         pilaO.append(resultado)
+
     quad = [operator,izq,der,resultado]
     quadQueue.append(quad)
     quadCounter = quadCounter + 1
     return quad
+
+# ---------- Reglas y acciones ----------
+
+# -------- Program --------
 
 def p_crear_dir_func(p):
     'crear_dir_func : '
@@ -84,6 +84,8 @@ def p_return_to_global(p):
 def p_program(p):
     'program : PROGRAM crear_dir_func ID definir_programa PUNTOCOMA vars_opt funcs_opt MAIN return_to_global body END delete_directory'
 
+# -------- Variables --------
+
 def p_vars_opt(p):
     '''vars_opt : vars 
     | empty'''
@@ -112,7 +114,7 @@ def p_declaracion_variable(p):
     'declaracion_variable :'
 
     if not p[-1] in dirFunc[curr_func]['vars']:
-        dirFunc[curr_func]['vars'][p[-1]] = {}
+        dirFunc[curr_func]['vars'][p[-1]] = {'value':0}
     else:
         raise Exception("Declaración Múltiple de variable: '%s' en la línea: %d" % (p[-1], lexer.lineno))
     
@@ -133,6 +135,7 @@ def p_type(p):
     '''type : INT change_curr_type
     | FLOAT change_curr_type'''
 
+# -------- Funciones --------
 def p_funcs_opt(p):
     '''funcs_opt : funcs funcs_opt
     | empty'''
@@ -174,6 +177,8 @@ def p_params_cycle(p):
     '''params_cycle : COMA params_1
     | empty'''
 
+# -------- Body --------
+
 def p_body(p):
     'body : CORCHETEIZQ statement_opt CORCHETEDER'
 
@@ -188,48 +193,7 @@ def p_statement(p):
     | f_call
     | print'''
 
-def p_push_to_pilaO(p):
-    "push_to_pilaO :"
-    if(p[-2] == '+' or p[-2] == '-'):
-        pilaO.append("".join([p[-2],p[-1]]))
-    else:
-        pilaO.append(p[-1])
-
-    if p[-1] in dirFunc[curr_func]['vars']:
-        pilaType.append(dirFunc[curr_func]['vars'][p[-1]]['type'])
-    elif p[-1].find(".") != -1:
-        pilaType.append("float")
-    else:
-        pilaType.append("int")
-
-def p_push_operator(p):
-    "push_operator :"
-    poper.append(p[-1])
-
-def p_check_for_assign(p):
-    "check_for_assign :"
-    if(len(poper) > 0):
-        if(poper[-1] == '='):
-            operator = poper.pop()
-            der = pilaO.pop()
-            izq = pilaO.pop()
-            check_semantics(operator, lexer.lineno)
-            generate_quad_operator(operator,der,"",izq)
-        
-
-def p_check_variable(p):
-    'check_variable :'
-    if 'vars' in dirFunc[curr_func]:
-        if not p[-1] in dirFunc[curr_func]['vars']:
-            raise Exception("Variable no declarada: '%s' en la línea: %d" % (p[-1], lexer.lineno))
-    else:
-        raise Exception("Variable no declarada: '%s' en la línea: %d" % (p[-1], lexer.lineno))
-
-    
-    p[0] = p[-1]
-
-def p_assign(p):
-    'assign : ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA'
+# -------- No lineales --------
 
 def p_check_if(p):
     "check_if :"
@@ -274,6 +238,8 @@ def p_cycle(p):
 def p_f_call(p):
     'f_call : ID PARENIZQ expresion_opt PARENDER PUNTOCOMA'
 
+# -------- Lineales --------
+
 def p_print(p):
     'print : PRINT PARENIZQ printable PARENDER PUNTOCOMA'
 
@@ -295,7 +261,6 @@ def p_check_for_print(p):
             pilaType.pop()
             generate_quad_operator(operator,"","",der)
         
-
 def p_printable(p):
     '''printable : push_print CTE_STRING push_string check_for_print printable_1
     | push_print expresion check_for_print printable_1'''
@@ -303,6 +268,50 @@ def p_printable(p):
 def p_printable_1(p):
     '''printable_1 : COMA printable
     | empty'''
+
+# -------- Expresiones --------
+
+def p_push_to_pilaO(p):
+    "push_to_pilaO :"
+    if(p[-2] == '+' or p[-2] == '-'):
+        pilaO.append("".join([p[-2],p[-1]]))
+    else:
+        pilaO.append(p[-1])
+
+    if p[-1] in dirFunc[curr_func]['vars']:
+        pilaType.append(dirFunc[curr_func]['vars'][p[-1]]['type'])
+    elif p[-1].find(".") != -1:
+        pilaType.append("float")
+    else:
+        pilaType.append("int")
+
+def p_push_operator(p):
+    "push_operator :"
+    poper.append(p[-1])
+
+def p_check_for_assign(p):
+    "check_for_assign :"
+    if(len(poper) > 0):
+        if(poper[-1] == '='):
+            operator = poper.pop()
+            der = pilaO.pop()
+            izq = pilaO.pop()
+            check_semantics(operator, lexer.lineno)
+            generate_quad_operator(operator,der,"",izq)
+
+def p_check_variable(p):
+    'check_variable :'
+    if 'vars' in dirFunc[curr_func]:
+        if not p[-1] in dirFunc[curr_func]['vars']:
+            raise Exception("Variable no declarada: '%s' en la línea: %d" % (p[-1], lexer.lineno))
+    else:
+        raise Exception("Variable no declarada: '%s' en la línea: %d" % (p[-1], lexer.lineno))
+
+    
+    p[0] = p[-1]
+
+def p_assign(p):
+    'assign : ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA'
 
 def p_expresion_opt(p):
     '''expresion_opt : expresion expresion_cycle
@@ -322,7 +331,6 @@ def p_check_for_expresion(p):
             check_semantics(operator, lexer.lineno)
             generate_quad_operator(operator,izq,der,"")
         
-
 def p_expresion(p):
     'expresion : exp expresion_1'
 
@@ -342,7 +350,6 @@ def p_check_for_plus_minus(p):
             check_semantics(operator, lexer.lineno)
             generate_quad_operator(operator,izq,der,"")
         
-
 def p_exp(p):
     'exp : termino check_for_plus_minus exp_1'
 
@@ -361,7 +368,6 @@ def p_check_for_mult_div(p):
             check_semantics(operator, lexer.lineno)
             generate_quad_operator(operator,izq,der,"")
         
-
 def p_termino(p):
     'termino : factor check_for_mult_div termino_1'
 
