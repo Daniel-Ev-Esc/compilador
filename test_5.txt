@@ -1,4 +1,6 @@
 program prueba;
+var variable1, variable2, estono:int;
+
 
 void imprimir(variable:int, flotante:float, tercera:int)[{
     print(variable);
@@ -11,10 +13,10 @@ main{
     print("Esto es un string", "Esto tambien", estono, 5);
 
     if(variable1<variable2){
-    imprimir(variable1, 2+2);
+    print(variable1, 2+2);
     }
     else{
-    imprimir(variable2);
+    print(variable2);
     };
 
     do{

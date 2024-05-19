@@ -1,14 +1,14 @@
 program custom;
 
 void funcion(numero_:int)[
-    var variable:int;
+    var variable:float;
     {
     variable = variable + 6.6;
 }
 ];
 
 void funcion(numero_:int)[
-    var variable:int;
+    var variable:float;
     {
     variable = variable + 6.6;
 }

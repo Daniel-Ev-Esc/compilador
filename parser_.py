@@ -219,8 +219,12 @@ def p_check_for_assign(p):
 
 def p_check_variable(p):
     'check_variable :'
-    if not p[-1] in dirFunc[curr_func]['vars']:
+    if 'vars' in dirFunc[curr_func]:
+        if not p[-1] in dirFunc[curr_func]['vars']:
+            raise Exception("Variable no declarada: '%s' en la línea: %d" % (p[-1], lexer.lineno))
+    else:
         raise Exception("Variable no declarada: '%s' en la línea: %d" % (p[-1], lexer.lineno))
+
     
     p[0] = p[-1]
 
