@@ -24,10 +24,10 @@ main{
     print("Esto es un string");
     
     if(variable1<variable2){
-        imprimir(variable1);
+        print(variable1);
     }
     else{
-        imprimir(variable2);
+        print(variable2);
     };
     
     do{

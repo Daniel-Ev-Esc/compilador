@@ -1,15 +1,25 @@
 program custom;
-    var variable:int;
-
-void funcion(numero_:int)[
     var variable, variable2,A,C,B,D,E,L,G,H,J,K:int;
     F:float;
+
+void funcion(numero_:int)[
+    var variable:int;
     {
     
+    
+}
+];
+
+
+main
+{
     variable = ( ( A + 9.8) * C + D * E * F + K / H * J ) + G * L + H + J > ( A - C * D ) / F;
 
     print(variable, A+B, 10);
 
+    A=47;
+    B=48;
+    
     if(A+B>D){
         if(A<B){
             A=0;
@@ -28,12 +38,5 @@ void funcion(numero_:int)[
         A = A + 1;
     }
     while(A < 10);
-}
-];
-
-
-main
-{
-    
 }
 end

@@ -46,7 +46,6 @@ def generate_quad_operator(operator, izq, der,resultado):
         resultado = "t" + str(resultCounter)
         pilaO.append(resultado)
     quad = [operator,izq,der,resultado]
-    print(quadCounter,quad)
     quadQueue.append(quad)
     quadCounter = quadCounter + 1
     return quad
@@ -216,8 +215,7 @@ def p_check_for_assign(p):
             izq = pilaO.pop()
             check_semantics(operator, lexer.lineno)
             generate_quad_operator(operator,der,"",izq)
-        elif(poper[-1] == '('):
-            poper.pop()
+        
 
 def p_check_variable(p):
     'check_variable :'
@@ -292,8 +290,7 @@ def p_check_for_print(p):
             der = pilaO.pop()
             pilaType.pop()
             generate_quad_operator(operator,"","",der)
-        elif(poper[-1] == '('):
-            poper.pop()
+        
 
 def p_printable(p):
     '''printable : push_print CTE_STRING push_string check_for_print printable_1
@@ -320,8 +317,7 @@ def p_check_for_expresion(p):
             izq = pilaO.pop()
             check_semantics(operator, lexer.lineno)
             generate_quad_operator(operator,izq,der,"")
-        elif(poper[-1] == '('):
-            poper.pop()
+        
 
 def p_expresion(p):
     'expresion : exp expresion_1'
@@ -341,8 +337,7 @@ def p_check_for_plus_minus(p):
             izq = pilaO.pop()
             check_semantics(operator, lexer.lineno)
             generate_quad_operator(operator,izq,der,"")
-        elif(poper[-1] == '('):
-            poper.pop()
+        
 
 def p_exp(p):
     'exp : termino check_for_plus_minus exp_1'
@@ -361,8 +356,7 @@ def p_check_for_mult_div(p):
             izq = pilaO.pop()
             check_semantics(operator, lexer.lineno)
             generate_quad_operator(operator,izq,der,"")
-        elif(poper[-1] == '('):
-            poper.pop()
+        
 
 def p_termino(p):
     'termino : factor check_for_mult_div termino_1'
@@ -372,8 +366,12 @@ def p_termino_1(p):
     | DIV push_operator termino
     | empty'''
 
+def p_pop_par(p):
+    "pop_par :"
+    poper.pop()
+
 def p_factor(p):
-    '''factor : PARENIZQ push_operator expresion PARENDER
+    '''factor : PARENIZQ push_operator expresion PARENDER pop_par
     | MINUS factor_1 push_to_pilaO
     | PLUS factor_1 push_to_pilaO
     | factor_1 push_to_pilaO'''
@@ -403,6 +401,7 @@ while True:
     poper = []
     pilaO = []
     pilaType = []
+    quadQueue = []
     resultCounter = 0
     quadCounter = 1
 
@@ -455,8 +454,11 @@ while True:
         print(poper)
         print(pilaO)
         print(pilaType)
-        print(quadQueue)
         print(pilaSalto)
+        i = 1
+        for x in quadQueue:
+            print(i,x)
+            i=i+1
 
     except ValueError:
         print("Entrada no válida, ingrese un número")
