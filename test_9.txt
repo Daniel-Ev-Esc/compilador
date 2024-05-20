@@ -1,20 +1,19 @@
 program custom;
-    var variable,A,C,B,D,E,L,G,H,J,K:int;
-    F:float;
+    
 
 main
 {
-    variable = ( ( A + 9.8) * C + D * E * F + K / H * J ) + G * L + H + J != ( A - C * D ) / F;
+    variable = ( ( A + 9.8) * C + D * E * F + K / H * J ) + G * L + H + J > ( A - C * D ) / F;
 
     print(variable, A+B, 10);
 
     A=47;
     B=48;
 
-    F=9.0;
+    F=A;
 
     if(A+B>D){
-        if(A!=B){
+        if(A<B){
             A=0;
             B=B+D;
         }
@@ -31,7 +30,5 @@ main
         A = A + 1;
     }
     while(A < 10);
-
-    D = 8 + 99 + B;
 }
 end

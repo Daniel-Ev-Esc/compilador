@@ -62,7 +62,7 @@ def check_semantics(operator, linea):
     resultType = tcs[typeDict[type_1]][typeDict[type_2]][operationIndex[operator]]# tcs[typeDict[type_1]][typeDict[typeDict[type_1]][operationIndex[operator]]]
 
     if(resultType == "ERROR"):
-        raise Exception("Tipos no compatibles %s y %s en la línea: %d" % (type_1,type_2, linea))
+        raise Exception("Tipos no compatibles para operación %s y %s en la línea: %d" % (type_1,type_2, linea))
     elif(operator != "="):
         pilaType.append(resultType)
 
@@ -105,7 +105,7 @@ def p_delete_directory(p):
 
     global dirFunc
 
-    print (dirFunc)
+    # print (dirFunc)
 
     del dirFunc
 
@@ -463,11 +463,12 @@ while True:
 2. test_2 (Error léxico) 
 3. test_3 (Error sintáctico)
 4. test_4 (Simple)
-5. test_5 (Multiples parametros, statements, expresiones)
+5. test_5 (Error Semántico)
 6. test_6 (Multiple declaración de parámetros)
 7. test_7 (Multiple declaración de funciones)
 8. test_8 (Multiple declaración de variables)
-9. Custom (Coloque su texto de prueba en el archivo custom.txt)
+9. test_9 (Variable no declarada)
+10. Custom (Coloque su texto de prueba en el archivo custom.txt)
 0. Salir\n'''))
         
         lexer.lineno = 1
@@ -497,12 +498,15 @@ while True:
             with open('test_8.txt','r') as archivo:
                 s = archivo.read()
         elif(input_ == 9):
+            with open('test_9.txt','r') as archivo:
+                s = archivo.read()
+        elif(input_ == 10):
             with open('custom.txt','r') as archivo:
                 s = archivo.read()
         else:
             break
         result = parser.parse(s)
-        print(tempVarTable)
+        # print(tempVarTable)
         i = 1
         for x in quadQueue:
             print(i,x)

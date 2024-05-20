@@ -1,28 +1,35 @@
-program prueba;
-var variable1, variable2, estono:int;
+program custom;
+    var variable, variable2,A,C,B,D,E,L,G,H,J,K:int;
+    F:float;
 
+main
+{
+    variable = ( ( A + 9.8) * C + D * E * F + K / H * J ) + G * L + H + J > ( A - C * D ) / F;
 
-void imprimir(variable:int, flotante:float, tercera:int)[{
-    print(variable);
-}];
+    print(variable, A+B, 10);
 
-main{
-    variable1=47;
-    variable2=48;
+    A=47;
+    B=48;
 
-    print("Esto es un string", "Esto tambien", estono, 5);
+    F=A;
 
-    if(variable1<variable2){
-    print(variable1, 2+2);
+    if(A+B>D){
+        if(A<B){
+            A=0;
+            B=B+D;
+        }
+        else{
+            C=A+B;
+        };
     }
     else{
-    print(variable2);
+        A=B+C; 
     };
+    D=B+A*C;
 
-    do{
-        variable2=variable2-1;
-        variable1=variable1+1;
+    do {
+        A = A + 1;
     }
-    while(variable1<variable2);
+    while(A < 10);
 }
 end
