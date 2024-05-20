@@ -11,9 +11,41 @@ pilaType = []
 pilaSalto = []
 quadQueue = []
 quadCounter = 1
-resultCounter = 0
+tempCounter = 0
+intCounter = 0
+floatCounter = 0
+tempVarTable = {}
 
 # ---------- Funciones Auxiliares ----------
+
+def get_dir(type_):
+    # Enteros: 10000 - 39999
+    # Floatantes: 40000 - 79999
+    # Temporales: 80000 - 149999 
+
+    if type_ == 'int':
+        global intCounter
+        if 10000 + intCounter + 1 < 40000:
+            direccion = 10000 + intCounter
+            intCounter = intCounter+1
+        else:
+            raise Exception("Memoria insuficiente")
+    elif type_ == 'float':
+        global floatCounter
+        if 40000 + floatCounter + 1 < 80000:
+            direccion = 40000 + floatCounter
+            floatCounter = floatCounter+1
+        else:
+            raise Exception("Memoria insuficiente")
+    elif type_ == 'temp':
+        global tempCounter
+
+        if 80000 + tempCounter + 1 < 150000:
+            direccion = 80000 + tempCounter
+        else:
+            raise Exception("Memoria insuficiente")
+        
+    return direccion
 
 def fill_goto(i, obj):
     quadQueue[i-1][3] = obj
@@ -35,11 +67,13 @@ def check_semantics(operator, linea):
         pilaType.append(resultType)
 
 def generate_quad_operator(operator, izq, der,resultado):
-    global resultCounter, quadCounter
+    global tempCounter, quadCounter
     if resultado == "":
-        resultCounter = resultCounter+1
-        resultado = "t" + str(resultCounter)
+        tempCounter = tempCounter+1
+        resultado = "t" + str(tempCounter)
         pilaO.append(resultado)
+        direccion = get_dir("temp")
+        tempVarTable[resultado] = {'name':resultado, 'type': pilaType[-1], 'dir':direccion}
 
     quad = [operator,izq,der,resultado]
     quadQueue.append(quad)
@@ -104,7 +138,10 @@ def p_assign_type_to_vars(p):
 
     for id in dirFunc[curr_func]['vars']:
         if not 'type' in dirFunc[curr_func]['vars'][id]:
-            dirFunc[curr_func]['vars'][id] = {'name':id,'type':curr_type}
+            direccion = get_dir(curr_type)
+            dirFunc[curr_func]['vars'][id]['name'] = id
+            dirFunc[curr_func]['vars'][id]['type'] = curr_type
+            dirFunc[curr_func]['vars'][id]['dir'] = direccion
             
 def p_vars_1(p):
     '''vars_1 : id DOSPUNTOS type PUNTOCOMA assign_type_to_vars vars_1
@@ -114,7 +151,7 @@ def p_declaracion_variable(p):
     'declaracion_variable :'
 
     if not p[-1] in dirFunc[curr_func]['vars']:
-        dirFunc[curr_func]['vars'][p[-1]] = {'value':0}
+        dirFunc[curr_func]['vars'][p[-1]] = {}
     else:
         raise Exception("Declaración Múltiple de variable: '%s' en la línea: %d" % (p[-1], lexer.lineno))
     
@@ -166,7 +203,8 @@ def p_parameter_declaration(p):
     'parameter_declaration : '
 
     if not p[-3] in dirFunc[curr_func]['vars']:
-        dirFunc[curr_func]['vars'][p[-3]] = {'name':p[-3],'type':curr_type}
+        direccion = get_dir(curr_type)
+        dirFunc[curr_func]['vars'][p[-3]] = {'name':p[-3],'type':curr_type, 'dir':direccion}
     else:
         raise Exception("Declaración Múltiple de variable: '%s' en la línea: %d" % (p[-3],lexer.lineno))
 
@@ -411,10 +449,13 @@ while True:
     poper = []
     pilaO = []
     pilaType = []
+    pilaSalto = []
     quadQueue = []
-    resultCounter = 0
     quadCounter = 1
-
+    tempCounter = 0
+    intCounter = 0
+    floatCounter = 0
+    tempVarTable = {}
 
     try :
         input_ = int(input('''Seleccione un archivo de prueba o ingrese su propio texto en el archivo personalizado, ingrese 0 o cualquier elemento que no esté en la lista para salir:
@@ -461,10 +502,7 @@ while True:
         else:
             break
         result = parser.parse(s)
-        print(poper)
-        print(pilaO)
-        print(pilaType)
-        print(pilaSalto)
+        print(tempVarTable)
         i = 1
         for x in quadQueue:
             print(i,x)

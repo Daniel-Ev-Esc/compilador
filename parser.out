@@ -46,29 +46,29 @@ Rule 35    statement -> condition
 Rule 36    statement -> cycle
 Rule 37    statement -> f_call
 Rule 38    statement -> print
-Rule 39    push_to_pilaO -> <empty>
-Rule 40    push_operator -> <empty>
-Rule 41    check_for_assign -> <empty>
-Rule 42    check_variable -> <empty>
-Rule 43    assign -> ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA
-Rule 44    check_if -> <empty>
-Rule 45    fill_if -> <empty>
-Rule 46    condition -> IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if
-Rule 47    fill_else -> <empty>
-Rule 48    else -> ELSE fill_else body
-Rule 49    else -> empty
-Rule 50    check_while -> <empty>
-Rule 51    fill_while -> <empty>
-Rule 52    cycle -> DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while
-Rule 53    f_call -> ID PARENIZQ expresion_opt PARENDER PUNTOCOMA
-Rule 54    print -> PRINT PARENIZQ printable PARENDER PUNTOCOMA
-Rule 55    push_print -> <empty>
-Rule 56    push_string -> <empty>
-Rule 57    check_for_print -> <empty>
-Rule 58    printable -> push_print CTE_STRING push_string check_for_print printable_1
-Rule 59    printable -> push_print expresion check_for_print printable_1
-Rule 60    printable_1 -> COMA printable
-Rule 61    printable_1 -> empty
+Rule 39    check_if -> <empty>
+Rule 40    fill_if -> <empty>
+Rule 41    condition -> IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if
+Rule 42    fill_else -> <empty>
+Rule 43    else -> ELSE fill_else body
+Rule 44    else -> empty
+Rule 45    check_while -> <empty>
+Rule 46    fill_while -> <empty>
+Rule 47    cycle -> DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while
+Rule 48    f_call -> ID PARENIZQ expresion_opt PARENDER PUNTOCOMA
+Rule 49    print -> PRINT PARENIZQ printable PARENDER PUNTOCOMA
+Rule 50    push_print -> <empty>
+Rule 51    push_string -> <empty>
+Rule 52    check_for_print -> <empty>
+Rule 53    printable -> push_print CTE_STRING push_string check_for_print printable_1
+Rule 54    printable -> push_print expresion check_for_print printable_1
+Rule 55    printable_1 -> COMA printable
+Rule 56    printable_1 -> empty
+Rule 57    push_to_pilaO -> <empty>
+Rule 58    push_operator -> <empty>
+Rule 59    check_for_assign -> <empty>
+Rule 60    check_variable -> <empty>
+Rule 61    assign -> ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA
 Rule 62    expresion_opt -> expresion expresion_cycle
 Rule 63    expresion_opt -> empty
 Rule 64    expresion_cycle -> COMA expresion_opt
@@ -104,55 +104,55 @@ Terminals, with rules where they appear
 
 BRACKETDER           : 24
 BRACKETIZQ           : 24
-COMA                 : 15 29 60 64
+COMA                 : 15 29 55 64
 COMILLAS             : 
 CORCHETEDER          : 31
 CORCHETEIZQ          : 31
 CTE_FLOAT            : 90
 CTE_INT              : 89
-CTE_STRING           : 58
+CTE_STRING           : 53
 DIFERENTE            : 70
 DIV                  : 80
-DO                   : 52
+DO                   : 47
 DOSPUNTOS            : 11 28
-ELSE                 : 48
+ELSE                 : 43
 END                  : 5
 FLOAT                : 19
-ID                   : 5 14 24 28 43 53 87
-IF                   : 46
-IGUAL                : 43
+ID                   : 5 14 24 28 48 61 87
+IF                   : 41
+IGUAL                : 61
 INT                  : 18
 MAIN                 : 5
 MAYORQUE             : 69
 MENORQUE             : 68
 MINUS                : 74 84
 MULT                 : 79
-PARENDER             : 24 46 52 53 54 83
-PARENIZQ             : 24 46 52 53 54 83
+PARENDER             : 24 41 47 48 49 83
+PARENIZQ             : 24 41 47 48 49 83
 PLUS                 : 75 85
-PRINT                : 54
+PRINT                : 49
 PROGRAM              : 5
 PUNTO                : 
-PUNTOCOMA            : 5 11 24 43 46 52 53 54
+PUNTOCOMA            : 5 11 24 41 47 48 49 61
 VAR                  : 9
 VOID                 : 24
-WHILE                : 52
+WHILE                : 47
 error                : 
 
 Nonterminals, with rules where they appear
 
 assign               : 34
 assign_type_to_vars  : 11
-body                 : 5 24 46 48 52
+body                 : 5 24 41 43 47
 change_curr_type     : 18 19 24
-check_for_assign     : 43
+check_for_assign     : 61
 check_for_expresion  : 68 69 70
 check_for_mult_div   : 78
 check_for_plus_minus : 73
-check_for_print      : 58 59
-check_if             : 46
-check_variable       : 43 87
-check_while          : 52
+check_for_print      : 53 54
+check_if             : 41
+check_variable       : 61 87
+check_while          : 47
 condition            : 35
 crear_dir_func       : 5
 create_func_var_table : 24
@@ -161,20 +161,20 @@ cycle                : 36
 declaracion_variable : 14
 definir_programa     : 5
 delete_directory     : 5
-else                 : 46
-empty                : 7 12 16 21 26 30 33 49 61 63 65 71 76 81
+else                 : 41
+empty                : 7 12 16 21 26 30 33 44 56 63 65 71 76 81
 exp                  : 67 68 69 70 74 75
 exp_1                : 73
-expresion            : 43 46 52 59 62 83
+expresion            : 41 47 54 61 62 83
 expresion_1          : 67
 expresion_cycle      : 62
-expresion_opt        : 53 64
+expresion_opt        : 48 64
 f_call               : 37
 factor               : 78
 factor_1             : 84 85 86
-fill_else            : 48
-fill_if              : 46
-fill_while           : 52
+fill_else            : 43
+fill_if              : 41
+fill_while           : 47
 funcs                : 20
 funcs_opt            : 5 20
 id                   : 11 15
@@ -186,13 +186,13 @@ params_1             : 25 29
 params_cycle         : 28
 pop_par              : 83
 print                : 38
-printable            : 54 60
-printable_1          : 58 59
+printable            : 49 55
+printable_1          : 53 54
 program              : 0
-push_operator        : 43 68 69 70 74 75 79 80 83
-push_print           : 58 59
-push_string          : 58
-push_to_pilaO        : 43 84 85 86
+push_operator        : 61 68 69 70 74 75 79 80 83
+push_print           : 53 54
+push_string          : 53
+push_to_pilaO        : 61 84 85 86
 return_to_global     : 5
 statement            : 32
 statement_opt        : 31 32
@@ -487,11 +487,11 @@ state 28
     (37) statement -> . f_call
     (38) statement -> . print
     (91) empty -> .
-    (43) assign -> . ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA
-    (46) condition -> . IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if
-    (52) cycle -> . DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while
-    (53) f_call -> . ID PARENIZQ expresion_opt PARENDER PUNTOCOMA
-    (54) print -> . PRINT PARENIZQ printable PARENDER PUNTOCOMA
+    (61) assign -> . ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA
+    (41) condition -> . IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if
+    (47) cycle -> . DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while
+    (48) f_call -> . ID PARENIZQ expresion_opt PARENDER PUNTOCOMA
+    (49) print -> . PRINT PARENIZQ printable PARENDER PUNTOCOMA
 
     CORCHETEDER     reduce using rule 91 (empty -> .)
     ID              shift and go to state 45
@@ -594,11 +594,11 @@ state 38
     (37) statement -> . f_call
     (38) statement -> . print
     (91) empty -> .
-    (43) assign -> . ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA
-    (46) condition -> . IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if
-    (52) cycle -> . DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while
-    (53) f_call -> . ID PARENIZQ expresion_opt PARENDER PUNTOCOMA
-    (54) print -> . PRINT PARENIZQ printable PARENDER PUNTOCOMA
+    (61) assign -> . ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA
+    (41) condition -> . IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if
+    (47) cycle -> . DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while
+    (48) f_call -> . ID PARENIZQ expresion_opt PARENDER PUNTOCOMA
+    (49) print -> . PRINT PARENIZQ printable PARENDER PUNTOCOMA
 
     CORCHETEDER     reduce using rule 91 (empty -> .)
     ID              shift and go to state 45
@@ -679,34 +679,34 @@ state 44
 
 state 45
 
-    (43) assign -> ID . check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA
-    (53) f_call -> ID . PARENIZQ expresion_opt PARENDER PUNTOCOMA
-    (42) check_variable -> .
+    (61) assign -> ID . check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA
+    (48) f_call -> ID . PARENIZQ expresion_opt PARENDER PUNTOCOMA
+    (60) check_variable -> .
 
     PARENIZQ        shift and go to state 58
-    IGUAL           reduce using rule 42 (check_variable -> .)
+    IGUAL           reduce using rule 60 (check_variable -> .)
 
     check_variable                 shift and go to state 57
 
 state 46
 
-    (46) condition -> IF . PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if
+    (41) condition -> IF . PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if
 
     PARENIZQ        shift and go to state 59
 
 
 state 47
 
-    (52) cycle -> DO . check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while
-    (50) check_while -> .
+    (47) cycle -> DO . check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while
+    (45) check_while -> .
 
-    CORCHETEIZQ     reduce using rule 50 (check_while -> .)
+    CORCHETEIZQ     reduce using rule 45 (check_while -> .)
 
     check_while                    shift and go to state 60
 
 state 48
 
-    (54) print -> PRINT . PARENIZQ printable PARENDER PUNTOCOMA
+    (49) print -> PRINT . PARENIZQ printable PARENDER PUNTOCOMA
 
     PARENIZQ        shift and go to state 61
 
@@ -785,16 +785,16 @@ state 56
 
 state 57
 
-    (43) assign -> ID check_variable . push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA
-    (39) push_to_pilaO -> .
+    (61) assign -> ID check_variable . push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA
+    (57) push_to_pilaO -> .
 
-    IGUAL           reduce using rule 39 (push_to_pilaO -> .)
+    IGUAL           reduce using rule 57 (push_to_pilaO -> .)
 
     push_to_pilaO                  shift and go to state 64
 
 state 58
 
-    (53) f_call -> ID PARENIZQ . expresion_opt PARENDER PUNTOCOMA
+    (48) f_call -> ID PARENIZQ . expresion_opt PARENDER PUNTOCOMA
     (62) expresion_opt -> . expresion expresion_cycle
     (63) expresion_opt -> . empty
     (67) expresion -> . exp expresion_1
@@ -829,7 +829,7 @@ state 58
 
 state 59
 
-    (46) condition -> IF PARENIZQ . expresion PARENDER check_if body else PUNTOCOMA fill_if
+    (41) condition -> IF PARENIZQ . expresion PARENDER check_if body else PUNTOCOMA fill_if
     (67) expresion -> . exp expresion_1
     (73) exp -> . termino check_for_plus_minus exp_1
     (78) termino -> . factor check_for_mult_div termino_1
@@ -858,7 +858,7 @@ state 59
 
 state 60
 
-    (52) cycle -> DO check_while . body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while
+    (47) cycle -> DO check_while . body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while
     (31) body -> . CORCHETEIZQ statement_opt CORCHETEDER
 
     CORCHETEIZQ     shift and go to state 28
@@ -867,18 +867,18 @@ state 60
 
 state 61
 
-    (54) print -> PRINT PARENIZQ . printable PARENDER PUNTOCOMA
-    (58) printable -> . push_print CTE_STRING push_string check_for_print printable_1
-    (59) printable -> . push_print expresion check_for_print printable_1
-    (55) push_print -> .
+    (49) print -> PRINT PARENIZQ . printable PARENDER PUNTOCOMA
+    (53) printable -> . push_print CTE_STRING push_string check_for_print printable_1
+    (54) printable -> . push_print expresion check_for_print printable_1
+    (50) push_print -> .
 
-    CTE_STRING      reduce using rule 55 (push_print -> .)
-    PARENIZQ        reduce using rule 55 (push_print -> .)
-    MINUS           reduce using rule 55 (push_print -> .)
-    PLUS            reduce using rule 55 (push_print -> .)
-    ID              reduce using rule 55 (push_print -> .)
-    CTE_INT         reduce using rule 55 (push_print -> .)
-    CTE_FLOAT       reduce using rule 55 (push_print -> .)
+    CTE_STRING      reduce using rule 50 (push_print -> .)
+    PARENIZQ        reduce using rule 50 (push_print -> .)
+    MINUS           reduce using rule 50 (push_print -> .)
+    PLUS            reduce using rule 50 (push_print -> .)
+    ID              reduce using rule 50 (push_print -> .)
+    CTE_INT         reduce using rule 50 (push_print -> .)
+    CTE_FLOAT       reduce using rule 50 (push_print -> .)
 
     printable                      shift and go to state 81
     push_print                     shift and go to state 82
@@ -917,7 +917,7 @@ state 63
 
 state 64
 
-    (43) assign -> ID check_variable push_to_pilaO . IGUAL push_operator expresion check_for_assign PUNTOCOMA
+    (61) assign -> ID check_variable push_to_pilaO . IGUAL push_operator expresion check_for_assign PUNTOCOMA
 
     IGUAL           shift and go to state 88
 
@@ -925,38 +925,38 @@ state 64
 state 65
 
     (87) factor_1 -> ID . check_variable
-    (42) check_variable -> .
+    (60) check_variable -> .
 
-    MULT            reduce using rule 42 (check_variable -> .)
-    DIV             reduce using rule 42 (check_variable -> .)
-    MINUS           reduce using rule 42 (check_variable -> .)
-    PLUS            reduce using rule 42 (check_variable -> .)
-    MENORQUE        reduce using rule 42 (check_variable -> .)
-    MAYORQUE        reduce using rule 42 (check_variable -> .)
-    DIFERENTE       reduce using rule 42 (check_variable -> .)
-    COMA            reduce using rule 42 (check_variable -> .)
-    PARENDER        reduce using rule 42 (check_variable -> .)
-    PUNTOCOMA       reduce using rule 42 (check_variable -> .)
+    MULT            reduce using rule 60 (check_variable -> .)
+    DIV             reduce using rule 60 (check_variable -> .)
+    MINUS           reduce using rule 60 (check_variable -> .)
+    PLUS            reduce using rule 60 (check_variable -> .)
+    MENORQUE        reduce using rule 60 (check_variable -> .)
+    MAYORQUE        reduce using rule 60 (check_variable -> .)
+    DIFERENTE       reduce using rule 60 (check_variable -> .)
+    COMA            reduce using rule 60 (check_variable -> .)
+    PARENDER        reduce using rule 60 (check_variable -> .)
+    PUNTOCOMA       reduce using rule 60 (check_variable -> .)
 
     check_variable                 shift and go to state 89
 
 state 66
 
     (83) factor -> PARENIZQ . push_operator expresion PARENDER pop_par
-    (40) push_operator -> .
+    (58) push_operator -> .
 
-    PARENIZQ        reduce using rule 40 (push_operator -> .)
-    MINUS           reduce using rule 40 (push_operator -> .)
-    PLUS            reduce using rule 40 (push_operator -> .)
-    ID              reduce using rule 40 (push_operator -> .)
-    CTE_INT         reduce using rule 40 (push_operator -> .)
-    CTE_FLOAT       reduce using rule 40 (push_operator -> .)
+    PARENIZQ        reduce using rule 58 (push_operator -> .)
+    MINUS           reduce using rule 58 (push_operator -> .)
+    PLUS            reduce using rule 58 (push_operator -> .)
+    ID              reduce using rule 58 (push_operator -> .)
+    CTE_INT         reduce using rule 58 (push_operator -> .)
+    CTE_FLOAT       reduce using rule 58 (push_operator -> .)
 
     push_operator                  shift and go to state 90
 
 state 67
 
-    (53) f_call -> ID PARENIZQ expresion_opt . PARENDER PUNTOCOMA
+    (48) f_call -> ID PARENIZQ expresion_opt . PARENDER PUNTOCOMA
 
     PARENDER        shift and go to state 91
 
@@ -1052,18 +1052,18 @@ state 73
 state 74
 
     (86) factor -> factor_1 . push_to_pilaO
-    (39) push_to_pilaO -> .
+    (57) push_to_pilaO -> .
 
-    MULT            reduce using rule 39 (push_to_pilaO -> .)
-    DIV             reduce using rule 39 (push_to_pilaO -> .)
-    MINUS           reduce using rule 39 (push_to_pilaO -> .)
-    PLUS            reduce using rule 39 (push_to_pilaO -> .)
-    MENORQUE        reduce using rule 39 (push_to_pilaO -> .)
-    MAYORQUE        reduce using rule 39 (push_to_pilaO -> .)
-    DIFERENTE       reduce using rule 39 (push_to_pilaO -> .)
-    COMA            reduce using rule 39 (push_to_pilaO -> .)
-    PARENDER        reduce using rule 39 (push_to_pilaO -> .)
-    PUNTOCOMA       reduce using rule 39 (push_to_pilaO -> .)
+    MULT            reduce using rule 57 (push_to_pilaO -> .)
+    DIV             reduce using rule 57 (push_to_pilaO -> .)
+    MINUS           reduce using rule 57 (push_to_pilaO -> .)
+    PLUS            reduce using rule 57 (push_to_pilaO -> .)
+    MENORQUE        reduce using rule 57 (push_to_pilaO -> .)
+    MAYORQUE        reduce using rule 57 (push_to_pilaO -> .)
+    DIFERENTE       reduce using rule 57 (push_to_pilaO -> .)
+    COMA            reduce using rule 57 (push_to_pilaO -> .)
+    PARENDER        reduce using rule 57 (push_to_pilaO -> .)
+    PUNTOCOMA       reduce using rule 57 (push_to_pilaO -> .)
 
     push_to_pilaO                  shift and go to state 103
 
@@ -1132,29 +1132,29 @@ state 78
 
 state 79
 
-    (46) condition -> IF PARENIZQ expresion . PARENDER check_if body else PUNTOCOMA fill_if
+    (41) condition -> IF PARENIZQ expresion . PARENDER check_if body else PUNTOCOMA fill_if
 
     PARENDER        shift and go to state 105
 
 
 state 80
 
-    (52) cycle -> DO check_while body . WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while
+    (47) cycle -> DO check_while body . WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while
 
     WHILE           shift and go to state 106
 
 
 state 81
 
-    (54) print -> PRINT PARENIZQ printable . PARENDER PUNTOCOMA
+    (49) print -> PRINT PARENIZQ printable . PARENDER PUNTOCOMA
 
     PARENDER        shift and go to state 107
 
 
 state 82
 
-    (58) printable -> push_print . CTE_STRING push_string check_for_print printable_1
-    (59) printable -> push_print . expresion check_for_print printable_1
+    (53) printable -> push_print . CTE_STRING push_string check_for_print printable_1
+    (54) printable -> push_print . expresion check_for_print printable_1
     (67) expresion -> . exp expresion_1
     (73) exp -> . termino check_for_plus_minus exp_1
     (78) termino -> . factor check_for_mult_div termino_1
@@ -1221,15 +1221,15 @@ state 87
 
 state 88
 
-    (43) assign -> ID check_variable push_to_pilaO IGUAL . push_operator expresion check_for_assign PUNTOCOMA
-    (40) push_operator -> .
+    (61) assign -> ID check_variable push_to_pilaO IGUAL . push_operator expresion check_for_assign PUNTOCOMA
+    (58) push_operator -> .
 
-    PARENIZQ        reduce using rule 40 (push_operator -> .)
-    MINUS           reduce using rule 40 (push_operator -> .)
-    PLUS            reduce using rule 40 (push_operator -> .)
-    ID              reduce using rule 40 (push_operator -> .)
-    CTE_INT         reduce using rule 40 (push_operator -> .)
-    CTE_FLOAT       reduce using rule 40 (push_operator -> .)
+    PARENIZQ        reduce using rule 58 (push_operator -> .)
+    MINUS           reduce using rule 58 (push_operator -> .)
+    PLUS            reduce using rule 58 (push_operator -> .)
+    ID              reduce using rule 58 (push_operator -> .)
+    CTE_INT         reduce using rule 58 (push_operator -> .)
+    CTE_FLOAT       reduce using rule 58 (push_operator -> .)
 
     push_operator                  shift and go to state 112
 
@@ -1280,7 +1280,7 @@ state 90
 
 state 91
 
-    (53) f_call -> ID PARENIZQ expresion_opt PARENDER . PUNTOCOMA
+    (48) f_call -> ID PARENIZQ expresion_opt PARENDER . PUNTOCOMA
 
     PUNTOCOMA       shift and go to state 114
 
@@ -1346,42 +1346,42 @@ state 95
 state 96
 
     (68) expresion_1 -> MENORQUE . push_operator exp check_for_expresion
-    (40) push_operator -> .
+    (58) push_operator -> .
 
-    PARENIZQ        reduce using rule 40 (push_operator -> .)
-    MINUS           reduce using rule 40 (push_operator -> .)
-    PLUS            reduce using rule 40 (push_operator -> .)
-    ID              reduce using rule 40 (push_operator -> .)
-    CTE_INT         reduce using rule 40 (push_operator -> .)
-    CTE_FLOAT       reduce using rule 40 (push_operator -> .)
+    PARENIZQ        reduce using rule 58 (push_operator -> .)
+    MINUS           reduce using rule 58 (push_operator -> .)
+    PLUS            reduce using rule 58 (push_operator -> .)
+    ID              reduce using rule 58 (push_operator -> .)
+    CTE_INT         reduce using rule 58 (push_operator -> .)
+    CTE_FLOAT       reduce using rule 58 (push_operator -> .)
 
     push_operator                  shift and go to state 116
 
 state 97
 
     (69) expresion_1 -> MAYORQUE . push_operator exp check_for_expresion
-    (40) push_operator -> .
+    (58) push_operator -> .
 
-    PARENIZQ        reduce using rule 40 (push_operator -> .)
-    MINUS           reduce using rule 40 (push_operator -> .)
-    PLUS            reduce using rule 40 (push_operator -> .)
-    ID              reduce using rule 40 (push_operator -> .)
-    CTE_INT         reduce using rule 40 (push_operator -> .)
-    CTE_FLOAT       reduce using rule 40 (push_operator -> .)
+    PARENIZQ        reduce using rule 58 (push_operator -> .)
+    MINUS           reduce using rule 58 (push_operator -> .)
+    PLUS            reduce using rule 58 (push_operator -> .)
+    ID              reduce using rule 58 (push_operator -> .)
+    CTE_INT         reduce using rule 58 (push_operator -> .)
+    CTE_FLOAT       reduce using rule 58 (push_operator -> .)
 
     push_operator                  shift and go to state 117
 
 state 98
 
     (70) expresion_1 -> DIFERENTE . push_operator exp check_for_expresion
-    (40) push_operator -> .
+    (58) push_operator -> .
 
-    PARENIZQ        reduce using rule 40 (push_operator -> .)
-    MINUS           reduce using rule 40 (push_operator -> .)
-    PLUS            reduce using rule 40 (push_operator -> .)
-    ID              reduce using rule 40 (push_operator -> .)
-    CTE_INT         reduce using rule 40 (push_operator -> .)
-    CTE_FLOAT       reduce using rule 40 (push_operator -> .)
+    PARENIZQ        reduce using rule 58 (push_operator -> .)
+    MINUS           reduce using rule 58 (push_operator -> .)
+    PLUS            reduce using rule 58 (push_operator -> .)
+    ID              reduce using rule 58 (push_operator -> .)
+    CTE_INT         reduce using rule 58 (push_operator -> .)
+    CTE_FLOAT       reduce using rule 58 (push_operator -> .)
 
     push_operator                  shift and go to state 118
 
@@ -1439,18 +1439,18 @@ state 101
 state 102
 
     (84) factor -> MINUS factor_1 . push_to_pilaO
-    (39) push_to_pilaO -> .
+    (57) push_to_pilaO -> .
 
-    MULT            reduce using rule 39 (push_to_pilaO -> .)
-    DIV             reduce using rule 39 (push_to_pilaO -> .)
-    MINUS           reduce using rule 39 (push_to_pilaO -> .)
-    PLUS            reduce using rule 39 (push_to_pilaO -> .)
-    MENORQUE        reduce using rule 39 (push_to_pilaO -> .)
-    MAYORQUE        reduce using rule 39 (push_to_pilaO -> .)
-    DIFERENTE       reduce using rule 39 (push_to_pilaO -> .)
-    COMA            reduce using rule 39 (push_to_pilaO -> .)
-    PARENDER        reduce using rule 39 (push_to_pilaO -> .)
-    PUNTOCOMA       reduce using rule 39 (push_to_pilaO -> .)
+    MULT            reduce using rule 57 (push_to_pilaO -> .)
+    DIV             reduce using rule 57 (push_to_pilaO -> .)
+    MINUS           reduce using rule 57 (push_to_pilaO -> .)
+    PLUS            reduce using rule 57 (push_to_pilaO -> .)
+    MENORQUE        reduce using rule 57 (push_to_pilaO -> .)
+    MAYORQUE        reduce using rule 57 (push_to_pilaO -> .)
+    DIFERENTE       reduce using rule 57 (push_to_pilaO -> .)
+    COMA            reduce using rule 57 (push_to_pilaO -> .)
+    PARENDER        reduce using rule 57 (push_to_pilaO -> .)
+    PUNTOCOMA       reduce using rule 57 (push_to_pilaO -> .)
 
     push_to_pilaO                  shift and go to state 127
 
@@ -1473,61 +1473,61 @@ state 103
 state 104
 
     (85) factor -> PLUS factor_1 . push_to_pilaO
-    (39) push_to_pilaO -> .
+    (57) push_to_pilaO -> .
 
-    MULT            reduce using rule 39 (push_to_pilaO -> .)
-    DIV             reduce using rule 39 (push_to_pilaO -> .)
-    MINUS           reduce using rule 39 (push_to_pilaO -> .)
-    PLUS            reduce using rule 39 (push_to_pilaO -> .)
-    MENORQUE        reduce using rule 39 (push_to_pilaO -> .)
-    MAYORQUE        reduce using rule 39 (push_to_pilaO -> .)
-    DIFERENTE       reduce using rule 39 (push_to_pilaO -> .)
-    COMA            reduce using rule 39 (push_to_pilaO -> .)
-    PARENDER        reduce using rule 39 (push_to_pilaO -> .)
-    PUNTOCOMA       reduce using rule 39 (push_to_pilaO -> .)
+    MULT            reduce using rule 57 (push_to_pilaO -> .)
+    DIV             reduce using rule 57 (push_to_pilaO -> .)
+    MINUS           reduce using rule 57 (push_to_pilaO -> .)
+    PLUS            reduce using rule 57 (push_to_pilaO -> .)
+    MENORQUE        reduce using rule 57 (push_to_pilaO -> .)
+    MAYORQUE        reduce using rule 57 (push_to_pilaO -> .)
+    DIFERENTE       reduce using rule 57 (push_to_pilaO -> .)
+    COMA            reduce using rule 57 (push_to_pilaO -> .)
+    PARENDER        reduce using rule 57 (push_to_pilaO -> .)
+    PUNTOCOMA       reduce using rule 57 (push_to_pilaO -> .)
 
     push_to_pilaO                  shift and go to state 128
 
 state 105
 
-    (46) condition -> IF PARENIZQ expresion PARENDER . check_if body else PUNTOCOMA fill_if
-    (44) check_if -> .
+    (41) condition -> IF PARENIZQ expresion PARENDER . check_if body else PUNTOCOMA fill_if
+    (39) check_if -> .
 
-    CORCHETEIZQ     reduce using rule 44 (check_if -> .)
+    CORCHETEIZQ     reduce using rule 39 (check_if -> .)
 
     check_if                       shift and go to state 129
 
 state 106
 
-    (52) cycle -> DO check_while body WHILE . PARENIZQ expresion PARENDER PUNTOCOMA fill_while
+    (47) cycle -> DO check_while body WHILE . PARENIZQ expresion PARENDER PUNTOCOMA fill_while
 
     PARENIZQ        shift and go to state 130
 
 
 state 107
 
-    (54) print -> PRINT PARENIZQ printable PARENDER . PUNTOCOMA
+    (49) print -> PRINT PARENIZQ printable PARENDER . PUNTOCOMA
 
     PUNTOCOMA       shift and go to state 131
 
 
 state 108
 
-    (58) printable -> push_print CTE_STRING . push_string check_for_print printable_1
-    (56) push_string -> .
+    (53) printable -> push_print CTE_STRING . push_string check_for_print printable_1
+    (51) push_string -> .
 
-    COMA            reduce using rule 56 (push_string -> .)
-    PARENDER        reduce using rule 56 (push_string -> .)
+    COMA            reduce using rule 51 (push_string -> .)
+    PARENDER        reduce using rule 51 (push_string -> .)
 
     push_string                    shift and go to state 132
 
 state 109
 
-    (59) printable -> push_print expresion . check_for_print printable_1
-    (57) check_for_print -> .
+    (54) printable -> push_print expresion . check_for_print printable_1
+    (52) check_for_print -> .
 
-    COMA            reduce using rule 57 (check_for_print -> .)
-    PARENDER        reduce using rule 57 (check_for_print -> .)
+    COMA            reduce using rule 52 (check_for_print -> .)
+    PARENDER        reduce using rule 52 (check_for_print -> .)
 
     check_for_print                shift and go to state 133
 
@@ -1551,7 +1551,7 @@ state 111
 
 state 112
 
-    (43) assign -> ID check_variable push_to_pilaO IGUAL push_operator . expresion check_for_assign PUNTOCOMA
+    (61) assign -> ID check_variable push_to_pilaO IGUAL push_operator . expresion check_for_assign PUNTOCOMA
     (67) expresion -> . exp expresion_1
     (73) exp -> . termino check_for_plus_minus exp_1
     (78) termino -> . factor check_for_mult_div termino_1
@@ -1587,13 +1587,13 @@ state 113
 
 state 114
 
-    (53) f_call -> ID PARENIZQ expresion_opt PARENDER PUNTOCOMA .
+    (48) f_call -> ID PARENIZQ expresion_opt PARENDER PUNTOCOMA .
 
-    ID              reduce using rule 53 (f_call -> ID PARENIZQ expresion_opt PARENDER PUNTOCOMA .)
-    IF              reduce using rule 53 (f_call -> ID PARENIZQ expresion_opt PARENDER PUNTOCOMA .)
-    DO              reduce using rule 53 (f_call -> ID PARENIZQ expresion_opt PARENDER PUNTOCOMA .)
-    PRINT           reduce using rule 53 (f_call -> ID PARENIZQ expresion_opt PARENDER PUNTOCOMA .)
-    CORCHETEDER     reduce using rule 53 (f_call -> ID PARENIZQ expresion_opt PARENDER PUNTOCOMA .)
+    ID              reduce using rule 48 (f_call -> ID PARENIZQ expresion_opt PARENDER PUNTOCOMA .)
+    IF              reduce using rule 48 (f_call -> ID PARENIZQ expresion_opt PARENDER PUNTOCOMA .)
+    DO              reduce using rule 48 (f_call -> ID PARENIZQ expresion_opt PARENDER PUNTOCOMA .)
+    PRINT           reduce using rule 48 (f_call -> ID PARENIZQ expresion_opt PARENDER PUNTOCOMA .)
+    CORCHETEDER     reduce using rule 48 (f_call -> ID PARENIZQ expresion_opt PARENDER PUNTOCOMA .)
 
 
 state 115
@@ -1699,28 +1699,28 @@ state 119
 state 120
 
     (74) exp_1 -> MINUS . push_operator exp
-    (40) push_operator -> .
+    (58) push_operator -> .
 
-    PARENIZQ        reduce using rule 40 (push_operator -> .)
-    MINUS           reduce using rule 40 (push_operator -> .)
-    PLUS            reduce using rule 40 (push_operator -> .)
-    ID              reduce using rule 40 (push_operator -> .)
-    CTE_INT         reduce using rule 40 (push_operator -> .)
-    CTE_FLOAT       reduce using rule 40 (push_operator -> .)
+    PARENIZQ        reduce using rule 58 (push_operator -> .)
+    MINUS           reduce using rule 58 (push_operator -> .)
+    PLUS            reduce using rule 58 (push_operator -> .)
+    ID              reduce using rule 58 (push_operator -> .)
+    CTE_INT         reduce using rule 58 (push_operator -> .)
+    CTE_FLOAT       reduce using rule 58 (push_operator -> .)
 
     push_operator                  shift and go to state 141
 
 state 121
 
     (75) exp_1 -> PLUS . push_operator exp
-    (40) push_operator -> .
+    (58) push_operator -> .
 
-    PARENIZQ        reduce using rule 40 (push_operator -> .)
-    MINUS           reduce using rule 40 (push_operator -> .)
-    PLUS            reduce using rule 40 (push_operator -> .)
-    ID              reduce using rule 40 (push_operator -> .)
-    CTE_INT         reduce using rule 40 (push_operator -> .)
-    CTE_FLOAT       reduce using rule 40 (push_operator -> .)
+    PARENIZQ        reduce using rule 58 (push_operator -> .)
+    MINUS           reduce using rule 58 (push_operator -> .)
+    PLUS            reduce using rule 58 (push_operator -> .)
+    ID              reduce using rule 58 (push_operator -> .)
+    CTE_INT         reduce using rule 58 (push_operator -> .)
+    CTE_FLOAT       reduce using rule 58 (push_operator -> .)
 
     push_operator                  shift and go to state 142
 
@@ -1753,28 +1753,28 @@ state 123
 state 124
 
     (79) termino_1 -> MULT . push_operator termino
-    (40) push_operator -> .
+    (58) push_operator -> .
 
-    PARENIZQ        reduce using rule 40 (push_operator -> .)
-    MINUS           reduce using rule 40 (push_operator -> .)
-    PLUS            reduce using rule 40 (push_operator -> .)
-    ID              reduce using rule 40 (push_operator -> .)
-    CTE_INT         reduce using rule 40 (push_operator -> .)
-    CTE_FLOAT       reduce using rule 40 (push_operator -> .)
+    PARENIZQ        reduce using rule 58 (push_operator -> .)
+    MINUS           reduce using rule 58 (push_operator -> .)
+    PLUS            reduce using rule 58 (push_operator -> .)
+    ID              reduce using rule 58 (push_operator -> .)
+    CTE_INT         reduce using rule 58 (push_operator -> .)
+    CTE_FLOAT       reduce using rule 58 (push_operator -> .)
 
     push_operator                  shift and go to state 143
 
 state 125
 
     (80) termino_1 -> DIV . push_operator termino
-    (40) push_operator -> .
+    (58) push_operator -> .
 
-    PARENIZQ        reduce using rule 40 (push_operator -> .)
-    MINUS           reduce using rule 40 (push_operator -> .)
-    PLUS            reduce using rule 40 (push_operator -> .)
-    ID              reduce using rule 40 (push_operator -> .)
-    CTE_INT         reduce using rule 40 (push_operator -> .)
-    CTE_FLOAT       reduce using rule 40 (push_operator -> .)
+    PARENIZQ        reduce using rule 58 (push_operator -> .)
+    MINUS           reduce using rule 58 (push_operator -> .)
+    PLUS            reduce using rule 58 (push_operator -> .)
+    ID              reduce using rule 58 (push_operator -> .)
+    CTE_INT         reduce using rule 58 (push_operator -> .)
+    CTE_FLOAT       reduce using rule 58 (push_operator -> .)
 
     push_operator                  shift and go to state 144
 
@@ -1826,7 +1826,7 @@ state 128
 
 state 129
 
-    (46) condition -> IF PARENIZQ expresion PARENDER check_if . body else PUNTOCOMA fill_if
+    (41) condition -> IF PARENIZQ expresion PARENDER check_if . body else PUNTOCOMA fill_if
     (31) body -> . CORCHETEIZQ statement_opt CORCHETEDER
 
     CORCHETEIZQ     shift and go to state 28
@@ -1835,7 +1835,7 @@ state 129
 
 state 130
 
-    (52) cycle -> DO check_while body WHILE PARENIZQ . expresion PARENDER PUNTOCOMA fill_while
+    (47) cycle -> DO check_while body WHILE PARENIZQ . expresion PARENDER PUNTOCOMA fill_while
     (67) expresion -> . exp expresion_1
     (73) exp -> . termino check_for_plus_minus exp_1
     (78) termino -> . factor check_for_mult_div termino_1
@@ -1864,30 +1864,30 @@ state 130
 
 state 131
 
-    (54) print -> PRINT PARENIZQ printable PARENDER PUNTOCOMA .
+    (49) print -> PRINT PARENIZQ printable PARENDER PUNTOCOMA .
 
-    ID              reduce using rule 54 (print -> PRINT PARENIZQ printable PARENDER PUNTOCOMA .)
-    IF              reduce using rule 54 (print -> PRINT PARENIZQ printable PARENDER PUNTOCOMA .)
-    DO              reduce using rule 54 (print -> PRINT PARENIZQ printable PARENDER PUNTOCOMA .)
-    PRINT           reduce using rule 54 (print -> PRINT PARENIZQ printable PARENDER PUNTOCOMA .)
-    CORCHETEDER     reduce using rule 54 (print -> PRINT PARENIZQ printable PARENDER PUNTOCOMA .)
+    ID              reduce using rule 49 (print -> PRINT PARENIZQ printable PARENDER PUNTOCOMA .)
+    IF              reduce using rule 49 (print -> PRINT PARENIZQ printable PARENDER PUNTOCOMA .)
+    DO              reduce using rule 49 (print -> PRINT PARENIZQ printable PARENDER PUNTOCOMA .)
+    PRINT           reduce using rule 49 (print -> PRINT PARENIZQ printable PARENDER PUNTOCOMA .)
+    CORCHETEDER     reduce using rule 49 (print -> PRINT PARENIZQ printable PARENDER PUNTOCOMA .)
 
 
 state 132
 
-    (58) printable -> push_print CTE_STRING push_string . check_for_print printable_1
-    (57) check_for_print -> .
+    (53) printable -> push_print CTE_STRING push_string . check_for_print printable_1
+    (52) check_for_print -> .
 
-    COMA            reduce using rule 57 (check_for_print -> .)
-    PARENDER        reduce using rule 57 (check_for_print -> .)
+    COMA            reduce using rule 52 (check_for_print -> .)
+    PARENDER        reduce using rule 52 (check_for_print -> .)
 
     check_for_print                shift and go to state 147
 
 state 133
 
-    (59) printable -> push_print expresion check_for_print . printable_1
-    (60) printable_1 -> . COMA printable
-    (61) printable_1 -> . empty
+    (54) printable -> push_print expresion check_for_print . printable_1
+    (55) printable_1 -> . COMA printable
+    (56) printable_1 -> . empty
     (91) empty -> .
 
     COMA            shift and go to state 149
@@ -1923,10 +1923,10 @@ state 135
 
 state 136
 
-    (43) assign -> ID check_variable push_to_pilaO IGUAL push_operator expresion . check_for_assign PUNTOCOMA
-    (41) check_for_assign -> .
+    (61) assign -> ID check_variable push_to_pilaO IGUAL push_operator expresion . check_for_assign PUNTOCOMA
+    (59) check_for_assign -> .
 
-    PUNTOCOMA       reduce using rule 41 (check_for_assign -> .)
+    PUNTOCOMA       reduce using rule 59 (check_for_assign -> .)
 
     check_for_assign               shift and go to state 153
 
@@ -2087,9 +2087,9 @@ state 144
 
 state 145
 
-    (46) condition -> IF PARENIZQ expresion PARENDER check_if body . else PUNTOCOMA fill_if
-    (48) else -> . ELSE fill_else body
-    (49) else -> . empty
+    (41) condition -> IF PARENIZQ expresion PARENDER check_if body . else PUNTOCOMA fill_if
+    (43) else -> . ELSE fill_else body
+    (44) else -> . empty
     (91) empty -> .
 
     ELSE            shift and go to state 163
@@ -2100,16 +2100,16 @@ state 145
 
 state 146
 
-    (52) cycle -> DO check_while body WHILE PARENIZQ expresion . PARENDER PUNTOCOMA fill_while
+    (47) cycle -> DO check_while body WHILE PARENIZQ expresion . PARENDER PUNTOCOMA fill_while
 
     PARENDER        shift and go to state 165
 
 
 state 147
 
-    (58) printable -> push_print CTE_STRING push_string check_for_print . printable_1
-    (60) printable_1 -> . COMA printable
-    (61) printable_1 -> . empty
+    (53) printable -> push_print CTE_STRING push_string check_for_print . printable_1
+    (55) printable_1 -> . COMA printable
+    (56) printable_1 -> . empty
     (91) empty -> .
 
     COMA            shift and go to state 149
@@ -2120,34 +2120,34 @@ state 147
 
 state 148
 
-    (59) printable -> push_print expresion check_for_print printable_1 .
+    (54) printable -> push_print expresion check_for_print printable_1 .
 
-    PARENDER        reduce using rule 59 (printable -> push_print expresion check_for_print printable_1 .)
+    PARENDER        reduce using rule 54 (printable -> push_print expresion check_for_print printable_1 .)
 
 
 state 149
 
-    (60) printable_1 -> COMA . printable
-    (58) printable -> . push_print CTE_STRING push_string check_for_print printable_1
-    (59) printable -> . push_print expresion check_for_print printable_1
-    (55) push_print -> .
+    (55) printable_1 -> COMA . printable
+    (53) printable -> . push_print CTE_STRING push_string check_for_print printable_1
+    (54) printable -> . push_print expresion check_for_print printable_1
+    (50) push_print -> .
 
-    CTE_STRING      reduce using rule 55 (push_print -> .)
-    PARENIZQ        reduce using rule 55 (push_print -> .)
-    MINUS           reduce using rule 55 (push_print -> .)
-    PLUS            reduce using rule 55 (push_print -> .)
-    ID              reduce using rule 55 (push_print -> .)
-    CTE_INT         reduce using rule 55 (push_print -> .)
-    CTE_FLOAT       reduce using rule 55 (push_print -> .)
+    CTE_STRING      reduce using rule 50 (push_print -> .)
+    PARENIZQ        reduce using rule 50 (push_print -> .)
+    MINUS           reduce using rule 50 (push_print -> .)
+    PLUS            reduce using rule 50 (push_print -> .)
+    ID              reduce using rule 50 (push_print -> .)
+    CTE_INT         reduce using rule 50 (push_print -> .)
+    CTE_FLOAT       reduce using rule 50 (push_print -> .)
 
     printable                      shift and go to state 167
     push_print                     shift and go to state 82
 
 state 150
 
-    (61) printable_1 -> empty .
+    (56) printable_1 -> empty .
 
-    PARENDER        reduce using rule 61 (printable_1 -> empty .)
+    PARENDER        reduce using rule 56 (printable_1 -> empty .)
 
 
 state 151
@@ -2174,7 +2174,7 @@ state 152
 
 state 153
 
-    (43) assign -> ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign . PUNTOCOMA
+    (61) assign -> ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign . PUNTOCOMA
 
     PUNTOCOMA       shift and go to state 172
 
@@ -2276,46 +2276,46 @@ state 161
 
 state 162
 
-    (46) condition -> IF PARENIZQ expresion PARENDER check_if body else . PUNTOCOMA fill_if
+    (41) condition -> IF PARENIZQ expresion PARENDER check_if body else . PUNTOCOMA fill_if
 
     PUNTOCOMA       shift and go to state 173
 
 
 state 163
 
-    (48) else -> ELSE . fill_else body
-    (47) fill_else -> .
+    (43) else -> ELSE . fill_else body
+    (42) fill_else -> .
 
-    CORCHETEIZQ     reduce using rule 47 (fill_else -> .)
+    CORCHETEIZQ     reduce using rule 42 (fill_else -> .)
 
     fill_else                      shift and go to state 174
 
 state 164
 
-    (49) else -> empty .
+    (44) else -> empty .
 
-    PUNTOCOMA       reduce using rule 49 (else -> empty .)
+    PUNTOCOMA       reduce using rule 44 (else -> empty .)
 
 
 state 165
 
-    (52) cycle -> DO check_while body WHILE PARENIZQ expresion PARENDER . PUNTOCOMA fill_while
+    (47) cycle -> DO check_while body WHILE PARENIZQ expresion PARENDER . PUNTOCOMA fill_while
 
     PUNTOCOMA       shift and go to state 175
 
 
 state 166
 
-    (58) printable -> push_print CTE_STRING push_string check_for_print printable_1 .
+    (53) printable -> push_print CTE_STRING push_string check_for_print printable_1 .
 
-    PARENDER        reduce using rule 58 (printable -> push_print CTE_STRING push_string check_for_print printable_1 .)
+    PARENDER        reduce using rule 53 (printable -> push_print CTE_STRING push_string check_for_print printable_1 .)
 
 
 state 167
 
-    (60) printable_1 -> COMA printable .
+    (55) printable_1 -> COMA printable .
 
-    PARENDER        reduce using rule 60 (printable_1 -> COMA printable .)
+    PARENDER        reduce using rule 55 (printable_1 -> COMA printable .)
 
 
 state 168
@@ -2350,31 +2350,31 @@ state 171
 
 state 172
 
-    (43) assign -> ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA .
+    (61) assign -> ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA .
 
-    ID              reduce using rule 43 (assign -> ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA .)
-    IF              reduce using rule 43 (assign -> ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA .)
-    DO              reduce using rule 43 (assign -> ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA .)
-    PRINT           reduce using rule 43 (assign -> ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA .)
-    CORCHETEDER     reduce using rule 43 (assign -> ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA .)
+    ID              reduce using rule 61 (assign -> ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA .)
+    IF              reduce using rule 61 (assign -> ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA .)
+    DO              reduce using rule 61 (assign -> ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA .)
+    PRINT           reduce using rule 61 (assign -> ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA .)
+    CORCHETEDER     reduce using rule 61 (assign -> ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA .)
 
 
 state 173
 
-    (46) condition -> IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA . fill_if
-    (45) fill_if -> .
+    (41) condition -> IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA . fill_if
+    (40) fill_if -> .
 
-    ID              reduce using rule 45 (fill_if -> .)
-    IF              reduce using rule 45 (fill_if -> .)
-    DO              reduce using rule 45 (fill_if -> .)
-    PRINT           reduce using rule 45 (fill_if -> .)
-    CORCHETEDER     reduce using rule 45 (fill_if -> .)
+    ID              reduce using rule 40 (fill_if -> .)
+    IF              reduce using rule 40 (fill_if -> .)
+    DO              reduce using rule 40 (fill_if -> .)
+    PRINT           reduce using rule 40 (fill_if -> .)
+    CORCHETEDER     reduce using rule 40 (fill_if -> .)
 
     fill_if                        shift and go to state 178
 
 state 174
 
-    (48) else -> ELSE fill_else . body
+    (43) else -> ELSE fill_else . body
     (31) body -> . CORCHETEIZQ statement_opt CORCHETEDER
 
     CORCHETEIZQ     shift and go to state 28
@@ -2383,14 +2383,14 @@ state 174
 
 state 175
 
-    (52) cycle -> DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA . fill_while
-    (51) fill_while -> .
+    (47) cycle -> DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA . fill_while
+    (46) fill_while -> .
 
-    ID              reduce using rule 51 (fill_while -> .)
-    IF              reduce using rule 51 (fill_while -> .)
-    DO              reduce using rule 51 (fill_while -> .)
-    PRINT           reduce using rule 51 (fill_while -> .)
-    CORCHETEDER     reduce using rule 51 (fill_while -> .)
+    ID              reduce using rule 46 (fill_while -> .)
+    IF              reduce using rule 46 (fill_while -> .)
+    DO              reduce using rule 46 (fill_while -> .)
+    PRINT           reduce using rule 46 (fill_while -> .)
+    CORCHETEDER     reduce using rule 46 (fill_while -> .)
 
     fill_while                     shift and go to state 180
 
@@ -2410,31 +2410,31 @@ state 177
 
 state 178
 
-    (46) condition -> IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if .
+    (41) condition -> IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if .
 
-    ID              reduce using rule 46 (condition -> IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if .)
-    IF              reduce using rule 46 (condition -> IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if .)
-    DO              reduce using rule 46 (condition -> IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if .)
-    PRINT           reduce using rule 46 (condition -> IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if .)
-    CORCHETEDER     reduce using rule 46 (condition -> IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if .)
+    ID              reduce using rule 41 (condition -> IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if .)
+    IF              reduce using rule 41 (condition -> IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if .)
+    DO              reduce using rule 41 (condition -> IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if .)
+    PRINT           reduce using rule 41 (condition -> IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if .)
+    CORCHETEDER     reduce using rule 41 (condition -> IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if .)
 
 
 state 179
 
-    (48) else -> ELSE fill_else body .
+    (43) else -> ELSE fill_else body .
 
-    PUNTOCOMA       reduce using rule 48 (else -> ELSE fill_else body .)
+    PUNTOCOMA       reduce using rule 43 (else -> ELSE fill_else body .)
 
 
 state 180
 
-    (52) cycle -> DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while .
+    (47) cycle -> DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while .
 
-    ID              reduce using rule 52 (cycle -> DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while .)
-    IF              reduce using rule 52 (cycle -> DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while .)
-    DO              reduce using rule 52 (cycle -> DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while .)
-    PRINT           reduce using rule 52 (cycle -> DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while .)
-    CORCHETEDER     reduce using rule 52 (cycle -> DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while .)
+    ID              reduce using rule 47 (cycle -> DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while .)
+    IF              reduce using rule 47 (cycle -> DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while .)
+    DO              reduce using rule 47 (cycle -> DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while .)
+    PRINT           reduce using rule 47 (cycle -> DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while .)
+    CORCHETEDER     reduce using rule 47 (cycle -> DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while .)
 
 
 state 181
