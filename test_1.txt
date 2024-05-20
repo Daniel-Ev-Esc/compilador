@@ -1,38 +1,37 @@
-program prueba;
+program custom;
+    var variable,A,C,B,D,E,L,G,H,J,K:int;
+    F:float;
 
-var variable1,variable2:int;
+main
+{
+    variable = ( ( A + 9.8) * C + D * E * F + K / H * J ) + G * L + H + J != ( A - C * D ) / F;
 
-void imprimir(variable:int)[
-    var local:int;
-    local2:float;
-    {
-    print(variable, local, local2, "true");
-}];
+    print(variable, A+B, 10);
 
-void leer()[
-    var variable3:float;
-    {
-    variable3=-2.3 + (4.4 - 8.2) * 9.4/2;
-    print("funcion sin implementar");
-}];
+    A=47;
+    B=48;
 
-main{
-    
-    variable1=47;
-    variable2=48;
-    
-    print("Esto es un string");
-    
-    if(variable1<variable2){
-        print(variable1);
+    F=9.0;
+
+    if(A+B>D){
+        if(A!=B){
+            A=0;
+            B=B+D;
+        }
+        else{
+            C=A+B;
+        };
     }
     else{
-        print(variable2);
+        A=B+C; 
     };
-    
-    do{
-        variable2=variable2-1;
+    D=B+A*C;
+
+    do {
+        A = A + 1;
     }
-    while(variable1<variable2);
+    while(A < 10);
+
+    D = 8 + 99 + B;
 }
 end
