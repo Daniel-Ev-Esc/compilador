@@ -14,7 +14,12 @@ quadCounter = 1
 tempCounter = 0
 intCounter = 0
 floatCounter = 0
-tempVarTable = {}
+constIntCounter = 1
+constFloatCounter = 0
+constVarTable = {0:{'dir':15000}}
+
+typeDict = {'int':0,'float':1}
+operationIndex = {'+':0,'-':1,'*':2,'/':3, '=':4, '>':5, '<':6,"!=":7, "print":8, "Goto":9, "GotoF":10, "GotoT":11}
 
 # ---------- Funciones Auxiliares ----------
 
@@ -25,23 +30,39 @@ def get_dir(type_):
 
     if type_ == 'int':
         global intCounter
-        if 10000 + intCounter + 1 < 40000:
-            direccion = 10000 + intCounter
+        if 1000 + intCounter + 1 < 4000:
+            direccion = 1000 + intCounter
             intCounter = intCounter+1
         else:
             raise Exception("Memoria insuficiente")
     elif type_ == 'float':
         global floatCounter
-        if 40000 + floatCounter + 1 < 80000:
-            direccion = 40000 + floatCounter
+        if 4000 + floatCounter + 1 < 8000:
+            direccion = 4000 + floatCounter
             floatCounter = floatCounter+1
         else:
             raise Exception("Memoria insuficiente")
     elif type_ == 'temp':
         global tempCounter
 
-        if 80000 + tempCounter + 1 < 150000:
+        if 8000 + tempCounter + 1 < 15000:
             direccion = 80000 + tempCounter
+        else:
+            raise Exception("Memoria insuficiente")
+    elif type_ == 'const_int':
+        global constIntCounter
+
+        if 15000 + constIntCounter + 1 < 20000:
+            direccion = 15000 + constIntCounter
+            constIntCounter = constIntCounter + 1
+        else:
+            raise Exception("Memoria insuficiente")
+    elif type_ == 'const_float':
+        global constFloatCounter
+
+        if 20000 + constFloatCounter + 1 < 25000:
+            direccion = 20000 + constFloatCounter
+            constFloatCounter = constFloatCounter + 1
         else:
             raise Exception("Memoria insuficiente")
         
@@ -51,8 +72,6 @@ def fill_goto(i, obj):
     quadQueue[i-1][3] = obj
 
 def check_semantics(operator, linea):
-    typeDict = {'int':0,'float':1}
-    operationIndex = {'+':0,'-':1,'*':2,'/':3, '=':4, '>':5, '<':6,"!=":7}
 
     tcs = [[["int","int","int","int","int","int","int","int"],["float","float","float","float","ERROR","int","int","int"]],[["float","float","float","float","ERROR","int","int","int"],["float","float","float","float","float","int","int","int"]]]
 
@@ -70,12 +89,10 @@ def generate_quad_operator(operator, izq, der,resultado):
     global tempCounter, quadCounter
     if resultado == "":
         tempCounter = tempCounter+1
-        resultado = "t" + str(tempCounter)
+        resultado =  get_dir("temp")
         pilaO.append(resultado)
-        direccion = get_dir("temp")
-        tempVarTable[resultado] = {'name':resultado, 'type': pilaType[-1], 'dir':direccion}
 
-    quad = [operator,izq,der,resultado]
+    quad = [operationIndex[operator],izq,der,resultado]
     quadQueue.append(quad)
     quadCounter = quadCounter + 1
     return quad
@@ -311,10 +328,16 @@ def p_printable_1(p):
 
 def p_push_to_pilaO(p):
     "push_to_pilaO :"
-    if(p[-2] == '+' or p[-2] == '-'):
-        pilaO.append("".join([p[-2],p[-1]]))
+    if(p[-2] == '-'):
+        if p[-1] in dirFunc[curr_func]['vars']:
+            generate_quad_operator('-',constVarTable[0]['dir'],dirFunc[curr_func]['vars'][p[-1]]['dir'],"")
+        else:
+            generate_quad_operator('-',constVarTable[0]['dir'],constVarTable[p[-1]]['dir'],"")
     else:
-        pilaO.append(p[-1])
+        if p[-1] in dirFunc[curr_func]['vars']:
+            pilaO.append(dirFunc[curr_func]['vars'][p[-1]]['dir'])
+        else:
+            pilaO.append(constVarTable[p[-1]]['dir'])
 
     if p[-1] in dirFunc[curr_func]['vars']:
         pilaType.append(dirFunc[curr_func]['vars'][p[-1]]['type'])
@@ -429,9 +452,19 @@ def p_factor_1(p):
     | cte'''
     p[0] = p[1]
 
+def p_check_int(p):
+    "check_int :"
+    dir = get_dir("const_int")
+    constVarTable[p[-1]] = {'dir':dir}
+
+def p_check_float(p):
+    "check_float :"
+    dir = get_dir("const_float")
+    constVarTable[p[-1]] = {'dir':dir}
+
 def p_cte(p):
-    '''cte : CTE_INT
-    | CTE_FLOAT'''
+    '''cte : CTE_INT check_int
+    | CTE_FLOAT check_float'''
     p[0] = p[1]
 
 def p_empty(p):
