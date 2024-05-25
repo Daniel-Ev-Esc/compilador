@@ -16,10 +16,10 @@ intCounter = 0
 floatCounter = 0
 constIntCounter = 1
 constFloatCounter = 0
-constVarTable = {0:{'dir':15000}}
+constVarTable = {'0':{"dir":15000}}
 
-typeDict = {'int':0,'float':1}
-operationIndex = {'+':0,'-':1,'*':2,'/':3, '=':4, '>':5, '<':6,"!=":7, "print":8, "Goto":9, "GotoF":10, "GotoT":11}
+typeDict = {"int":0,"float":1}
+operationIndex = {"+":0,"-":1,"*":2,"/":3, "=":4, ">":5, "<":6,"!=":7, "print":8, "Goto":9, "GotoF":10, "GotoT":11}
 
 # ---------- Funciones Auxiliares ----------
 
@@ -28,28 +28,28 @@ def get_dir(type_):
     # Floatantes: 40000 - 79999
     # Temporales: 80000 - 149999 
 
-    if type_ == 'int':
+    if type_ == "int":
         global intCounter
         if 1000 + intCounter + 1 < 4000:
             direccion = 1000 + intCounter
             intCounter = intCounter+1
         else:
             raise Exception("Memoria insuficiente")
-    elif type_ == 'float':
+    elif type_ == "float":
         global floatCounter
         if 4000 + floatCounter + 1 < 8000:
             direccion = 4000 + floatCounter
             floatCounter = floatCounter+1
         else:
             raise Exception("Memoria insuficiente")
-    elif type_ == 'temp':
+    elif type_ == "temp":
         global tempCounter
 
         if 8000 + tempCounter + 1 < 15000:
-            direccion = 80000 + tempCounter
+            direccion = 8000 + tempCounter
         else:
             raise Exception("Memoria insuficiente")
-    elif type_ == 'const_int':
+    elif type_ == "const_int":
         global constIntCounter
 
         if 15000 + constIntCounter + 1 < 20000:
@@ -57,7 +57,7 @@ def get_dir(type_):
             constIntCounter = constIntCounter + 1
         else:
             raise Exception("Memoria insuficiente")
-    elif type_ == 'const_float':
+    elif type_ == "const_float":
         global constFloatCounter
 
         if 20000 + constFloatCounter + 1 < 25000:
@@ -102,38 +102,44 @@ def generate_quad_operator(operator, izq, der,resultado):
 # -------- Program --------
 
 def p_crear_dir_func(p):
-    'crear_dir_func : '
+    "crear_dir_func : "
     global dirFunc
     dirFunc = {}
 
 def p_definir_programa(p):
-    'definir_programa : '
-    dirFunc[p[-1]] = {'name':p[-1],'type':"program"}
+    "definir_programa : "
+    dirFunc[p[-1]] = {"name":p[-1],"type":"program"}
 
     global curr_func
-    curr_func = 'global'
+    curr_func = "global"
     global curr_type
-    curr_type = 'void'
+    curr_type = "void"
 
-    dirFunc[curr_func] = {'name':curr_func,"type":curr_type}
+    dirFunc[curr_func] = {"name":curr_func,"type":curr_type}
 
 def p_delete_directory(p):
-    'delete_directory : '
+    "delete_directory : "
 
     global dirFunc
 
-    # print (dirFunc)
+    with open("result.txt","w") as f:
+        print(dirFunc, file=f)
+        print("$", file=f)
+        print(constVarTable, file=f)
+        print("$", file=f)
+        for x in quadQueue:
+            print(x, file=f)
 
     del dirFunc
 
 def p_return_to_global(p):
-    'return_to_global : '
+    "return_to_global : "
 
     global curr_func
-    curr_func = 'global'
+    curr_func = "global"
 
 def p_program(p):
-    'program : PROGRAM crear_dir_func ID definir_programa PUNTOCOMA vars_opt funcs_opt MAIN return_to_global body END delete_directory'
+    "program : PROGRAM crear_dir_func ID definir_programa PUNTOCOMA vars_opt funcs_opt MAIN return_to_global body END delete_directory"
 
 # -------- Variables --------
 
@@ -142,45 +148,45 @@ def p_vars_opt(p):
     | empty'''
 
 def p_tabla_variables_global(p):
-    'tabla_variables_global : '
+    "tabla_variables_global : "
 
-    if 'vars' not in dirFunc[curr_func]:
-        dirFunc[curr_func]['vars'] = {}
+    if "vars" not in dirFunc[curr_func]:
+        dirFunc[curr_func]["vars"] = {}
 
 def p_vars(p):
-    'vars : VAR tabla_variables_global vars_1'
+    "vars : VAR tabla_variables_global vars_1"
 
 def p_assign_type_to_vars(p):
-    'assign_type_to_vars :'
+    "assign_type_to_vars :"
 
-    for id in dirFunc[curr_func]['vars']:
-        if not 'type' in dirFunc[curr_func]['vars'][id]:
+    for id in dirFunc[curr_func]["vars"]:
+        if not "type" in dirFunc[curr_func]["vars"][id]:
             direccion = get_dir(curr_type)
-            dirFunc[curr_func]['vars'][id]['name'] = id
-            dirFunc[curr_func]['vars'][id]['type'] = curr_type
-            dirFunc[curr_func]['vars'][id]['dir'] = direccion
+            dirFunc[curr_func]["vars"][id]["name"] = id
+            dirFunc[curr_func]["vars"][id]["type"] = curr_type
+            dirFunc[curr_func]["vars"][id]["dir"] = direccion
             
 def p_vars_1(p):
     '''vars_1 : id DOSPUNTOS type PUNTOCOMA assign_type_to_vars vars_1
     | empty'''
 
 def p_declaracion_variable(p):
-    'declaracion_variable :'
+    "declaracion_variable :"
 
-    if not p[-1] in dirFunc[curr_func]['vars']:
-        dirFunc[curr_func]['vars'][p[-1]] = {}
+    if not p[-1] in dirFunc[curr_func]["vars"]:
+        dirFunc[curr_func]["vars"][p[-1]] = {}
     else:
         raise Exception("Declaración Múltiple de variable: '%s' en la línea: %d" % (p[-1], lexer.lineno))
     
 def p_id(p):
-    'id : ID declaracion_variable id_1'
+    "id : ID declaracion_variable id_1"
 
 def p_id_1(p):
     '''id_1 : COMA id
     | empty'''
 
 def p_change_curr_type(p):
-    'change_curr_type : '
+    "change_curr_type : "
 
     global curr_type
     curr_type = p[-1]
@@ -195,33 +201,33 @@ def p_funcs_opt(p):
     | empty'''
 
 def p_new_function(p):
-    'new_function : '
+    "new_function : "
     
     global curr_func
     curr_func = p[-1]
 
     if not curr_func in dirFunc:
-        dirFunc[p[-1]] = {'name':p[-1],'type':curr_type}
+        dirFunc[p[-1]] = {"name":p[-1],"type":curr_type}
     else:
         raise Exception("Declaración Múltiple de función: '%s' en la línea: %d" % (p[-1], lexer.lineno))
 
 def p_create_func_var_table(p):
-    'create_func_var_table : '
-    dirFunc[curr_func]['vars'] = {}
+    "create_func_var_table : "
+    dirFunc[curr_func]["vars"] = {}
 
 def p_funcs(p):
-    'funcs : VOID change_curr_type ID new_function PARENIZQ create_func_var_table params PARENDER BRACKETIZQ vars_opt body BRACKETDER PUNTOCOMA'
+    "funcs : VOID change_curr_type ID new_function PARENIZQ create_func_var_table params PARENDER BRACKETIZQ vars_opt body BRACKETDER PUNTOCOMA"
 
 def p_params(p):
     '''params : params_1
     | empty'''
 
 def p_parameter_declaration(p):
-    'parameter_declaration : '
+    "parameter_declaration : "
 
-    if not p[-3] in dirFunc[curr_func]['vars']:
+    if not p[-3] in dirFunc[curr_func]["vars"]:
         direccion = get_dir(curr_type)
-        dirFunc[curr_func]['vars'][p[-3]] = {'name':p[-3],'type':curr_type, 'dir':direccion}
+        dirFunc[curr_func]["vars"][p[-3]] = {"name":p[-3],"type":curr_type, "dir":direccion}
     else:
         raise Exception("Declaración Múltiple de variable: '%s' en la línea: %d" % (p[-3],lexer.lineno))
 
@@ -235,7 +241,7 @@ def p_params_cycle(p):
 # -------- Body --------
 
 def p_body(p):
-    'body : CORCHETEIZQ statement_opt CORCHETEDER'
+    "body : CORCHETEIZQ statement_opt CORCHETEDER"
 
 def p_statement_opt(p):
     '''statement_opt : statement statement_opt
@@ -263,7 +269,7 @@ def p_fill_if(p):
     fill_goto(salto,quadCounter)
     
 def p_condition(p):
-    'condition : IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if'
+    "condition : IF PARENIZQ expresion PARENDER check_if body else PUNTOCOMA fill_if"
 
 def p_fill_else(p):
     "fill_else :"
@@ -288,15 +294,15 @@ def p_fill_while(p):
     generate_quad_operator("GotoT",result,"",verdadero)
 
 def p_cycle(p):
-    'cycle : DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while'
+    "cycle : DO check_while body WHILE PARENIZQ expresion PARENDER PUNTOCOMA fill_while"
 
 def p_f_call(p):
-    'f_call : ID PARENIZQ expresion_opt PARENDER PUNTOCOMA'
+    "f_call : ID PARENIZQ expresion_opt PARENDER PUNTOCOMA"
 
 # -------- Lineales --------
 
 def p_print(p):
-    'print : PRINT PARENIZQ printable PARENDER PUNTOCOMA'
+    "print : PRINT PARENIZQ printable PARENDER PUNTOCOMA"
 
 def p_push_print(p):
     "push_print :"
@@ -310,7 +316,7 @@ def p_push_string(p):
 def p_check_for_print(p):
     "check_for_print :"
     if(len(poper) > 0):
-        if(poper[-1] == 'print'):
+        if(poper[-1] == "print"):
             operator = poper.pop()
             der = pilaO.pop()
             pilaType.pop()
@@ -328,19 +334,19 @@ def p_printable_1(p):
 
 def p_push_to_pilaO(p):
     "push_to_pilaO :"
-    if(p[-2] == '-'):
-        if p[-1] in dirFunc[curr_func]['vars']:
-            generate_quad_operator('-',constVarTable[0]['dir'],dirFunc[curr_func]['vars'][p[-1]]['dir'],"")
+    if(p[-2] == "-"):
+        if p[-1] in dirFunc[curr_func]["vars"]:
+            generate_quad_operator("-",constVarTable['0']["dir"],dirFunc[curr_func]["vars"][p[-1]]["dir"],"")
         else:
-            generate_quad_operator('-',constVarTable[0]['dir'],constVarTable[p[-1]]['dir'],"")
+            generate_quad_operator("-",constVarTable['0']["dir"],constVarTable[p[-1]]["dir"],"")
     else:
-        if p[-1] in dirFunc[curr_func]['vars']:
-            pilaO.append(dirFunc[curr_func]['vars'][p[-1]]['dir'])
+        if p[-1] in dirFunc[curr_func]["vars"]:
+            pilaO.append(dirFunc[curr_func]["vars"][p[-1]]["dir"])
         else:
-            pilaO.append(constVarTable[p[-1]]['dir'])
+            pilaO.append(constVarTable[p[-1]]["dir"])
 
-    if p[-1] in dirFunc[curr_func]['vars']:
-        pilaType.append(dirFunc[curr_func]['vars'][p[-1]]['type'])
+    if p[-1] in dirFunc[curr_func]["vars"]:
+        pilaType.append(dirFunc[curr_func]["vars"][p[-1]]["type"])
     elif p[-1].find(".") != -1:
         pilaType.append("float")
     else:
@@ -353,7 +359,7 @@ def p_push_operator(p):
 def p_check_for_assign(p):
     "check_for_assign :"
     if(len(poper) > 0):
-        if(poper[-1] == '='):
+        if(poper[-1] == "="):
             operator = poper.pop()
             der = pilaO.pop()
             izq = pilaO.pop()
@@ -361,9 +367,9 @@ def p_check_for_assign(p):
             generate_quad_operator(operator,der,"",izq)
 
 def p_check_variable(p):
-    'check_variable :'
-    if 'vars' in dirFunc[curr_func]:
-        if not p[-1] in dirFunc[curr_func]['vars']:
+    "check_variable :"
+    if "vars" in dirFunc[curr_func]:
+        if not p[-1] in dirFunc[curr_func]["vars"]:
             raise Exception("Variable no declarada: '%s' en la línea: %d" % (p[-1], lexer.lineno))
     else:
         raise Exception("Variable no declarada: '%s' en la línea: %d" % (p[-1], lexer.lineno))
@@ -372,7 +378,7 @@ def p_check_variable(p):
     p[0] = p[-1]
 
 def p_assign(p):
-    'assign : ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA'
+    "assign : ID check_variable push_to_pilaO IGUAL push_operator expresion check_for_assign PUNTOCOMA"
 
 def p_expresion_opt(p):
     '''expresion_opt : expresion expresion_cycle
@@ -385,7 +391,7 @@ def p_expresion_cycle(p):
 def p_check_for_expresion(p):
     "check_for_expresion :"
     if(len(poper) > 0):
-        if(poper[-1] == '>' or poper[-1]=='<' or poper[-1] == "!="):
+        if(poper[-1] == ">" or poper[-1]=="<" or poper[-1] == "!="):
             operator = poper.pop()
             der = pilaO.pop()
             izq = pilaO.pop()
@@ -393,7 +399,7 @@ def p_check_for_expresion(p):
             generate_quad_operator(operator,izq,der,"")
         
 def p_expresion(p):
-    'expresion : exp expresion_1'
+    "expresion : exp expresion_1"
 
 def p_expresion_1(p):
     '''expresion_1 : MENORQUE push_operator exp check_for_expresion
@@ -404,7 +410,7 @@ def p_expresion_1(p):
 def p_check_for_plus_minus(p):
     "check_for_plus_minus :"
     if(len(poper) > 0):
-        if(poper[-1] == '+' or poper[-1]=='-'):
+        if(poper[-1] == "+" or poper[-1]=="-"):
             operator = poper.pop()
             der = pilaO.pop()
             izq = pilaO.pop()
@@ -412,7 +418,7 @@ def p_check_for_plus_minus(p):
             generate_quad_operator(operator,izq,der,"")
         
 def p_exp(p):
-    'exp : termino check_for_plus_minus exp_1'
+    "exp : termino check_for_plus_minus exp_1"
 
 def p_exp_1(p):
     '''exp_1 : MINUS push_operator exp
@@ -420,9 +426,9 @@ def p_exp_1(p):
     | empty'''
 
 def p_check_for_mult_div(p):
-    'check_for_mult_div :'
+    "check_for_mult_div :"
     if(len(poper) > 0):
-        if(poper[-1] == '*' or poper[-1]=='/'):
+        if(poper[-1] == "*" or poper[-1]=="/"):
             operator = poper.pop()
             der = pilaO.pop()
             izq = pilaO.pop()
@@ -430,7 +436,7 @@ def p_check_for_mult_div(p):
             generate_quad_operator(operator,izq,der,"")
         
 def p_termino(p):
-    'termino : factor check_for_mult_div termino_1'
+    "termino : factor check_for_mult_div termino_1"
 
 def p_termino_1(p):
     '''termino_1 : MULT push_operator termino
@@ -455,12 +461,12 @@ def p_factor_1(p):
 def p_check_int(p):
     "check_int :"
     dir = get_dir("const_int")
-    constVarTable[p[-1]] = {'dir':dir}
+    constVarTable[p[-1]] = {"dir":dir}
 
 def p_check_float(p):
     "check_float :"
     dir = get_dir("const_float")
-    constVarTable[p[-1]] = {'dir':dir}
+    constVarTable[p[-1]] = {"dir":dir}
 
 def p_cte(p):
     '''cte : CTE_INT check_int
@@ -468,14 +474,14 @@ def p_cte(p):
     p[0] = p[1]
 
 def p_empty(p):
-    'empty :'
+    "empty :"
     pass
 
 # Manejo de errores
 def p_error(p):
     raise Exception("Error de sintaxis, se encontro elemento inesperado del tipo %s con valor: '%s' en la linea: %d " % (p.type, p.value, lexer.lineno))
 
-parser = yacc.yacc(start='program')
+parser = yacc.yacc(start="program")
 
 while True:
 
@@ -539,11 +545,6 @@ while True:
         else:
             break
         result = parser.parse(s)
-        # print(tempVarTable)
-        i = 1
-        for x in quadQueue:
-            print(i,x)
-            i=i+1
 
     except ValueError:
         print("Entrada no válida, ingrese un número")
