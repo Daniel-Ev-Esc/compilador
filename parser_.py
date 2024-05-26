@@ -16,7 +16,7 @@ intCounter = 0
 floatCounter = 0
 constIntCounter = 1
 constFloatCounter = 0
-constVarTable = {'0':{"dir":15000}}
+constVarTable = {'0':{"dir":15000, "value":0}}
 
 typeDict = {"int":0,"float":1}
 operationIndex = {"+":0,"-":1,"*":2,"/":3, "=":4, ">":5, "<":6,"!=":7, "print":8, "Goto":9, "GotoF":10, "GotoT":11}
@@ -88,8 +88,8 @@ def check_semantics(operator, linea):
 def generate_quad_operator(operator, izq, der,resultado):
     global tempCounter, quadCounter
     if resultado == "":
-        tempCounter = tempCounter+1
         resultado =  get_dir("temp")
+        tempCounter = tempCounter+1
         pilaO.append(resultado)
 
     quad = [operationIndex[operator],izq,der,resultado]
@@ -459,13 +459,15 @@ def p_factor_1(p):
 
 def p_check_int(p):
     "check_int :"
-    dir = get_dir("const_int")
-    constVarTable[p[-1]] = {"dir":dir}
+    if not p[-1] in constVarTable:
+        dir = get_dir("const_int")
+        constVarTable[p[-1]] = {"dir":dir, "value": int(p[-1])}
 
 def p_check_float(p):
     "check_float :"
-    dir = get_dir("const_float")
-    constVarTable[p[-1]] = {"dir":dir}
+    if not p[-1] in constVarTable:
+        dir = get_dir("const_float")
+        constVarTable[p[-1]] = {"dir":dir, "value": float(p[-1])}
 
 def p_cte(p):
     '''cte : CTE_INT check_int
