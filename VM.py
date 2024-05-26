@@ -1,5 +1,29 @@
 import json
 
+def prepareMemory(dirFunc, tabConst):
+
+    varIntCount = 0
+    varFloatCount = 0
+    constIntCount = 0
+    constFloatCount = 0
+
+    variables = dirFunc["global"]["vars"]
+
+    for key in variables.sort:
+        print(key)
+
+    memory = {
+        "varInt": [0]*4,
+        "varFloat": [],
+        "temp": [],
+        "constInt": [],
+        "constFloat": [],
+    }
+
+    print(memory)
+
+    return memory
+
 def loadQuad(cuadQueue):
     stringArray = cuadQueue.replace("\n", "").split("&")
 
@@ -27,6 +51,9 @@ def leer_comp_result():
 
         dirFunc = json.loads(result[0].replace("'",'"'))
         tabConst = json.loads(result[1].replace("'",'"'))
+
+        prepareMemory(dirFunc,tabConst)
+
         cuadQueue = result[2].replace("[","").replace("]","")
 
         cuadQueue = loadQuad(cuadQueue)

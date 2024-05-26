@@ -108,14 +108,14 @@ def p_crear_dir_func(p):
 
 def p_definir_programa(p):
     "definir_programa : "
-    dirFunc[p[-1]] = {"name":p[-1],"type":"program"}
+    dirFunc[p[-1]] = {"type":"program"}
 
     global curr_func
     curr_func = "global"
     global curr_type
     curr_type = "void"
 
-    dirFunc[curr_func] = {"name":curr_func,"type":curr_type}
+    dirFunc[curr_func] = {"type":curr_type}
 
 def p_delete_directory(p):
     "delete_directory : "
@@ -162,9 +162,8 @@ def p_assign_type_to_vars(p):
     for id in dirFunc[curr_func]["vars"]:
         if not "type" in dirFunc[curr_func]["vars"][id]:
             direccion = get_dir(curr_type)
-            dirFunc[curr_func]["vars"][id]["name"] = id
-            dirFunc[curr_func]["vars"][id]["type"] = curr_type
             dirFunc[curr_func]["vars"][id]["dir"] = direccion
+            dirFunc[curr_func]["vars"][id]["type"] = curr_type
             
 def p_vars_1(p):
     '''vars_1 : id DOSPUNTOS type PUNTOCOMA assign_type_to_vars vars_1
@@ -207,7 +206,7 @@ def p_new_function(p):
     curr_func = p[-1]
 
     if not curr_func in dirFunc:
-        dirFunc[p[-1]] = {"name":p[-1],"type":curr_type}
+        dirFunc[p[-1]] = {"type":curr_type}
     else:
         raise Exception("Declaración Múltiple de función: '%s' en la línea: %d" % (p[-1], lexer.lineno))
 
@@ -227,7 +226,7 @@ def p_parameter_declaration(p):
 
     if not p[-3] in dirFunc[curr_func]["vars"]:
         direccion = get_dir(curr_type)
-        dirFunc[curr_func]["vars"][p[-3]] = {"name":p[-3],"type":curr_type, "dir":direccion}
+        dirFunc[curr_func]["vars"][p[-3]] = {"type":curr_type, "dir":direccion}
     else:
         raise Exception("Declaración Múltiple de variable: '%s' en la línea: %d" % (p[-3],lexer.lineno))
 
