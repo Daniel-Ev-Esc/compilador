@@ -47,7 +47,10 @@ def loadQuad(quadQueue):
             if dir == " ''" or dir == '' :
                 quadA.append('')
             else:
-                quadA.append(int(dir))
+                try:
+                    quadA.append(int(dir))
+                except ValueError:
+                    quadA.append(dir)
         quadQueueArray.append(quadA)
     
     quadQueueArray.pop()
@@ -109,6 +112,40 @@ def ejecutarAsignacion(valor, asignado):
     else:
         memory["constFloat"][asignado-baseConstFloat] = valor
 
+def ejecutarExpresion(operador,operando1, operando2, resultado):
+    valorOperando1 = obtenerValorOperando(operando1)
+    valorOperando2 = obtenerValorOperando(operando2)
+
+    if operador == 0:
+        memory["temp"][resultado-baseTemp] = int(valorOperando1 > valorOperando2)
+    if operador == 1:
+        memory["temp"][resultado-baseTemp] = int(valorOperando1 < valorOperando2)
+    if operador == 2:
+        memory["temp"][resultado-baseTemp] = int(valorOperando1 != valorOperando2)
+
+def ejecutarPrint(resultado):
+        if isinstance(resultado,int):
+            valorOperando1 = obtenerValorOperando(resultado)
+            print("Print:", valorOperando1)
+        else:
+            print("Print:", resultado)
+
+def ejecutarGoto(objetivo):
+    global quadCounter
+    quadCounter = objetivo-1
+
+def ejecutarGotoF(condicion, objetivo):
+
+    if(condicion == 0):
+        global quadCounter
+        quadCounter = objetivo-1
+
+def ejecutarGotoV(condicion, objetivo):
+
+    if(condicion == 1):
+        global quadCounter
+        quadCounter = objetivo-1
+
 def executeQuad(quad):
     if(quad[3] >= baseTemp and quad[3] < baseConstInt):
         memory["temp"].append(0)
@@ -117,11 +154,23 @@ def executeQuad(quad):
         ejecutarOperacion(quad[0], quad[1], quad[2], quad[3])
     if quad[0] == 4:
         ejecutarAsignacion(quad[1], quad[3])
-    
+    if quad[0] == 5 or quad[0] == 6 or quad[0] == 7:
+        ejecutarExpresion(quad[0], quad[1], quad[2], quad[3])
+    if quad[0] == 8:
+        ejecutarPrint(quad[1])
+    if quad[0] == 9:
+        ejecutarGoto(quad[3])
+    if quad[0] == 10:
+        ejecutarGotoF(quad[1],quad[3])
+    if quad[0] == 11:
+        ejecutarGotoV(quad[1],quad[3])    
 
 memory, quadQueue = leer_comp_result()
 
-for quad in quadQueue:
-    print(quad)
-    executeQuad(quad)
+quadCounter = 0
+
+while quadCounter < len(quadQueue):
+    print(quadQueue[quadCounter])
+    executeQuad(quadQueue[quadCounter])
     print(memory)
+    quadCounter = quadCounter+1

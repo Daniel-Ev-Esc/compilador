@@ -2,6 +2,9 @@ program custom;
     var variable,A,C,B,D,E,L,G,H,J,K,F:float;
 main
 {
+    A = 9.0;
     H = -A + -9.8;
+
+    print(H,A,"Esto es un string");
 }
 end

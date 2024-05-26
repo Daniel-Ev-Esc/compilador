@@ -319,7 +319,7 @@ def p_check_for_print(p):
             operator = poper.pop()
             der = pilaO.pop()
             pilaType.pop()
-            generate_quad_operator(operator,"","",der)
+            generate_quad_operator(operator,der,"",0)
         
 def p_printable(p):
     '''printable : push_print CTE_STRING push_string check_for_print printable_1
