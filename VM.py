@@ -20,8 +20,8 @@ def prepareMemory(dirFunc, tabConst):
             varFloatCount = max(varFloatCount, variables[key]["dir"]-(baseFloat-1))
 
     memory = {
-        "varInt": [1]*varIntCount,
-        "varFloat": [1]*varFloatCount,
+        "varInt": [0]*varIntCount,
+        "varFloat": [0]*varFloatCount,
         "temp": [],
         "constInt": [],
         "constFloat": [],
@@ -95,17 +95,33 @@ def ejecutarOperacion(operador,operando1, operando2, resultado):
     if operador == 3:
         memory["temp"][resultado-baseTemp] = valorOperando1 / valorOperando2
 
+def ejecutarAsignacion(valor, asignado):
+    valor = obtenerValorOperando(valor)
+
+    if asignado < baseFloat:
+        memory["varInt"][asignado-baseInt] = valor
+    elif asignado < baseTemp:
+        memory["varFloat"][asignado-baseFloat] = valor
+    elif asignado < baseConstInt:
+        memory["temp"][asignado-baseTemp] = valor
+    elif asignado < baseConstFloat:
+        memory["constInt"][asignado-baseConstInt] = valor
+    else:
+        memory["constFloat"][asignado-baseConstFloat] = valor
+
 def executeQuad(quad):
     if(quad[3] >= baseTemp and quad[3] < baseConstInt):
         memory["temp"].append(0)
 
     if quad[0] == 0 or quad[0] == 1 or quad[0] == 2 or quad[0] == 3:
         ejecutarOperacion(quad[0], quad[1], quad[2], quad[3])
+    if quad[0] == 4:
+        ejecutarAsignacion(quad[1], quad[3])
     
 
 memory, quadQueue = leer_comp_result()
 
 for quad in quadQueue:
+    print(quad)
     executeQuad(quad)
-
-print(memory)
+    print(memory)

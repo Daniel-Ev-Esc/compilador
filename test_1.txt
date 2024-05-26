@@ -4,15 +4,18 @@ program custom;
 
 main
 {
+    A=47;
+    B=-48;
+    H=1;
+    J=1;
+
+    F=9.0;
+
     variable = ( ( A + 5) * C + D * E * F + K / H * J ) + G * L + H + J != ( A - C * D ) / F;
 
     print(variable, A+B, 10);
 
-    A=47;
-    B=-48;
-
-    F=9.0;
-
+    
     if(A+B>D){
         if(A!=B){
             A=0;
