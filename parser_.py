@@ -25,7 +25,7 @@ operationIndex = {"+":0,"-":1,"*":2,"/":3, "=":4, ">":5, "<":6,"!=":7, "print":8
 
 def get_dir(type_):
     # Enteros: 10000 - 39999
-    # Floatantes: 40000 - 79999
+    # Flotantes: 40000 - 79999
     # Temporales: 80000 - 149999 
 
     if type_ == "int":
@@ -128,7 +128,7 @@ def p_delete_directory(p):
         print(constVarTable, file=f)
         print("$", file=f)
         for x in quadQueue:
-            print(x, file=f)
+            print(x, '&', file=f)
 
     del dirFunc
 
