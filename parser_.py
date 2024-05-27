@@ -482,74 +482,14 @@ def p_empty(p):
 def p_error(p):
     raise Exception("Error de sintaxis, se encontro elemento inesperado del tipo %s con valor: '%s' en la linea: %d " % (p.type, p.value, lexer.lineno))
 
-parser = yacc.yacc(start="program")
+def compilar(archivo):
+    parser = yacc.yacc(start="program")
 
-while True:
-
-    poper = []
-    pilaO = []
-    pilaType = []
-    pilaSalto = []
-    quadQueue = []
-    quadCounter = 1
-    tempCounter = 0
-    intCounter = 0
-    floatCounter = 0
-    tempVarTable = {}
-
-    try :
-        input_ = int(input('''Seleccione un archivo de prueba o ingrese su propio texto en el archivo personalizado, ingrese 0 o cualquier elemento que no esté en la lista para salir:
-1. test_1 (Completo) 
-2. test_2 (Error léxico) 
-3. test_3 (Error sintáctico)
-4. test_4 (Simple)
-5. test_5 (Error Semántico)
-6. test_6 (Multiple declaración de parámetros)
-7. test_7 (Multiple declaración de funciones)
-8. test_8 (Multiple declaración de variables)
-9. test_9 (Variable no declarada)
-10. Custom (Coloque su texto de prueba en el archivo custom.txt)
-0. Salir\n'''))
+    archivo = archivo + ".txt"
+    with open(archivo,'r') as archivo:
+        s = archivo.read()
+        try:
+            parser.parse(s)
+        except Exception as e:
+            raise Exception(e)       
         
-        lexer.lineno = 1
-
-        if(input_ == 1):
-            with open('test_1.txt','r') as archivo:
-                s = archivo.read()
-        elif(input_ == 2):
-            with open('test_2.txt','r') as archivo:
-                s = archivo.read()
-        elif(input_ == 3):
-            with open('test_3.txt','r') as archivo:
-                s = archivo.read()
-        elif(input_ == 4):
-            with open('test_4.txt','r') as archivo:
-                s = archivo.read()
-        elif(input_ == 5):
-            with open('test_5.txt','r') as archivo:
-                s = archivo.read()
-        elif(input_ == 6):
-            with open('test_6.txt','r') as archivo:
-                s = archivo.read()
-        elif(input_ == 7):
-            with open('test_7.txt','r') as archivo:
-                s = archivo.read()
-        elif(input_ == 8):
-            with open('test_8.txt','r') as archivo:
-                s = archivo.read()
-        elif(input_ == 9):
-            with open('test_9.txt','r') as archivo:
-                s = archivo.read()
-        elif(input_ == 10):
-            with open('custom.txt','r') as archivo:
-                s = archivo.read()
-        else:
-            break
-        result = parser.parse(s)
-
-    except ValueError:
-        print("Entrada no válida, ingrese un número")
-    except Exception as e:
-        print("Error:", e)
-        
-    

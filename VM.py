@@ -1,23 +1,28 @@
 import json
+import parser_
 
 baseInt = 1000
 baseFloat = 4000
 baseTemp = 8000
 baseConstInt = 15000
 baseConstFloat = 20000
+memory = {}
+quadQueue = []
+quadCounter = 0
 
 def prepareMemory(dirFunc, tabConst):
 
     varIntCount = 0
     varFloatCount = 0
 
-    variables = dirFunc["global"]["vars"]
+    if "vars" in dirFunc["global"]:
+        variables = dirFunc["global"]["vars"]
 
-    for key in variables:
-        if variables[key]["dir"] < baseFloat:
-            varIntCount = max(varIntCount, variables[key]["dir"]-(baseInt-1))
-        else:
-            varFloatCount = max(varFloatCount, variables[key]["dir"]-(baseFloat-1))
+        for key in variables:
+            if variables[key]["dir"] < baseFloat:
+                varIntCount = max(varIntCount, variables[key]["dir"]-(baseInt-1))
+            else:
+                varFloatCount = max(varFloatCount, variables[key]["dir"]-(baseFloat-1))
 
     memory = {
         "varInt": [0]*varIntCount,
@@ -80,7 +85,6 @@ def leer_comp_result():
     return memory, quadQueue
 
 def obtenerValorOperando(operando1):
-    # print(memory, operando1)
     if operando1 < baseFloat:
         return memory["varInt"][operando1-baseInt]
     elif operando1 < baseTemp:
@@ -171,13 +175,26 @@ def executeQuad(quad):
     if quad[0] == 11:
         ejecutarGotoT(quad[1],quad[3])    
 
-memory, quadQueue = leer_comp_result()
 
-quadCounter = 0
+def ejecutarCodigo():
+    global quadCounter
+    global memory
+    global quadQueue
+    memory, quadQueue = leer_comp_result()
 
-with open("Ejecucion.txt","+w") as f:
-    while quadCounter < len(quadQueue):
-        print("Ejecutando:",quadCounter+1,quadQueue[quadCounter], file=f)
-        executeQuad(quadQueue[quadCounter])
-        quadCounter = quadCounter+1
-    print(memory, file=f)
+    print(memory)
+
+    with open("Ejecucion.txt","+w") as f:
+        while quadCounter < len(quadQueue):
+            print("Ejecutando:",quadCounter+1,quadQueue[quadCounter], file=f)
+            executeQuad(quadQueue[quadCounter])
+            quadCounter = quadCounter+1
+        print(memory, file=f)
+
+archivo = input("Ingrese el nombre del archivo a compilar y ejecutar:")
+
+try:
+    parser_.compilar(archivo)
+    ejecutarCodigo()
+except Exception as e:
+    print(e)
