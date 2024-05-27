@@ -73,7 +73,7 @@ def fill_goto(i, obj):
 
 def check_semantics(operator, linea):
 
-    tcs = [[["int","int","int","int","int","int","int","int"],["float","float","float","float","ERROR","int","int","int"]],[["float","float","float","float","ERROR","int","int","int"],["float","float","float","float","float","int","int","int"]]]
+    tcs = [[["int","int","int","float","int","int","int","int"],["float","float","float","float","ERROR","int","int","int"]],[["float","float","float","float","ERROR","int","int","int"],["float","float","float","float","float","int","int","int"]]]
 
     type_1 = pilaType.pop()
     type_2 = pilaType.pop()
@@ -122,7 +122,7 @@ def p_delete_directory(p):
 
     global dirFunc
 
-    with open("result.txt","w") as f:
+    with open("result.duck","w") as f:
         print(dirFunc, file=f)
         print("$", file=f)
         print(constVarTable, file=f)

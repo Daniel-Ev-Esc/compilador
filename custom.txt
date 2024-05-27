@@ -38,6 +38,6 @@ main
     
 
     B = 4.4;
-    print("Fin del programa", B);
+    print(True, B);
 }
 end

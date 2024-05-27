@@ -70,7 +70,7 @@ def loadQuad(quadQueue, memory):
     return quadQueueArray
 
 def leer_comp_result():
-    with open("result.txt","r") as f:
+    with open("result.duck","r") as f:
         result = f.read().split("$")
 
         dirFunc = json.loads(result[0].replace("'",'"'))
@@ -181,8 +181,6 @@ def ejecutarCodigo():
     global memory
     global quadQueue
     memory, quadQueue = leer_comp_result()
-
-    print(memory)
 
     with open("Ejecucion.txt","+w") as f:
         while quadCounter < len(quadQueue):
