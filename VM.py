@@ -21,7 +21,7 @@ def prepareMemory(dirFunc, tabConst):
 
     memory = {
         "varInt": [0]*varIntCount,
-        "varFloat": [0]*varFloatCount,
+        "varFloat": [0.0]*varFloatCount,
         "temp": [],
         "constInt": [],
         "constFloat": [],
@@ -35,7 +35,7 @@ def prepareMemory(dirFunc, tabConst):
 
     return memory
 
-def loadQuad(quadQueue):
+def loadQuad(quadQueue, memory):
     stringArray = quadQueue.replace("\n", "").split("&")
 
     quadQueueArray = []
@@ -55,6 +55,13 @@ def loadQuad(quadQueue):
     
     quadQueueArray.pop()
 
+    tempCounter = 0
+
+    for quad in quadQueueArray:
+        tempCounter = max(tempCounter, quad[3]-(baseTemp-1))
+
+    memory["temp"] = [0]*tempCounter
+
     return quadQueueArray
 
 def leer_comp_result():
@@ -68,7 +75,7 @@ def leer_comp_result():
 
         quadQueue = result[2].replace("[","").replace("]","")
 
-        quadQueue = loadQuad(quadQueue)
+        quadQueue = loadQuad(quadQueue, memory)
     
     return memory, quadQueue
 
@@ -116,40 +123,39 @@ def ejecutarExpresion(operador,operando1, operando2, resultado):
     valorOperando1 = obtenerValorOperando(operando1)
     valorOperando2 = obtenerValorOperando(operando2)
 
-    if operador == 0:
+    if operador == 5:
         memory["temp"][resultado-baseTemp] = int(valorOperando1 > valorOperando2)
-    if operador == 1:
+    if operador == 6:
         memory["temp"][resultado-baseTemp] = int(valorOperando1 < valorOperando2)
-    if operador == 2:
+    if operador == 7:
         memory["temp"][resultado-baseTemp] = int(valorOperando1 != valorOperando2)
 
 def ejecutarPrint(resultado):
         if isinstance(resultado,int):
             valorOperando1 = obtenerValorOperando(resultado)
-            print("Print:", valorOperando1)
+            print(valorOperando1)
         else:
-            print("Print:", resultado)
+            print(resultado.strip().replace('"',"").replace("'",""))
 
 def ejecutarGoto(objetivo):
     global quadCounter
-    quadCounter = objetivo-1
+    quadCounter = objetivo-2
 
 def ejecutarGotoF(condicion, objetivo):
+    valorOperando1 = obtenerValorOperando(condicion)
 
-    if(condicion == 0):
+    if(valorOperando1 == 0):
         global quadCounter
-        quadCounter = objetivo-1
+        quadCounter = objetivo-2
 
-def ejecutarGotoV(condicion, objetivo):
+def ejecutarGotoT(condicion, objetivo):
+    valorOperando1 = obtenerValorOperando(condicion)
 
-    if(condicion == 1):
+    if(valorOperando1 == 1):
         global quadCounter
-        quadCounter = objetivo-1
+        quadCounter = objetivo-2
 
 def executeQuad(quad):
-    if(quad[3] >= baseTemp and quad[3] < baseConstInt):
-        memory["temp"].append(0)
-
     if quad[0] == 0 or quad[0] == 1 or quad[0] == 2 or quad[0] == 3:
         ejecutarOperacion(quad[0], quad[1], quad[2], quad[3])
     if quad[0] == 4:
@@ -163,14 +169,15 @@ def executeQuad(quad):
     if quad[0] == 10:
         ejecutarGotoF(quad[1],quad[3])
     if quad[0] == 11:
-        ejecutarGotoV(quad[1],quad[3])    
+        ejecutarGotoT(quad[1],quad[3])    
 
 memory, quadQueue = leer_comp_result()
 
 quadCounter = 0
 
-while quadCounter < len(quadQueue):
-    print(quadQueue[quadCounter])
-    executeQuad(quadQueue[quadCounter])
-    print(memory)
-    quadCounter = quadCounter+1
+with open("Ejecucion.txt","+w") as f:
+    while quadCounter < len(quadQueue):
+        print("Ejecutando:",quadCounter+1,quadQueue[quadCounter], file=f)
+        executeQuad(quadQueue[quadCounter])
+        quadCounter = quadCounter+1
+    print(memory, file=f)

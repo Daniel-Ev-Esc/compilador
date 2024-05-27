@@ -1,10 +1,49 @@
 program custom;
     var variable,A,C,B,D,E,L,G,H,J,K,F:float;
+    i:int;
 main
 {
+    i = 0;
     A = 9.0;
     H = -A + -9.8;
 
     print(H,A,"Esto es un string");
+
+    print(A>H);
+
+    if(A<H){
+        variable = 8.9;
+        print("if",variable);
+    }
+    else{
+        variable = 9.0;
+        print("else",variable);
+    };
+
+    if(A>H){
+        variable = 8.9;
+        print("if",variable);
+    }
+    else{
+        variable = 9.0;
+        print("else",variable);
+    };
+
+    B = 4.4;
+
+    do{
+        i = i + 1;
+        print("Counter",i);
+    } while(i < 10);
+
+    C = 0.8;
+    D = 8.9;
+    E = 9.8;
+    L = i + 1.1;
+    G = i - 2.3;
+    J = i * 4.3;
+    K = i / 0.9;
+    F = 9.6/3;
+    print(A,C,B,D,E,L,G,H,J,K,F,i);
 }
 end
