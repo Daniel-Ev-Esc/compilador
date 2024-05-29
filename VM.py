@@ -209,7 +209,10 @@ def executeQuad(quad):
     if quad[0] == 11:
         ejecutarGotoT(quad[1],quad[3])    
 
-
+# loadQuad
+# O(n) donde n es la candidad de cuadrulplos obtenidos de la compilación
+# Ejecuta cada cuádruplo en orden
+# Busca la cantidad de variables temporales a utilizar y crea su arreglo en la memoria
 def ejecutarCodigo():
     global quadCounter
     global memory

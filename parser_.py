@@ -487,7 +487,7 @@ def p_error(p):
 def compilar(archivo):
     parser = yacc.yacc(start="program")
 
-    archivo = archivo + ".txt"
+    archivo = ".\\tests\\" + archivo + ".txt"
     with open(archivo,'r') as archivo:
         s = archivo.read()
         try:
