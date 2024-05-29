@@ -3,7 +3,7 @@ program prime_check;
     temp:float;
 main
 {
-    n = 83;
+    n = 82;
     is_prime = 1;  
     i = 2;
 

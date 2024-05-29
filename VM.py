@@ -1,15 +1,24 @@
+# Daniel Evaristo Escalera Bonilla - A00831289 29/05/2024
+# VM.py
 import json
 import parser_
 
+# Bases para la memoria
 baseInt = 1000
 baseFloat = 4000
 baseTemp = 8000
 baseConstInt = 15000
 baseConstFloat = 20000
+
+# Memoria y comandos de ejecución globales
 memory = {}
 quadQueue = []
 quadCounter = 0
 
+# PrepareMemory 
+# O(n) donde n es la cantidad de variables más grande entr la tabla de variables y la tabla de constantes.
+# Crea la estructura de memoria del programa, que consiste en un diccionario de 5 arreglos, y establece la longitud de esos arreglos.
+# Inserta los valores constantes a utilizar en el arreglo correspondiente.
 def prepareMemory(dirFunc, tabConst):
 
     varIntCount = 0
@@ -40,6 +49,10 @@ def prepareMemory(dirFunc, tabConst):
 
     return memory
 
+# loadQuad
+# O(n) donde n es 4 veces la cantidad de cuádruplos ya que se leee cada uno de los 4 que se encuentran en la estructura
+# Recrea la fila de cuádruplos de la recibida como string en el archivo de compilación
+# Busca la cantidad de variables temporales a utilizar y crea su arreglo en la memoria
 def loadQuad(quadQueue, memory):
     stringArray = quadQueue.replace("\n", "").split("&")
 
@@ -58,6 +71,7 @@ def loadQuad(quadQueue, memory):
                     quadA.append(dir)
         quadQueueArray.append(quadA)
     
+    # Eliminar cuádruplo vacío que se genera al final
     quadQueueArray.pop()
 
     tempCounter = 0
@@ -69,8 +83,10 @@ def loadQuad(quadQueue, memory):
 
     return quadQueueArray
 
+# leer_comp_result
+# Inicia el proceso de lectura del archivo de compilación
 def leer_comp_result():
-    with open("result.duck","r") as f:
+    with open("result.obej","r") as f:
         result = f.read().split("$")
 
         dirFunc = json.loads(result[0].replace("'",'"'))
@@ -84,18 +100,24 @@ def leer_comp_result():
     
     return memory, quadQueue
 
-def obtenerValorOperando(operando1):
-    if operando1 < baseFloat:
-        return memory["varInt"][operando1-baseInt]
-    elif operando1 < baseTemp:
-        return memory["varFloat"][operando1-baseFloat]
-    elif operando1 < baseConstInt:
-        return memory["temp"][operando1-baseTemp]
-    elif operando1 < baseConstFloat:
-        return memory["constInt"][operando1-baseConstInt]
+# ObtenerValorOperando
+# O(1)
+# Recibe la dirección de un operando y regresa su valor registrado en la memoria
+def obtenerValorOperando(operando):
+    if operando < baseFloat:
+        return memory["varInt"][operando-baseInt]
+    elif operando < baseTemp:
+        return memory["varFloat"][operando-baseFloat]
+    elif operando < baseConstInt:
+        return memory["temp"][operando-baseTemp]
+    elif operando < baseConstFloat:
+        return memory["constInt"][operando-baseConstInt]
     else:
-        return memory["constFloat"][operando1-baseConstFloat]
+        return memory["constFloat"][operando-baseConstFloat]
 
+# ejecutarOperacion
+# O(1)
+# Ejecuta acciones aritméticas dependiendo del operador recibido y las almacena en el resultado
 def ejecutarOperacion(operador,operando1, operando2, resultado):
     valorOperando1 = obtenerValorOperando(operando1)
     valorOperando2 = obtenerValorOperando(operando2)
@@ -109,6 +131,9 @@ def ejecutarOperacion(operador,operando1, operando2, resultado):
     if operador == 3:
         memory["temp"][resultado-baseTemp] = valorOperando1 / valorOperando2
 
+# ejecutarAsignación
+# O(1)
+# Guarda el valor de una variable en la variable a asignar
 def ejecutarAsignacion(valor, asignado):
     valor = obtenerValorOperando(valor)
 
@@ -123,6 +148,9 @@ def ejecutarAsignacion(valor, asignado):
     else:
         memory["constFloat"][asignado-baseConstFloat] = valor
 
+# ejecutarExpresión
+# O(1)
+# Ejecuta acciones lógicas dependiendo del operador recibido y las almacena en el resultado
 def ejecutarExpresion(operador,operando1, operando2, resultado):
     valorOperando1 = obtenerValorOperando(operando1)
     valorOperando2 = obtenerValorOperando(operando2)
@@ -134,13 +162,19 @@ def ejecutarExpresion(operador,operando1, operando2, resultado):
     if operador == 7:
         memory["temp"][resultado-baseTemp] = int(valorOperando1 != valorOperando2)
 
+# ejecutarPrint
+# O(1)
+# Despliega el valor de la dirección indicada en la consola
 def ejecutarPrint(resultado):
         if isinstance(resultado,int):
-            valorOperando1 = obtenerValorOperando(resultado)
-            print(valorOperando1)
+            valorOperando = obtenerValorOperando(resultado)
+            print(valorOperando)
         else:
             print(resultado.strip().replace('"',"").replace("'",""))
 
+#ejecutarGoto, ejecutarGotoF, ejecutarGotoT
+# O(1)
+# Cambia el contador de cuádruplos para realizar las acciones desde el cuádruplo indicado
 def ejecutarGoto(objetivo):
     global quadCounter
     quadCounter = objetivo-2
@@ -189,7 +223,7 @@ def ejecutarCodigo():
             quadCounter = quadCounter+1
         print(memory, file=f)
 
-archivo = input("Ingrese el nombre del archivo a compilar y ejecutar:")
+archivo = input("Ingrese el nombre del archivo a compilar y ejecutar (Sin extensión):\nEjemplos: factorial, fibonacci, primos, valor_maximo\n")
 
 try:
     parser_.compilar(archivo)

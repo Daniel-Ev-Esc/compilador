@@ -24,9 +24,11 @@ operationIndex = {"+":0,"-":1,"*":2,"/":3, "=":4, ">":5, "<":6,"!=":7, "print":8
 # ---------- Funciones Auxiliares ----------
 
 def get_dir(type_):
-    # Enteros: 10000 - 39999
-    # Flotantes: 40000 - 79999
-    # Temporales: 80000 - 149999 
+    # Enteros: 1000 - 3999
+    # Flotantes: 4000 - 7999
+    # Temporales: 8000 - 14999 
+    # Constantes Enteras: 15000 - 19999 
+    # Constantes flotantes: 20000 - 24999 
 
     if type_ == "int":
         global intCounter
@@ -78,7 +80,7 @@ def check_semantics(operator, linea):
     type_1 = pilaType.pop()
     type_2 = pilaType.pop()
 
-    resultType = tcs[typeDict[type_1]][typeDict[type_2]][operationIndex[operator]]# tcs[typeDict[type_1]][typeDict[typeDict[type_1]][operationIndex[operator]]]
+    resultType = tcs[typeDict[type_1]][typeDict[type_2]][operationIndex[operator]]
 
     if(resultType == "ERROR"):
         raise Exception("Tipos no compatibles para operación %s y %s en la línea: %d" % (type_1,type_2, linea))
@@ -122,7 +124,7 @@ def p_delete_directory(p):
 
     global dirFunc
 
-    with open("result.duck","w") as f:
+    with open("result.obej","w") as f:
         print(dirFunc, file=f)
         print("$", file=f)
         print(constVarTable, file=f)
