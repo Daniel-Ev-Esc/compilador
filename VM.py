@@ -226,7 +226,7 @@ def ejecutarCodigo():
             quadCounter = quadCounter+1
         print(memory, file=f)
 
-archivo = input("Ingrese el nombre del archivo a compilar y ejecutar (Sin extensión):\nEjemplos: factorial, fibonacci, primos, valor_maximo\n")
+archivo = input("Ingrese el nombre del archivo a compilar y ejecutar (Sin extensión):\nArchivos: factorial, fibonacci, primos, valor_maximo, promedio, test_1 al test_10\n")
 
 try:
     parser_.compilar(archivo)

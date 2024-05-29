@@ -1,0 +1,15 @@
+program promedio;
+var a, b:int;
+resultado:float;
+
+main{
+a = 10;
+b = 5;
+
+resultado = (a+b)/2;
+
+print("Valor 1", a);
+print("Valor 2", b);
+print("Promedio", resultado);
+}
+end

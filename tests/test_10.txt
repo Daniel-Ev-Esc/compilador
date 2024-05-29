@@ -18,32 +18,26 @@ main
     else{
         variable = 9.0;
         print("else",variable);
-    };
-
-    if(A>H){
-        variable = 8.9;
-        print("if",variable);
-    }
-    else{
-        variable = 9.0;
-        print("else",variable);
-    };
-
-    B = 4.4;
-
-    do{
+        do{
         i = i + 1;
         print("Counter",i);
-    } while(i < 10);
+        } while(i < 10);
+    };
 
-    C = 0.8;
-    D = 8.9;
-    E = 9.8;
-    L = i + 1.1;
-    G = i - 2.3;
-    J = i * 4.3;
-    K = i / 0.9;
-    F = 9.6/3;
-    print(A,C,B,D,E,L,G,H,J,K,F,i);
+    i = 0;
+
+    do{
+        if(i<5){
+            print("menor a 5",i);
+        }
+        else{
+            print("mayor a 5",i);
+        };
+    i = i + 1;
+    } while(i < 10);
+    
+
+    B = 4.4;
+    print("End of program", B);
 }
 end
